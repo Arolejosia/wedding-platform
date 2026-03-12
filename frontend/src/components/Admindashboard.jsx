@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './AdminDashboard.css';
+import './Admindashboard.css';
 import API_URL from '../config/api';
 
 const GUESTS_URL = `${API_URL}/guests`;
