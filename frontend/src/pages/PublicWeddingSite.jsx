@@ -1,6 +1,6 @@
 // pages/PublicWeddingSite.jsx
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from "react-router-dom";
 import { getThemeVars } from '../config/themes';
 
 import Navbar         from '../components/Navbar';
@@ -20,6 +20,7 @@ import API_URL from '../config/api';
 
 const PublicWeddingSite = () => {
   const { slug } = useParams();
+  const location = useLocation();
   const [wedding, setWedding] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error,   setError]   = useState(null);
@@ -28,6 +29,29 @@ const PublicWeddingSite = () => {
     if (!slug) return;
     fetchWedding();
   }, [slug]); // eslint-disable-line
+
+  useEffect(() => {
+  if (!loading && location.hash) {
+
+    const id = location.hash.replace("#", "");
+
+    const scrollToSection = () => {
+      const element = document.getElementById(id);
+
+      if (element) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      } else {
+        // attendre que React rende la section
+        setTimeout(scrollToSection, 200);
+      }
+    };
+
+    scrollToSection();
+  }
+}, [loading, location]);
 
   const fetchWedding = async () => {
     setLoading(true);
