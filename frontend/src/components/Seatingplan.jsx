@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './seatingplan.css';
+import './Seatingplan.css';
 import API_URL from '../config/api';
 
 const SEATING_PLAN_URL = `${API_URL}/api/seatingplan`;
