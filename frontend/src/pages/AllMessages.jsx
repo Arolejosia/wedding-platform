@@ -2,8 +2,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import './AllMessages.css';
+import API_URL from '../config/api';
+const API = API_URL;  // ✅
 
-const API = 'API_URL';
 
 const POST_IT_COLORS = ['#FFF8DC','#FFF0C4','#F4E5C2','#EEF4FF','#F0F8F0','#FFF0F5'];
 const ROTATIONS      = [-3,-2,-1,0,1,2,3,-1.5,1.5,-2.5];
@@ -84,7 +85,7 @@ const AllMessages = () => {
       }
       // Slug réel → chercher par slug
       try {
-        const res  = await fetch(`${API}/api/weddings/by-slug/${weddingSlug}`);
+        const res  = await fetch(`${API}/weddings/by-slug/${weddingSlug}`);
         if (!res.ok) throw new Error();
         const data = await res.json();
         setWeddingId(data._id);
@@ -104,9 +105,7 @@ const AllMessages = () => {
     append ? setLoadingMore(true) : setLoading(true);
     setError(null);
     try {
-      const res  = await fetch(
-        `${API}/api/guestbook?weddingId=${weddingId}&limit=15&page=${p}&priority=true`
-      );
+      const res  = await ffetch(`${API}/guestbook?weddingId=${weddingId}&limit=15&page=${p}&priority=true`)
       if (!res.ok) throw new Error(`Erreur ${res.status}`);
       const data = await res.json();
       setMessages(prev => append ? [...prev, ...(data.messages || [])] : (data.messages || []));

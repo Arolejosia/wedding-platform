@@ -3,8 +3,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import './FullAlbum.css';
 
-const API = 'API_URL';
-
+import API_URL from '../config/api';
+const API = API_URL;  // ✅
 const THEME_STYLES = {
   royal:   { bg: 'linear-gradient(160deg,#0A2463 0%,#030d2a 100%)', color: '#fff',    accent: '#D4AF37', headerBg: 'rgba(255,255,255,0.05)', border: 'rgba(212,175,55,0.3)',  filterActive: '#D4AF37', filterActiveTxt: '#030d2a' },
   minimal: { bg: '#fafafa',   color: '#1a1a1a', accent: '#1a1a1a', headerBg: '#fff',       border: '#e8e8e8',               filterActive: '#1a1a1a', filterActiveTxt: '#fff'    },
@@ -69,7 +69,7 @@ const FullAlbum = () => {
         let id = weddingSlug;
 
         if (!/^[a-f\d]{24}$/i.test(weddingSlug)) {
-          const res  = await fetch(`${API}/api/public/wedding/${weddingSlug}`);
+          const res  = await fetch(`${API_URL}/public/wedding/${weddingSlug}`);
           if (!res.ok) throw new Error();
           const data = await res.json();
           id = data._id || data.wedding?._id || weddingSlug;
@@ -78,7 +78,7 @@ const FullAlbum = () => {
           setCategories(cats);
         } else {
           // Si c'est un _id direct, on essaie quand même de charger le mariage
-          const res  = await fetch(`${API}/api/public/wedding-by-id/${weddingSlug}`).catch(() => null);
+          const res  = await fetch(`${API_URL}/public/wedding-by-id/${weddingSlug}`).catch(() => null);
           if (res?.ok) {
             const data = await res.json();
             const cats = data.photoChallenge?.categories || data.wedding?.photoChallenge?.categories || [];
@@ -102,7 +102,7 @@ const FullAlbum = () => {
     try {
       const catParam = cat && cat !== 'all' ? `&category=${cat}` : '';
       const curParam = cursor ? `&next_cursor=${encodeURIComponent(cursor)}` : '';
-      const res  = await fetch(`${API}/api/public/photos?weddingId=${weddingId}&limit=24${catParam}${curParam}`);
+      const res  = await fetch(`${API_URL}/public/photos?weddingId=${weddingId}&limit=24${catParam}${curParam}`);
       if (!res.ok) throw new Error(`Erreur ${res.status}`);
       const data = await res.json();
       const newPhotos = Array.isArray(data.photos) ? data.photos : [];
