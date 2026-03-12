@@ -29,7 +29,7 @@ import Settings from './pages/Settings';
 import AdminPage from './components/Adminpage';
 import AdminDashboard from './components/Admindashboard';
 import WeddingChecklist from './components/Weddingchecklist';
-import SeatingPlan from './components/Seatingplan';
+import seatingPlan from './components/seatingplan';
 import BudgetTracker from './components/Budgettracker';
 import FullAlbum from "./pages/FullAlbum";
 import AllMessages from "./pages/AllMessages";
