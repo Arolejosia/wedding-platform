@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './PhotoChallenge.css';
 import API_URL from '../config/api';
 
-const API = 'API_URL';
+const API = API_URL;  // ✅
 
 const PREVIEW_CATEGORIES = [
   { id:'moments', icon:'💑', title:'Moments des Mariés', description:'Sourires, bisous, regards complices', color:'#FF69B4', challenges:['😊 Sourires','💋 Bisous','🥹 Larmes de joie'] },
