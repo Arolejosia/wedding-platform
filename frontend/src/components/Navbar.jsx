@@ -1,6 +1,6 @@
 // components/Navbar.jsx - VERSION DYNAMIQUE + THEMES
 import React, { useState, useEffect } from 'react';
-import './Navbar.css';
+import './NavBar.css';
 
 // ── Styles visuels par navStyle ──────────────────────────────────
 const NAV_STYLES = {
