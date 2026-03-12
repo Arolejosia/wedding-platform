@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './GuestBook.css';
 import API_URL from '../config/api';
 
-const API            = 'API_URL';
+const API            = API_URL;
 const EMOJIS         = ['💛','💍','🌸','✨','💫','🎉','💝','🥂','🌹','💒'];
 const POST_IT_COLORS = ['#FFF8DC','#FFF0C4','#F4E5C2','#EEF4FF','#F0F8F0','#FFF0F5'];
 const ROTATIONS      = [-3,-2,-1,0,1,2,3,-1.5,1.5,-2.5];
@@ -65,7 +65,7 @@ const GBForm = ({ wedding, onMessageAdded, isPreview, variant }) => {
       return;
     }
     try {
-      const res = await fetch(`${API}/api/guestbook`, {
+      const res = await fetch(`${API}/guestbook`, {
         method:'POST', headers:{'Content-Type':'application/json'},
         body:JSON.stringify({ weddingId:wedding._id, name:name.trim(), message:msg.trim() }),
       });
@@ -183,7 +183,7 @@ const useGuestBook = (wedding, isPreview) => {
   const fetchMessages = useCallback(async () => {
     if (isPreview || !wedding._id) return;
     try {
-      const res  = await fetch(`${API}/api/guestbook?weddingId=${wedding._id}&limit=2&priority=true`);
+      const res  = await fetch(`${API}/guestbook?weddingId=${wedding._id}&limit=2&priority=true`);
       const data = await res.json();
       setMessages(data.messages || []);
       setTotal(data.total || 0);

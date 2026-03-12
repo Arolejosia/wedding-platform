@@ -88,7 +88,7 @@ const CategoryCard = ({ category, wedding, guestCode, onUploaded, isPreview }) =
       fd.append('category', category.id);
       fd.append('guestCode', guestCode || 'anonymous');
       fd.append('weddingId', wedding._id);
-      const res = await fetch(`${API}/api/public/photos/upload`, { method: 'POST', body: fd });
+      const res = await fetch(`${API}/public/photos/upload`, { method: 'POST', body: fd });
       if (!res.ok) throw new Error();
       const data = await res.json();
       setDone(p => p + data.count);
@@ -282,7 +282,7 @@ const PhotoChallenge = ({ wedding, guestCode, isPreview = false, isOwner = false
     if (isPreview || !wedding?._id) return;
     setLoading(true);
     try {
-      const res  = await fetch(`${API}/api/public/photos?weddingId=${wedding._id}&limit=12`);
+      const res  = await fetch(`${API}/public/photos?weddingId=${wedding._id}&limit=12`);
       const data = await res.json();
       setPhotos(Array.isArray(data.photos) ? data.photos : []);
       setTotal(data.total || 0);
@@ -308,7 +308,7 @@ const PhotoChallenge = ({ wedding, guestCode, isPreview = false, isOwner = false
     try {
       const params = new URLSearchParams({ weddingId: wedding._id });
       if (guestCode) params.append('guestCode', guestCode);
-      const res = await fetch(`${API}/api/public/photos/${photo._id}?${params}`, { method: 'DELETE' });
+      const res = await fetch(`${API}/public/photos/${photo._id}?${params}`, { method: 'DELETE' });
       if (!res.ok) throw new Error();
       setPhotos(p => p.filter(ph => ph._id !== photo._id));
       setTotal(t => t - 1);
