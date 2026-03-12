@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './WeddingChecklist.css';
+import './Weddingchecklist.css';
 import { useParams } from "react-router-dom";
 import API_URL from '../config/api';
 
