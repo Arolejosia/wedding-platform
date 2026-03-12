@@ -92,6 +92,7 @@ const Navbar = ({ wedding }) => {
     { href: '#dress',     icon: '👑', label: 'Code Vestimentaire',    show: wedding.navigation?.showDressCode },
     { href: '#photos',    icon: '📸', label: 'Défis Photos',          show: wedding.navigation?.showPhotos && wedding.photoChallenge?.enabled },
     { href: '#guestbook', icon: '📌', label: "Livre d'Or",            show: wedding.navigation?.showGuestbook && wedding.guestbook?.enabled },
+    { href: '#gifts', icon: '🎁', label: 'Liste de Cadeaux', show: wedding.gifts?.enabled },
   ].filter(item => item.always || item.show);
 
   const customLinks = wedding.navigation?.customLinks || [];

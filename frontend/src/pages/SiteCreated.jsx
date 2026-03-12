@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import QRCode from "react-qr-code";
 
+
 const SiteCreated = () => {
 
   const navigate = useNavigate();

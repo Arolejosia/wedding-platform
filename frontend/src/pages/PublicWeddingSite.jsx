@@ -14,6 +14,7 @@ import RSVP           from '../components/RSVP';
 import Footer         from '../components/Footer';
 import Gifts          from '../components/Gifts';
 
+
 import './PublicWeddingSite.css';
 import API_URL from '../config/api';
 

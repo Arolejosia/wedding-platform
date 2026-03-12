@@ -42,11 +42,21 @@ const useStory = (wedding, isPreview, singleMode) => {
     return wedding.story?.versions?.[view] || wedding.story?.content || '';
   };
 
-  const switchView = (view) => {
-    if (view === active || animating) return;
-    setAnim(true);
-    setTimeout(() => { setActive(view); setAnim(false); }, 280);
-  };
+ const switchView = (view) => {
+  if (view === active || animating) return;
+
+  setAnim(true);
+
+  window.scrollTo({
+    top: document.getElementById("story").offsetTop - 80,
+    behavior: "smooth"
+  });
+
+  setTimeout(() => {
+    setActive(view);
+    setAnim(false);
+  }, 280);
+};
 
   return { active, animating, getContent, switchView };
 };
