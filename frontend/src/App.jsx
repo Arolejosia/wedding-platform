@@ -9,7 +9,7 @@ import PublicWeddingSite from './pages/PublicWeddingSite';
 import PreviewWeddingSite from './pages/PreviewWeddingSite';
 import ChooseTheme from './pages/ChooseTheme';
 import FinalizeCreation from './pages/FinalizeCreation';
-
+import App from './App';
 
 // Auth
 import Login from './pages/Login';
