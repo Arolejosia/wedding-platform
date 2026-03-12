@@ -1,7 +1,7 @@
 // routes/seating.js
 const express = require('express');
 const router = express.Router();
-const SeatingPlan = require('../models/SeatingPlan');
+const SeatingPlan = require('../models/seatingPlan');
 const Guest = require('../models/Guest');
 
 // GET /api/seating - Récupérer le plan actif
