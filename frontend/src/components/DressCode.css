@@ -1,0 +1,202 @@
+/* ═══════════════════════════════════════════════════════════════
+   DressCode.css — 5 layouts couleurs distinctes
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Base ───────────────────────────────────────────────────────── */
+.dc { position:relative; padding:100px 20px; overflow:hidden; }
+.dc__inner { max-width:900px; margin:0 auto; position:relative; z-index:2; }
+
+/* Carousel commun */
+.dc-carousel__track {
+  display:flex; overflow-x:scroll; scroll-snap-type:x mandatory;
+  scrollbar-width:none; border-radius:16px; margin:36px 0 16px;
+}
+.dc-carousel__track::-webkit-scrollbar { display:none; }
+.dc-slide { min-width:100%; scroll-snap-align:center; display:flex; flex-direction:column; align-items:center; padding:12px; }
+.dc-slide img { width:100%; max-width:420px; max-height:520px; object-fit:cover; border-radius:16px; transition:transform 0.3s; }
+.dc-slide--active img { transform:scale(1.02); }
+.dc-slide__label { display:block; margin-top:14px; font-size:1rem; text-align:center; letter-spacing:1px; }
+
+.dc-indicators { display:flex; justify-content:center; gap:10px; margin-bottom:8px; }
+.dc-dot { width:10px; height:10px; border-radius:50%; border:none; cursor:pointer; padding:0; background:rgba(128,128,128,0.2); transition:all 0.3s; }
+.dc-dot--active { width:32px; border-radius:5px; }
+
+/* Swatches */
+.dc-swatches { display:flex; justify-content:center; gap:36px; padding:24px; border-radius:16px; margin:24px 0; }
+.dc-swatch { display:flex; flex-direction:column; align-items:center; gap:10px; }
+.dc-swatch__circle { width:68px; height:68px; border-radius:50%; border:4px solid rgba(255,255,255,0.5); box-shadow:0 6px 20px rgba(0,0,0,0.15); transition:transform 0.3s; }
+.dc-swatch__circle:hover { transform:scale(1.1); }
+.dc-swatch span { font-size:0.82rem; font-weight:600; text-align:center; }
+
+/* ═══════════════════════════════════════════════════════════════
+   ROYAL — bleu nuit, carte verre, or
+   ═══════════════════════════════════════════════════════════════ */
+.dc--royal {
+  background: linear-gradient(160deg, #0A2463 0%, #030d2a 100%);
+  color: #ffffff;
+  font-family: 'Playfair Display', serif;
+}
+
+.dc--royal .royal-divider { display:flex; align-items:center; gap:12px; margin:0 auto 20px; width:180px; }
+.dc--royal .royal-divider__line { flex:1; height:1px; background:#D4AF37; opacity:0.35; }
+.dc--royal .royal-divider__gem  { color:#D4AF37; }
+
+.dc-royal-title { font-size:clamp(2rem,4vw,3rem); font-weight:400; letter-spacing:3px; color:#fff; text-align:center; margin:0 0 36px; }
+
+.dc-royal-card {
+  background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+  border-radius:24px; padding:44px; text-align:center;
+}
+.dc-royal-icon { font-size:3.5rem; margin-bottom:20px; }
+.dc-royal-theme { font-size:1.5rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#D4AF37; margin:0 0 16px; }
+.dc-royal-desc  { font-size:1rem; line-height:1.8; color:rgba(255,255,255,0.7); margin:0 0 8px; max-width:600px; margin-inline:auto; }
+
+.dc-swatches--royal { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); }
+.dc-swatches--royal .dc-swatch span { color:rgba(255,255,255,0.6); }
+.dc-dot--active.dc-dot--royal { background:#D4AF37; }
+.dc-slide--royal .dc-slide__label { color:#D4AF37; font-family:'Playfair Display',serif; }
+
+.dc-details--royal { margin-top:28px; display:flex; flex-direction:column; gap:16px; text-align:left; }
+.dc-detail--royal { background:rgba(255,255,255,0.04); border-left:3px solid #D4AF37; border-radius:0 10px 10px 0; padding:18px 22px; }
+.dc-detail--royal h4 { font-size:1rem; color:#D4AF37; margin:0 0 8px; }
+.dc-detail--royal p  { font-size:0.9rem; color:rgba(255,255,255,0.65); line-height:1.6; margin:0; }
+
+.dc-royal-note { font-size:0.85rem; color:rgba(255,255,255,0.4); font-style:italic; text-align:center; margin-top:24px; padding:16px; background:rgba(255,255,255,0.03); border-radius:8px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   MINIMAL — blanc, noir, layout 2 colonnes
+   ═══════════════════════════════════════════════════════════════ */
+.dc--minimal {
+  background: #fafafa;
+  color: #1a1a1a;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.dc-minimal-eyebrow { display:block; font-size:0.72rem; letter-spacing:5px; text-transform:uppercase; color:#C9A84C; margin-bottom:12px; }
+.dc-minimal-title { font-size:clamp(2rem,4vw,3.2rem); font-weight:900; color:#1a1a1a; line-height:1; margin:0 0 16px; }
+.dc-minimal-rule { width:56px; height:3px; background:#1a1a1a; margin-bottom:48px; }
+
+.dc-minimal-layout { display:grid; grid-template-columns:1fr 1fr; gap:52px; align-items:start; }
+.dc-minimal-theme { font-size:1.4rem; font-weight:900; color:#1a1a1a; letter-spacing:2px; text-transform:uppercase; margin:0 0 14px; }
+.dc-minimal-desc  { font-size:0.95rem; line-height:1.8; color:#555; margin:0 0 8px; }
+
+.dc-swatches--minimal { background:#f0f0f0; justify-content:flex-start; border-radius:8px; }
+.dc-swatches--minimal .dc-swatch span { color:#888; font-size:0.78rem; }
+.dc-dot--active.dc-dot--minimal { background:#1a1a1a; }
+.dc--minimal .dc-slide__label { color:#C9A84C; }
+
+.dc-details--minimal { margin-top:24px; display:flex; flex-direction:column; gap:14px; }
+.dc-detail--minimal { border-left:3px solid #1a1a1a; padding:14px 18px; }
+.dc-detail--minimal h4 { font-size:0.85rem; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#1a1a1a; margin:0 0 6px; }
+.dc-detail--minimal p  { font-size:0.88rem; color:#666; line-height:1.6; margin:0; }
+
+/* ═══════════════════════════════════════════════════════════════
+   FLORAL — rosé, bordeaux, carte blanche
+   ═══════════════════════════════════════════════════════════════ */
+.dc--floral {
+  background: #fdf0f4;
+  color: #4A1530;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.floral-dc-deco { position:absolute; font-size:3rem; opacity:0.2; pointer-events:none; }
+.floral-dc-deco--tl { top:20px; left:20px; }
+.floral-dc-deco--br { bottom:20px; right:20px; }
+
+.dc-floral-ornament { font-size:2rem; color:#C4836A; text-align:center; margin-bottom:10px; }
+.dc-floral-title { font-size:clamp(1.8rem,4vw,2.8rem); font-weight:700; color:#4A1530; text-align:center; margin:0 0 8px; }
+.dc-floral-sub   { font-size:0.9rem; color:#9a5a6a; font-style:italic; text-align:center; margin:0 0 36px; }
+
+.dc-floral-card {
+  background:#fff; border:1px solid rgba(196,131,106,0.2); border-radius:20px;
+  padding:44px; box-shadow:0 8px 32px rgba(74,21,48,0.07); position:relative; overflow:hidden; text-align:center;
+}
+.dc-floral-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(to right,#4A1530,#C4836A); border-radius:20px 20px 0 0; }
+.dc-floral-theme { font-size:1.4rem; font-weight:700; color:#4A1530; letter-spacing:2px; margin:0 0 14px; }
+.dc-floral-desc  { font-size:1rem; line-height:1.8; color:#6b3a4a; margin:0 auto; max-width:580px; }
+
+.dc-swatches--floral { background:rgba(196,131,106,0.06); }
+.dc-swatches--floral .dc-swatch span { color:#9a6a7a; }
+.dc-dot--active.dc-dot--floral { background:#4A1530; }
+.dc--floral .dc-slide__label { color:#C4836A; font-family:'Cormorant Garamond',serif; font-size:1.1rem; }
+
+.dc-details--floral { margin-top:28px; display:flex; flex-direction:column; gap:14px; text-align:left; }
+.dc-detail--floral { background:rgba(74,21,48,0.03); border-left:3px solid #C4836A; border-radius:0 10px 10px 0; padding:16px 20px; }
+.dc-detail--floral h4 { font-size:1rem; color:#4A1530; margin:0 0 6px; }
+.dc-detail--floral p  { font-size:0.9rem; color:#7a4a5a; line-height:1.6; margin:0; }
+
+/* ═══════════════════════════════════════════════════════════════
+   BOHO — beige, brun, orange
+   ═══════════════════════════════════════════════════════════════ */
+.dc--boho {
+  background: #fdf8f2;
+  color: #5c3d2e;
+  font-family: 'Lora', serif;
+}
+
+.dc-boho-eyebrow { display:block; font-size:0.95rem; color:#D2691E; font-style:italic; letter-spacing:4px; text-align:center; margin-bottom:10px; }
+.dc-boho-title   { font-size:clamp(1.8rem,4vw,2.8rem); font-weight:700; color:#3d2210; text-align:center; margin:0 0 6px; }
+.dc-boho-branch  { font-size:1.5rem; color:#D2691E; opacity:0.65; text-align:center; margin-bottom:36px; }
+
+.dc-boho-card {
+  background:#fff9f4; border:1px solid rgba(210,105,30,0.18); border-radius:16px;
+  padding:44px; box-shadow:0 4px 20px rgba(139,69,19,0.06); text-align:center; border-left:4px solid #D2691E;
+}
+.dc-boho-theme { font-size:1.4rem; font-weight:700; color:#3d2210; margin:0 0 14px; font-style:italic; }
+.dc-boho-desc  { font-size:1rem; line-height:1.8; color:#7a5040; margin:0 auto; max-width:580px; }
+
+.dc-swatches--boho { background:rgba(210,105,30,0.05); }
+.dc-swatches--boho .dc-swatch span { color:#a0856e; }
+.dc-dot--active.dc-dot--boho { background:#8B4513; }
+.dc--boho .dc-slide__label { color:#D2691E; }
+
+.dc-details--boho { margin-top:28px; display:flex; flex-direction:column; gap:14px; text-align:left; }
+.dc-detail--boho { background:#fff; border-left:3px solid #D2691E; border-radius:0 8px 8px 0; padding:16px 20px; }
+.dc-detail--boho h4 { font-size:1rem; color:#3d2210; margin:0 0 6px; }
+.dc-detail--boho p  { font-size:0.9rem; color:#8a6050; line-height:1.6; margin:0; }
+
+/* ═══════════════════════════════════════════════════════════════
+   LUXURY — noir, or, minimaliste
+   ═══════════════════════════════════════════════════════════════ */
+.dc--luxury {
+  background: #080808;
+  color: #C6A75E;
+  font-family: 'Cinzel', serif;
+}
+
+.luxury-dc-frame { position:absolute; inset:24px; pointer-events:none; z-index:1; }
+.ldf-tl,.ldf-tr,.ldf-bl,.ldf-br { position:absolute; width:50px; height:50px; border-color:rgba(198,167,94,0.2); }
+.ldf-tl { top:0; left:0;  border-top:1px solid; border-left:1px solid; }
+.ldf-tr { top:0; right:0; border-top:1px solid; border-right:1px solid; }
+.ldf-bl { bottom:0; left:0;  border-bottom:1px solid; border-left:1px solid; }
+.ldf-br { bottom:0; right:0; border-bottom:1px solid; border-right:1px solid; }
+
+.dc-luxury-rule  { width:100px; height:1px; background:linear-gradient(to right,transparent,#C6A75E,transparent); margin:0 auto 20px; }
+.dc-luxury-title { font-size:clamp(1.6rem,3.5vw,2.6rem); font-weight:400; color:#C6A75E; letter-spacing:5px; text-align:center; margin:0 0 10px; }
+.dc-luxury-sub   { font-size:0.7rem; letter-spacing:4px; text-transform:uppercase; color:rgba(198,167,94,0.35); text-align:center; margin:0 0 16px; font-family:'Montserrat',sans-serif; }
+
+.dc-luxury-card  { background:rgba(198,167,94,0.03); border:1px solid rgba(198,167,94,0.15); padding:44px; margin-top:16px; text-align:center; }
+.dc-luxury-theme { font-size:1.2rem; font-weight:400; letter-spacing:6px; text-transform:uppercase; color:#C6A75E; margin:0 0 16px; }
+.dc-luxury-desc  { font-size:0.9rem; line-height:1.9; color:rgba(198,167,94,0.55); margin:0 auto; max-width:560px; font-family:'Montserrat',sans-serif; }
+
+.dc-swatches--luxury { background:rgba(198,167,94,0.04); border:1px solid rgba(198,167,94,0.1); }
+.dc-swatches--luxury .dc-swatch span { color:rgba(198,167,94,0.4); font-family:'Montserrat',sans-serif; font-size:0.75rem; }
+.dc-dot--active.dc-dot--luxury { background:#C6A75E; }
+.dc--luxury .dc-slide__label { color:rgba(198,167,94,0.6); font-family:'Montserrat',sans-serif; font-size:0.85rem; letter-spacing:2px; }
+.dc--luxury .dc-slide img { border:1px solid rgba(198,167,94,0.2); border-radius:4px; }
+
+.dc-details--luxury { margin-top:28px; display:flex; flex-direction:column; gap:0; text-align:left; }
+.dc-detail--luxury { border-top:1px solid rgba(198,167,94,0.1); padding:20px 0; }
+.dc-detail--luxury h4 { font-size:0.75rem; letter-spacing:3px; text-transform:uppercase; color:rgba(198,167,94,0.6); margin:0 0 8px; font-family:'Montserrat',sans-serif; }
+.dc-detail--luxury p  { font-size:0.88rem; color:rgba(198,167,94,0.45); line-height:1.7; margin:0; font-family:'Montserrat',sans-serif; }
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .dc { padding:60px 16px; }
+  .dc-minimal-layout { grid-template-columns:1fr; }
+  .dc-swatches { flex-wrap:wrap; gap:20px; }
+  .dc-royal-card,
+  .dc-floral-card,
+  .dc-boho-card,
+  .dc-luxury-card { padding:28px 20px; }
+}

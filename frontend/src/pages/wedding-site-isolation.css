@@ -1,0 +1,156 @@
+/* ================================================================
+   wedding-site-isolation.css
+   Reset complet du design system du dashboard à l'intérieur
+   du wrapper .wedding-site.
+
+   ── UTILISATION ──────────────────────────────────────────────
+   1. Importer ce fichier en PREMIER dans PublicWeddingSite.css
+      et PreviewWeddingSite.css :
+        @import './wedding-site-isolation.css';
+
+   2. Ajouter la classe "wedding-site" sur le div racine :
+        <div className="public-wedding-site wedding-site theme-royal">
+
+   3. C'est tout. Tous les composants enfants sont isolés.
+   ================================================================ */
+
+/* ── Override absolu de toutes les variables du design system ── */
+/* Ceci empêche les couleurs, fonts, shadows, etc. du dashboard  */
+/* d'affecter les composants du site de mariage.                 */
+
+.wedding-site {
+  /* ── Couleurs base — neutralisées ── */
+  --white:        #FFFFFF;
+  --off-white:    #FFFFFF;
+  --surface-1:    #FFFFFF;
+  --surface-2:    #FFFFFF;
+  --border-light: transparent;
+  --border-mid:   transparent;
+
+  /* ── Noirs — neutralisés ── */
+  --ink:      inherit;
+  --ink-80:   inherit;
+  --ink-50:   inherit;
+  --ink-30:   inherit;
+  --ink-10:   transparent;
+  --ink-dark: inherit;
+
+  /* ── Accent violet du dashboard — SUPPRIMÉ ── */
+  --accent:        transparent;
+  --accent-light:  transparent;
+  --accent-dim:    transparent;
+  --accent-glow:   transparent;
+  --accent-border: transparent;
+
+  /* ── Or du dashboard — SUPPRIMÉ ── */
+  --gold:       transparent;
+  --gold-light: transparent;
+  --gold-dim:   transparent;
+  --gold-glow:  transparent;
+
+  /* ── Fonctionnels — conservés (erreurs, succès) ── */
+  --success:     #22C55E;
+  --success-dim: rgba(34, 197, 94, 0.12);
+  --warning:     #F59E0B;
+  --warning-dim: rgba(245, 158, 11, 0.12);
+  --danger:      #EF4444;
+  --danger-dim:  rgba(239, 68, 68, 0.12);
+
+  /* ── Typographie — neutralisée, chaque thème impose la sienne ── */
+  --font-display: inherit;
+  --font-body:    inherit;
+
+  /* ── Ombres — neutralisées ── */
+  --shadow-xs:     none;
+  --shadow-sm:     none;
+  --shadow-md:     none;
+  --shadow-lg:     none;
+  --shadow-xl:     none;
+  --shadow-accent: none;
+  --shadow-gold:   none;
+
+  /* ── Boutons ds-btn — override pour ne pas prendre le violet ── */
+  --btn-bg:      transparent;
+  --btn-color:   inherit;
+
+  /* ── Transitions — conservées ── */
+  --ease-out:   cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in:    cubic-bezier(0.64, 0, 0.78, 0);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast:   150ms;
+  --duration-base:   250ms;
+  --duration-slow:   400ms;
+  --duration-slower: 600ms;
+
+  /* ── Isolation de base ── */
+  all: initial; /* Reset complet héritage */
+  display: block;
+  box-sizing: border-box;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Re-appliquer box-sizing sur tous les enfants */
+.wedding-site *,
+.wedding-site *::before,
+.wedding-site *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Neutraliser les classes utilitaires du design system ─────── */
+/* Si des classes .ds-* se retrouvent dans les composants mariage, */
+/* elles ne doivent pas appliquer les styles du dashboard.         */
+
+.wedding-site .ds-btn {
+  all: unset;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wedding-site .ds-btn--primary,
+.wedding-site .ds-btn--accent,
+.wedding-site .ds-btn--outline,
+.wedding-site .ds-btn--ghost {
+  all: unset;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wedding-site .ds-card {
+  all: unset;
+  display: block;
+}
+
+.wedding-site .ds-input {
+  all: unset;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.wedding-site .ds-section { padding: 0; }
+.wedding-site .ds-container { max-width: none; margin: 0; }
+.wedding-site .ds-label { all: unset; display: none; }
+.wedding-site .ds-divider { all: unset; display: none; }
+.wedding-site .ds-badge { all: unset; }
+.wedding-site .ds-title,
+.wedding-site .ds-title-lg { all: unset; display: block; }
+
+/* ── Neutraliser la nav du dashboard ─────────────────────────── */
+/* La Navbar du site de mariage est différente de .ds-nav         */
+.wedding-site .ds-nav { display: none !important; }
+.wedding-site .ds-footer { display: none !important; }
+
+/* ── Reset des animations héritées ───────────────────────────── */
+.wedding-site .ds-reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}

@@ -1,0 +1,313 @@
+/* ═══════════════════════════════════════════════════════════════
+   Navbar.css — styles dynamiques via CSS variables du thème
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Base ────────────────────────────────────────────────────────── */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar.scrolled {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+}
+
+.nav-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ── Logo ─────────────────────────────────────────────────────────── */
+.nav-logo {
+  font-family: var(--site-font, 'Playfair Display'), serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--nav-logo) !important;
+  text-decoration: none;
+  position: relative;
+  letter-spacing: 0.5px;
+  transition: opacity 0.2s;
+}
+
+.nav-logo:hover {
+  opacity: 0.75;
+}
+
+.nav-logo::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--nav-logo);
+  transition: width 0.3s ease;
+}
+
+.nav-logo:hover::after {
+  width: 100%;
+}
+
+/* ── Hamburger ───────────────────────────────────────────────────── */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 1001;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--nav-hamburger) !important;
+  transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.active span:nth-child(2) { opacity: 0; transform: translateX(-16px); }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+/* ── Backdrop ────────────────────────────────────────────────────── */
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 998;
+}
+
+.menu-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ── Menu overlay — base ─────────────────────────────────────────── */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 320px;
+  max-width: 90vw;
+  background: var(--overlay-bg, rgba(5,15,40,0.98));
+  box-shadow: -4px 0 40px rgba(0,0,0,0.3);
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 999;
+  overflow-y: auto;
+  padding: 72px 28px 40px;
+}
+
+.menu-overlay.open {
+  transform: translateX(0);
+}
+
+/* Pattern décoratif fond menu */
+.menu-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 30px,
+    var(--overlay-accent, #D4AF37) 30px,
+    var(--overlay-accent, #D4AF37) 60px
+  );
+  pointer-events: none;
+}
+
+/* ── Variantes du menu selon navStyle ────────────────────────────── */
+
+/* Light — fond blanc, texte sombre */
+.menu-overlay--light,
+.menu-overlay--transparent-light {
+  background: var(--overlay-bg, #ffffff);
+  box-shadow: -4px 0 40px rgba(0,0,0,0.15);
+}
+
+/* Earthy — fond beige */
+.menu-overlay--earthy {
+  background: var(--overlay-bg, #fdf8f2);
+}
+
+/* Black-gold — fond noir profond */
+.menu-overlay--black-gold {
+  background: var(--overlay-bg, #060606);
+}
+
+/* ── Bouton fermer ────────────────────────────────────────────────── */
+.close-menu {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid var(--overlay-accent, #D4AF37);
+  color: var(--overlay-accent, #D4AF37) !important;
+  font-size: 1.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s;
+  line-height: 1;
+}
+
+.close-menu:hover {
+  background: var(--overlay-accent, #D4AF37);
+  color: var(--overlay-bg, #000) !important;
+  transform: rotate(90deg);
+}
+
+/* ── Menu items ──────────────────────────────────────────────────── */
+.menu-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu-items li {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.menu-overlay.open .menu-items li {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.menu-items a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 16px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--overlay-text, white) !important;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-items a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--overlay-accent, #D4AF37);
+  transform: scaleY(0);
+  transition: transform 0.2s ease;
+  border-radius: 0 2px 2px 0;
+}
+
+.menu-items a:hover {
+  background: rgba(128,128,128,0.08);
+  padding-left: 22px;
+}
+
+.menu-items a:hover::before {
+  transform: scaleY(1);
+}
+
+.menu-items a:active {
+  transform: scale(0.98);
+}
+
+.menu-icon {
+  font-size: 1.2rem;
+  transition: filter 0.2s;
+}
+
+.menu-items a:hover .menu-icon {
+  filter: drop-shadow(0 0 6px var(--overlay-accent, #D4AF37));
+}
+
+/* Divider après item 4 */
+.menu-items li:nth-child(4)::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: rgba(128,128,128,0.15);
+  margin: 8px 0;
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────────── */
+.menu-overlay::-webkit-scrollbar        { width: 4px; }
+.menu-overlay::-webkit-scrollbar-track  { background: transparent; }
+.menu-overlay::-webkit-scrollbar-thumb  { background: var(--overlay-accent, #D4AF37); border-radius: 2px; }
+
+/* ── Accessibilité ────────────────────────────────────────────────── */
+.hamburger:focus,
+.close-menu:focus,
+.menu-items a:focus {
+  outline: 2px solid var(--overlay-accent, #D4AF37);
+  outline-offset: 3px;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .nav-content {
+    padding: 13px 20px;
+  }
+
+  .nav-logo {
+    font-size: 1.15rem;
+  }
+
+  .menu-overlay {
+    width: 290px;
+    padding: 64px 20px 32px;
+  }
+
+  .menu-items a {
+    font-size: 0.9rem;
+    padding: 11px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-logo { font-size: 1rem; }
+  .menu-overlay { width: 100vw; max-width: 100vw; }
+}
+
+/* ── Print ────────────────────────────────────────────────────────── */
+@media print {
+  .navbar { display: none; }
+}
+
+/* ── Smooth scroll global ─────────────────────────────────────────── */
+html { scroll-behavior: smooth; }

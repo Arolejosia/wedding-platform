@@ -1,0 +1,231 @@
+/* ═══════════════════════════════════════════════════════════════
+   RSVP.css — 5 layouts couleurs distinctes
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Base ───────────────────────────────────────────────────────── */
+.rsvp { position:relative; padding:100px 20px; overflow:hidden; }
+.rsvp__inner { max-width:720px; margin:0 auto; position:relative; z-index:2; }
+
+.rsvp-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+.rsvp-field { display:flex; flex-direction:column; gap:6px; }
+.rsvp-field label { font-size:0.85rem; font-weight:600; }
+.rsvp-textarea { resize:vertical; min-height:90px; }
+
+.rsvp-radio-group { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
+.rsvp-radio { display:flex; align-items:center; gap:10px; padding:16px; cursor:pointer; transition:all 0.2s; }
+.rsvp-radio input { position:absolute; opacity:0; pointer-events:none; }
+.rsvp-radio__icon { font-size:1.5rem; }
+
+.rsvp-btns { display:flex; gap:12px; margin-top:20px; flex-wrap:wrap; }
+.rsvp-btn { flex:1; min-width:140px; padding:13px 24px; border:none; cursor:pointer; font-weight:700; font-size:0.9rem; transition:all 0.25s; display:flex; align-items:center; justify-content:center; gap:8px; }
+
+.rsvp-waiting { text-align:center; padding:48px 20px; }
+.rsvp-waiting span { font-size:4rem; display:block; margin-bottom:20px; }
+.rsvp-waiting p { font-size:1.05rem; margin:0 0 24px; }
+
+.rsvp-success { text-align:center; padding:48px 20px; }
+.rsvp-success span { font-size:4rem; display:block; margin-bottom:16px; }
+.rsvp-success h3 { font-size:1.6rem; margin:0 0 10px; }
+.rsvp-success p { font-size:1rem; margin:0; opacity:0.75; }
+
+.rsvp-error { padding:12px 16px; border-radius:8px; font-size:0.88rem; text-align:center; margin-top:8px; background:rgba(244,67,54,0.1); border:1px solid #f44336; color:#c62828; }
+
+.rsvp-preview-banner { text-align:center; padding:10px 16px; border-radius:8px; font-size:0.85rem; margin-bottom:24px; }
+
+@keyframes rsvpIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+/* ═══════════════════════════════════════════════════════════════
+   ROYAL — bleu nuit, or, carte verre
+   ═══════════════════════════════════════════════════════════════ */
+.rsvp--royal {
+  background: linear-gradient(160deg, #0A2463 0%, #030d2a 100%);
+  color: #ffffff;
+  font-family: 'Playfair Display', serif;
+}
+
+.rsvp--royal .royal-divider { display:flex; align-items:center; gap:12px; margin:0 auto 20px; width:180px; }
+.rsvp--royal .royal-divider__line { flex:1; height:1px; background:#D4AF37; opacity:0.35; }
+.rsvp--royal .royal-divider__gem { color:#D4AF37; font-size:0.9rem; }
+
+.rsvp-royal-title { font-size:clamp(1.8rem,4vw,2.8rem); font-weight:400; letter-spacing:3px; color:#fff; margin:0 0 10px; text-align:center; }
+.rsvp-royal-sub { font-size:0.85rem; opacity:0.5; letter-spacing:2px; text-align:center; margin:0 0 32px; }
+
+.rsvp-royal-card {
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:20px; padding:36px;
+  animation:rsvpIn 0.5s ease;
+}
+.rsvp-royal-code { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:24px; }
+.rsvp-royal-code span { font-size:0.82rem; font-weight:600; padding:6px 14px; background:rgba(212,175,55,0.1); border:1px solid rgba(212,175,55,0.35); border-radius:999px; color:#D4AF37; }
+
+.rsvp--royal .rsvp-field label { color:rgba(255,255,255,0.7); }
+.rsvp-input--royal { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); border-radius:10px; padding:11px 14px; color:#fff; font-size:0.95rem; width:100%; box-sizing:border-box; transition:border-color 0.2s; }
+.rsvp-input--royal:focus { outline:none; border-color:#D4AF37; }
+.rsvp-input--royal::placeholder { color:rgba(255,255,255,0.3); }
+
+.rsvp-radio--royal { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.12); border-radius:12px; color:rgba(255,255,255,0.6); }
+.rsvp-radio--royal.rsvp-radio--active { border-color:#D4AF37; background:rgba(212,175,55,0.08); color:#fff; }
+
+.rsvp-btn--royal { background:#D4AF37; color:#0A2463; border-radius:4px; letter-spacing:1px; text-transform:uppercase; font-size:0.82rem; }
+.rsvp-btn--royal:hover:not(:disabled) { filter:brightness(1.1); transform:translateY(-2px); }
+.rsvp-btn--outline-royal { background:transparent; border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.6); border-radius:4px; }
+.rsvp-btn--outline-royal:hover { border-color:#D4AF37; color:#D4AF37; }
+
+.rsvp-preview-banner { background:rgba(212,175,55,0.08); border:1px solid rgba(212,175,55,0.3); color:#D4AF37; }
+.rsvp-waiting--royal span { opacity:0.5; }
+.rsvp-waiting--royal p { color:rgba(255,255,255,0.6); }
+.rsvp-success--royal h3 { color:#D4AF37; }
+
+/* ═══════════════════════════════════════════════════════════════
+   MINIMAL — blanc, noir, or discret
+   ═══════════════════════════════════════════════════════════════ */
+.rsvp--minimal {
+  background: #fafafa;
+  color: #1a1a1a;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.rsvp-minimal-eyebrow { display:block; font-size:0.72rem; letter-spacing:5px; text-transform:uppercase; color:#C9A84C; margin-bottom:12px; }
+.rsvp-minimal-title { font-size:clamp(2rem,4vw,3.2rem); font-weight:900; color:#1a1a1a; margin:0 0 16px; }
+.rsvp-minimal-rule { width:56px; height:3px; background:#1a1a1a; margin-bottom:36px; }
+
+.rsvp-minimal-card { background:#fff; border:1px solid #e8e8e8; border-radius:4px; padding:36px; animation:rsvpIn 0.5s ease; }
+.rsvp--minimal .rsvp-field label { color:#1a1a1a; }
+.rsvp-input--minimal { background:#fff; border:2px solid #e0e0e0; border-radius:4px; padding:11px 14px; color:#1a1a1a; font-size:0.95rem; width:100%; box-sizing:border-box; transition:border-color 0.2s; }
+.rsvp-input--minimal:focus { outline:none; border-color:#1a1a1a; }
+
+.rsvp-radio--minimal { background:#f5f5f5; border:2px solid #e0e0e0; border-radius:4px; color:#888; }
+.rsvp-radio--minimal.rsvp-radio--active { border-color:#1a1a1a; background:#fff; color:#1a1a1a; }
+
+.rsvp-btn--minimal { background:#1a1a1a; color:#fff; border-radius:0; letter-spacing:3px; text-transform:uppercase; font-size:0.78rem; }
+.rsvp-btn--minimal:hover:not(:disabled) { background:#C9A84C; }
+.rsvp-btn--outline-minimal { background:transparent; border:2px solid #1a1a1a; color:#1a1a1a; border-radius:0; }
+.rsvp-btn--outline-minimal:hover { background:#1a1a1a; color:#fff; }
+
+.rsvp-preview-banner--minimal { background:#f0f0f0; border:1px solid #ddd; color:#666; }
+.rsvp-success--minimal h3 { color:#1a1a1a; }
+.rsvp-waiting--minimal p { color:#555; }
+
+/* ═══════════════════════════════════════════════════════════════
+   FLORAL — rosé, bordeaux, terracotta
+   ═══════════════════════════════════════════════════════════════ */
+.rsvp--floral {
+  background: #fdf0f4;
+  color: #4A1530;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.floral-rsvp-deco { position:absolute; font-size:3rem; opacity:0.2; pointer-events:none; }
+.floral-rsvp-deco--tl { top:20px; left:20px; }
+.floral-rsvp-deco--br { bottom:20px; right:20px; }
+
+.floral-rsvp-ornament { font-size:2rem; color:#C4836A; text-align:center; margin-bottom:10px; }
+.rsvp-floral-title { font-size:clamp(1.8rem,4vw,2.8rem); font-weight:700; color:#4A1530; margin:0 0 8px; text-align:center; }
+.rsvp-floral-sub { font-size:0.9rem; color:#9a5a6a; font-style:italic; text-align:center; margin:0 0 32px; }
+
+.rsvp-floral-card { background:#fff; border:1px solid rgba(196,131,106,0.2); border-radius:20px; padding:36px; box-shadow:0 8px 32px rgba(74,21,48,0.07); position:relative; overflow:hidden; animation:rsvpIn 0.5s ease; }
+.rsvp-floral-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(to right, #4A1530, #C4836A); border-radius:20px 20px 0 0; }
+
+.rsvp--floral .rsvp-field label { color:#4A1530; }
+.rsvp-input--floral { background:#fff; border:1px solid rgba(196,131,106,0.3); border-radius:10px; padding:11px 14px; color:#4A1530; font-size:0.95rem; width:100%; box-sizing:border-box; transition:border-color 0.2s; }
+.rsvp-input--floral:focus { outline:none; border-color:#C4836A; }
+.rsvp-input--floral::placeholder { color:#c49aaa; }
+
+.rsvp-radio--floral { background:#fff; border:1px solid rgba(196,131,106,0.25); border-radius:12px; color:#9a6a7a; }
+.rsvp-radio--floral.rsvp-radio--active { border-color:#4A1530; background:rgba(74,21,48,0.04); color:#4A1530; }
+
+.rsvp-btn--floral { background:#4A1530; color:#fff; border-radius:999px; font-family:'Montserrat',sans-serif; font-size:0.83rem; letter-spacing:1px; }
+.rsvp-btn--floral:hover:not(:disabled) { background:#C4836A; transform:translateY(-2px); }
+.rsvp-btn--outline-floral { background:transparent; border:1px solid rgba(74,21,48,0.25); color:#9a6a7a; border-radius:999px; }
+.rsvp-btn--outline-floral:hover { border-color:#C4836A; color:#4A1530; }
+
+.rsvp-preview-banner--floral { background:rgba(196,131,106,0.08); border:1px solid rgba(196,131,106,0.3); color:#C4836A; }
+.rsvp-success--floral h3 { color:#4A1530; }
+.rsvp-waiting--floral p { color:#9a6a7a; }
+
+/* ═══════════════════════════════════════════════════════════════
+   BOHO — beige, brun, orange terre
+   ═══════════════════════════════════════════════════════════════ */
+.rsvp--boho {
+  background: #fdf8f2;
+  color: #5c3d2e;
+  font-family: 'Lora', serif;
+}
+
+.rsvp-boho-eyebrow { display:block; font-size:0.95rem; color:#D2691E; font-style:italic; letter-spacing:4px; text-align:center; margin-bottom:10px; }
+.rsvp-boho-title { font-size:clamp(1.8rem,4vw,2.8rem); font-weight:700; color:#3d2210; margin:0 0 6px; text-align:center; }
+.rsvp-boho-branch { font-size:1.5rem; color:#D2691E; opacity:0.65; text-align:center; margin-bottom:32px; }
+
+.rsvp-boho-card { background:#fff9f4; border:1px solid rgba(210,105,30,0.18); border-radius:12px; padding:36px; box-shadow:0 4px 20px rgba(139,69,19,0.06); border-left:4px solid #D2691E; animation:rsvpIn 0.5s ease; }
+
+.rsvp--boho .rsvp-field label { color:#5c3d2e; }
+.rsvp-input--boho { background:#fff; border:1px solid rgba(210,105,30,0.2); border-radius:8px; padding:11px 14px; color:#5c3d2e; font-size:0.95rem; width:100%; box-sizing:border-box; transition:border-color 0.2s; }
+.rsvp-input--boho:focus { outline:none; border-color:#D2691E; }
+.rsvp-input--boho::placeholder { color:#c0a090; }
+
+.rsvp-radio--boho { background:#fff; border:1px solid rgba(210,105,30,0.18); border-radius:10px; color:#b08060; }
+.rsvp-radio--boho.rsvp-radio--active { border-color:#8B4513; background:rgba(139,69,19,0.05); color:#3d2210; }
+
+.rsvp-btn--boho { background:#8B4513; color:#fff; border-radius:6px; font-family:'Lora',serif; }
+.rsvp-btn--boho:hover:not(:disabled) { background:#D2691E; }
+.rsvp-btn--outline-boho { background:transparent; border:2px solid rgba(139,69,19,0.3); color:#8B4513; border-radius:6px; }
+.rsvp-btn--outline-boho:hover { border-color:#8B4513; background:rgba(139,69,19,0.05); }
+
+.rsvp-preview-banner--boho { background:rgba(210,105,30,0.07); border:1px solid rgba(210,105,30,0.25); color:#D2691E; }
+.rsvp-success--boho h3 { color:#3d2210; }
+.rsvp-waiting--boho p { color:#a0856e; }
+
+/* ═══════════════════════════════════════════════════════════════
+   LUXURY — noir, or
+   ═══════════════════════════════════════════════════════════════ */
+.rsvp--luxury {
+  background: #080808;
+  color: #C6A75E;
+  font-family: 'Cinzel', serif;
+}
+
+.luxury-rsvp-frame { position:absolute; inset:24px; pointer-events:none; z-index:1; }
+.lrf-tl,.lrf-tr,.lrf-bl,.lrf-br { position:absolute; width:50px; height:50px; border-color:rgba(198,167,94,0.2); }
+.lrf-tl { top:0; left:0;  border-top:1px solid; border-left:1px solid; }
+.lrf-tr { top:0; right:0; border-top:1px solid; border-right:1px solid; }
+.lrf-bl { bottom:0; left:0;  border-bottom:1px solid; border-left:1px solid; }
+.lrf-br { bottom:0; right:0; border-bottom:1px solid; border-right:1px solid; }
+
+.rsvp-luxury-rule { width:100px; height:1px; background:linear-gradient(to right,transparent,#C6A75E,transparent); margin:0 auto 20px; }
+.rsvp-luxury-title { font-size:clamp(1.6rem,3.5vw,2.6rem); font-weight:400; color:#C6A75E; letter-spacing:5px; margin:0 0 10px; text-align:center; }
+.rsvp-luxury-sub { font-size:0.7rem; letter-spacing:4px; text-transform:uppercase; color:rgba(198,167,94,0.35); text-align:center; margin:0 0 32px; font-family:'Montserrat',sans-serif; }
+
+.rsvp-luxury-card { background:rgba(198,167,94,0.04); border:1px solid rgba(198,167,94,0.15); padding:36px; animation:rsvpIn 0.5s ease; }
+
+.rsvp--luxury .rsvp-field label { color:rgba(198,167,94,0.6); font-family:'Montserrat',sans-serif; font-size:0.78rem; letter-spacing:2px; text-transform:uppercase; }
+.rsvp-input--luxury { background:rgba(198,167,94,0.04); border:1px solid rgba(198,167,94,0.2); padding:11px 14px; color:#C6A75E; font-size:0.9rem; width:100%; box-sizing:border-box; transition:border-color 0.2s; font-family:'Montserrat',sans-serif; }
+.rsvp-input--luxury:focus { outline:none; border-color:#C6A75E; }
+.rsvp-input--luxury::placeholder { color:rgba(198,167,94,0.25); }
+
+.rsvp-radio--luxury { background:transparent; border:1px solid rgba(198,167,94,0.15); color:rgba(198,167,94,0.35); }
+.rsvp-radio--luxury.rsvp-radio--active { border-color:rgba(198,167,94,0.5); background:rgba(198,167,94,0.08); color:#C6A75E; }
+
+.rsvp-btn--luxury { background:transparent; border:1px solid #C6A75E; color:#C6A75E; letter-spacing:4px; text-transform:uppercase; font-size:0.72rem; font-family:'Montserrat',sans-serif; }
+.rsvp-btn--luxury:hover:not(:disabled) { background:#C6A75E; color:#000; }
+.rsvp-btn--outline-luxury { background:transparent; border:1px solid rgba(198,167,94,0.2); color:rgba(198,167,94,0.4); letter-spacing:2px; text-transform:uppercase; font-size:0.72rem; font-family:'Montserrat',sans-serif; }
+.rsvp-btn--outline-luxury:hover { border-color:rgba(198,167,94,0.4); color:rgba(198,167,94,0.7); }
+
+.rsvp-preview-banner--luxury { background:rgba(198,167,94,0.06); border:1px solid rgba(198,167,94,0.2); color:rgba(198,167,94,0.6); font-family:'Montserrat',sans-serif; }
+.rsvp-error--luxury { background:rgba(244,67,54,0.08); border:1px solid rgba(244,67,54,0.3); color:#e57373; }
+.rsvp-success--luxury h3 { color:#C6A75E; font-weight:400; letter-spacing:3px; }
+.rsvp-waiting--luxury p { color:rgba(198,167,94,0.5); font-family:'Montserrat',sans-serif; }
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .rsvp { padding:60px 16px; }
+  .rsvp-row { grid-template-columns:1fr; }
+  .rsvp-radio-group { grid-template-columns:1fr; }
+  .rsvp-btns { flex-direction:column; }
+  .rsvp-btn { min-width:100%; }
+  .rsvp-royal-card,
+  .rsvp-minimal-card,
+  .rsvp-floral-card,
+  .rsvp-boho-card,
+  .rsvp-luxury-card { padding:24px 18px; }
+}

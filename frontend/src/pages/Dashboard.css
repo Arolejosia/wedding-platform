@@ -1,0 +1,526 @@
+/* src/pages/Dashboard.css */
+
+.dashboard-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+}
+
+/* ========== HEADER ========== */
+.dashboard-header {
+  background: linear-gradient(135deg, var(--royal-blue), var(--dark-blue));
+  color: white;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.dashboard-header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.dashboard-header h1 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  margin: 0 0 5px;
+  color: var(--champagne-gold);
+}
+
+.dashboard-header p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-profile,
+.btn-logout {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-profile {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.btn-profile:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.btn-logout {
+  background: rgba(211, 47, 47, 0.2);
+  color: #ffcdd2;
+  border: 1px solid rgba(211, 47, 47, 0.4);
+}
+
+.btn-logout:hover {
+  background: rgba(211, 47, 47, 0.4);
+}
+
+/* ========== CONTENT ========== */
+.dashboard-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 30px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.section-header h2 {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: var(--royal-blue);
+  margin: 0;
+}
+
+.btn-create-wedding {
+  background: var(--champagne-gold);
+  color: var(--royal-blue);
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(212,175,55,0.3);
+  transition: all 0.3s;
+}
+
+.btn-create-wedding:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212,175,55,0.5);
+}
+
+/* ========== WEDDINGS GRID ========== */
+.weddings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+}
+
+.wedding-card {
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 2px solid transparent;
+}
+
+.wedding-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+  border-color: var(--champagne-gold);
+}
+
+.wedding-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.wedding-title {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  color: var(--royal-blue);
+  margin: 0;
+}
+
+.badge-active {
+  background: rgba(76,175,80,0.1);
+  color: #4caf50;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+
+.wedding-card-body {
+  margin-bottom: 20px;
+}
+
+.wedding-date,
+.wedding-countdown,
+.wedding-location {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.date-icon,
+.countdown-icon,
+.location-icon {
+  font-size: 1.2rem;
+}
+
+.wedding-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--royal-blue);
+}
+
+.stat-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: #999;
+  margin-top: 4px;
+}
+
+.wedding-card-footer {
+  text-align: right;
+}
+
+.btn-open-wedding {
+  background: var(--royal-blue);
+  color: white;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-open-wedding:hover {
+  background: var(--dark-blue);
+}
+
+/* ========== EMPTY STATE ========== */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.empty-icon {
+  font-size: 5rem;
+  margin-bottom: 20px;
+}
+
+.empty-state h3 {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: var(--royal-blue);
+  margin: 0 0 10px;
+}
+
+.empty-state p {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0 0 30px;
+}
+
+.btn-create-first {
+  background: linear-gradient(135deg, var(--royal-blue), var(--dark-blue));
+  color: var(--champagne-gold);
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(10,36,99,0.3);
+  transition: all 0.3s;
+}
+
+.btn-create-first:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(10,36,99,0.4);
+}
+
+/* ========== MODAL ========== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-card {
+  background: white;
+  border-radius: 16px;
+  padding: 35px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.modal-header h2 {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: var(--royal-blue);
+  margin: 0;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #999;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: color 0.2s;
+}
+
+.btn-close:hover {
+  color: #333;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.btn-cancel,
+.btn-save {
+  flex: 1;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding: 14px 25px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.btn-cancel:hover {
+  background: #e0e0e0;
+}
+
+.btn-save {
+  background: linear-gradient(135deg, var(--royal-blue), var(--dark-blue));
+  color: var(--champagne-gold);
+}
+
+.btn-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(10,36,99,0.3);
+}
+
+.btn-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ========== LOADING ========== */
+.dashboard-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 20px;
+}
+
+.spinner-large {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(212,175,55,0.3);
+  border-top-color: var(--champagne-gold);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: 20px 15px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .dashboard-content {
+    padding: 30px 15px;
+  }
+
+  .weddings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wedding-stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .modal-card {
+    padding: 25px 20px;
+  }
+}
+.header-badges {
+  display: flex;
+  gap: 10px;
+}
+
+.badge-plan {
+  background: #f1f1f1;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.public-link {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #555;
+  background: #f9f9f9;
+  padding: 6px 10px;
+  border-radius: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-view-site {
+  background: #0A2463;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+.btn-open-wedding {
+  background: #D4AF37;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+/* ── Bouton supprimer ────────────────────────────────────────── */
+.wedding-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.btn-delete-wedding {
+  background: transparent;
+  border: 1px solid rgba(244,67,54,0.3);
+  color: #f44336;
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.btn-delete-wedding:hover {
+  background: rgba(244,67,54,0.1);
+  border-color: #f44336;
+  transform: scale(1.1);
+}
+
+.delete-confirm {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  animation: fadeIn 0.2s ease;
+}
+.delete-confirm span { color: #f44336; font-weight: 600; white-space: nowrap; }
+
+.btn-confirm-yes {
+  background: #f44336; color: white;
+  border: none; border-radius: 6px;
+  padding: 4px 10px; cursor: pointer;
+  font-size: 0.8rem; font-weight: 600;
+  transition: all 0.2s;
+}
+.btn-confirm-yes:hover { background: #d32f2f; }
+
+.btn-confirm-no {
+  background: transparent; color: #666;
+  border: 1px solid #ddd; border-radius: 6px;
+  padding: 4px 10px; cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+.btn-confirm-no:hover { background: #f5f5f5; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: none; } }

@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Italiana&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+/* Mobile First - Optimisation */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Couleurs principales */
+  --royal-blue: #0A2463;
+  --champagne-gold: #D4AF37;
+  --light-gold: #F4E5C2;
+  --dark-blue: #061539;
+  --cream: #FFF8E7;
+  --white: #FFFFFF;
+  
+  /* Typographie plus sophistiquée */
+  --font-display: 'Italiana', serif;
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Cormorant Garamond', serif;
+  
+  /* Ombres */
+  --shadow-gold: 0 4px 20px rgba(212, 175, 55, 0.3);
+  --shadow-blue: 0 4px 20px rgba(10, 36, 99, 0.4);
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--cream);
+  color: var(--dark-blue);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Scroll personnalisé */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--champagne-gold);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--royal-blue);
+}
+
+/* Styles globaux */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--royal-blue);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+button {
+  font-family: var(--font-heading);
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+/* Animation d'apparition */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-in;
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Section */
+.section {
+  padding: 20px 20px;
+  position: relative;
+}
+
+/* Réduire aussi les marges des titres */
+.section-title {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  color: var(--champagne-gold);
+  text-align: center;
+  margin-bottom: 10px;  /* ✅ Réduit de 20px à 10px */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.section-subtitle {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  color: var(--royal-blue);
+  text-align: center;
+  margin-bottom: 30px;  /* ✅ Réduit de 60px à 30px */
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Ornements dorés */
+.ornament {
+  width: 80px;
+  height: 80px;
+  margin: 20px auto;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 10 L60 40 L90 50 L60 60 L50 90 L40 60 L10 50 L40 40 Z" fill="%23D4AF37"/></svg>') center/contain no-repeat;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section {
+    padding: 30px 15px;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+    margin-bottom: 15px; 
+  }
+  
+  .section-subtitle {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+}

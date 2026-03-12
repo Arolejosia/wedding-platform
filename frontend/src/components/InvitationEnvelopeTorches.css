@@ -1,0 +1,1526 @@
+/* ============================================
+   ENVELOPPE ULTRA LUXUEUSE AVEC FLAMBEAUX
+   ============================================ */
+
+.invitation-wrapper-torches {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: 
+    radial-gradient(ellipse at top, rgba(62, 92, 154, 0.3), transparent),
+    linear-gradient(135deg, #0A2463 0%, #1E3A8A 25%, #3E5C9A 50%, #1E3A8A 75%, #0A2463 100%);
+  background-size: 100% 100%, 400% 400%;
+  animation: gradientShiftTorches 20s ease infinite;
+  position: relative;
+  overflow: hidden;
+  gap: 40px;
+}
+
+@keyframes gradientShiftTorches {
+  0%, 100% { background-position: 0% 0%, 0% 50%; }
+  50% { background-position: 0% 0%, 100% 50%; }
+}
+
+/* PARTICULES DORÉES (50) */
+.golden-particles-torches {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.particle-torches {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, #FFD700, #D4AF37, transparent);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 15px #FFD700,
+    0 0 30px rgba(255, 215, 0, 0.5);
+  animation: floatTorches 6s ease-in-out infinite;
+  opacity: 0;
+}
+
+@keyframes floatTorches {
+  0%, 100% { 
+    transform: translateY(0) rotate(0deg) scale(0.5); 
+    opacity: 0; 
+  }
+  5% { opacity: 0.9; }
+  10% { transform: translateY(-10vh) rotate(30deg) scale(1); }
+  90% { 
+    opacity: 0.9;
+    transform: translateY(-100vh) rotate(330deg) scale(0.8);
+  }
+  100% { 
+    transform: translateY(-110vh) rotate(360deg) scale(0.3); 
+    opacity: 0; 
+  }
+}
+
+/* LUMIÈRE DIVINE DU HAUT */
+.divine-light {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 600px;
+  background: linear-gradient(180deg, 
+    rgba(255, 215, 0, 0.3) 0%,
+    rgba(255, 215, 0, 0.1) 50%,
+    transparent 100%
+  );
+  clip-path: polygon(40% 0%, 60% 0%, 100% 100%, 0% 100%);
+  opacity: 0.5;
+  filter: blur(20px);
+  animation: divinePulse 4s ease-in-out infinite;
+  transition: opacity 1s ease;
+  z-index: 2;
+}
+
+.light-intensify {
+  opacity: 1 !important;
+  animation: divinePulse 1s ease-in-out infinite;
+}
+
+@keyframes divinePulse {
+  0%, 100% { opacity: 0.5; transform: translateX(-50%) scaleY(1); }
+  50% { opacity: 0.8; transform: translateX(-50%) scaleY(1.1); }
+}
+
+/* ============================================
+   FLAMBEAUX ROYAUX
+   ============================================ */
+
+.torch-holder {
+  position: absolute;
+  top: 35%;
+  width: 80px;
+  height: 250px;
+  z-index: 8;
+  transition: all 1s ease;
+}
+
+.left-torch {
+  left: 12%;
+}
+
+.right-torch {
+  right: 12%;
+}
+
+.torch-bright .torch-flame {
+  animation: flameBurn 0.3s ease, flameIntensify 1s ease forwards !important;
+}
+
+@keyframes flameIntensify {
+  0% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.5); filter: brightness(2); }
+  100% { transform: scale(1.3); filter: brightness(1.5); }
+}
+
+/* Poteau du flambeau */
+.torch-pole {
+  width: 12px;
+  height: 180px;
+  margin: 0 auto;
+  background: linear-gradient(90deg, 
+    #4A4A4A 0%,
+    #2C2C2C 20%,
+    #1A1A1A 40%,
+    #2C2C2C 60%,
+    #4A4A4A 80%,
+    #2C2C2C 100%
+  );
+  border-radius: 6px;
+  box-shadow: 
+    inset 2px 0 10px rgba(0, 0, 0, 0.8),
+    inset -2px 0 10px rgba(255, 255, 255, 0.1),
+    0 5px 20px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.torch-pole::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 4px;
+  background: linear-gradient(90deg, #8B7355, #A0826D);
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.torch-pole::after {
+  content: '';
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 4px;
+  background: linear-gradient(90deg, #8B7355, #A0826D);
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Support du flambeau */
+.torch-holder-top {
+  width: 50px;
+  height: 35px;
+  margin: -5px auto 0;
+  background: linear-gradient(180deg, 
+    #8B7355 0%,
+    #A0826D 30%,
+    #6B5D4F 70%,
+    #4A4238 100%
+  );
+  border-radius: 8px 8px 4px 4px;
+  box-shadow: 
+    0 5px 15px rgba(0, 0, 0, 0.6),
+    inset 0 -5px 10px rgba(0, 0, 0, 0.5),
+    inset 0 2px 5px rgba(255, 255, 255, 0.2);
+  position: relative;
+}
+
+.torch-holder-top::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 8px;
+  background: linear-gradient(90deg, #D4AF37, #FFD700, #D4AF37);
+  border-radius: 4px;
+  box-shadow: 
+    0 0 10px rgba(212, 175, 55, 0.6),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+/* Flamme */
+.torch-flame {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 70px;
+  animation: flameBurn 0.3s ease infinite;
+  filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.8));
+}
+
+@keyframes flameBurn {
+  0%, 100% { transform: translateX(-50%) scaleY(1) scaleX(1); }
+  25% { transform: translateX(-50%) scaleY(1.05) scaleX(0.98); }
+  50% { transform: translateX(-50%) scaleY(0.98) scaleX(1.02); }
+  75% { transform: translateX(-50%) scaleY(1.02) scaleX(0.99); }
+}
+
+.flame-core {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 25px;
+  height: 60px;
+  background: linear-gradient(180deg, 
+    #FFFF00 0%,
+    #FFA500 30%,
+    #FF4500 60%,
+    #8B0000 90%,
+    transparent 100%
+  );
+  border-radius: 50% 50% 0 0 / 60% 60% 0 0;
+  animation: flameFlicker 0.2s ease infinite;
+}
+
+@keyframes flameFlicker {
+  0%, 100% { height: 60px; opacity: 1; }
+  50% { height: 65px; opacity: 0.95; }
+}
+
+.flame-glow {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 45px;
+  height: 75px;
+  background: radial-gradient(ellipse at bottom, 
+    rgba(255, 140, 0, 0.8) 0%,
+    rgba(255, 69, 0, 0.4) 40%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(8px);
+  animation: glowPulse 0.4s ease infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+  50% { transform: translateX(-50%) scale(1.1); opacity: 1; }
+}
+
+/* Particules de feu */
+.fire-particle {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  width: 4px;
+  height: 8px;
+  background: linear-gradient(180deg, #FFA500, transparent);
+  border-radius: 50%;
+  animation: fireParticleRise 1.5s ease-in infinite;
+  opacity: 0;
+}
+
+@keyframes fireParticleRise {
+  0% {
+    transform: translate(-50%, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(
+      calc(-50% + ${Math.random() * 40 - 20}px),
+      -80px
+    ) scale(0.3);
+    opacity: 0;
+  }
+}
+
+.fire-particle:nth-child(1) { left: 45%; }
+.fire-particle:nth-child(2) { left: 50%; animation-delay: 0.2s; }
+.fire-particle:nth-child(3) { left: 55%; animation-delay: 0.4s; }
+.fire-particle:nth-child(4) { left: 48%; animation-delay: 0.6s; }
+.fire-particle:nth-child(5) { left: 52%; animation-delay: 0.8s; }
+.fire-particle:nth-child(6) { left: 46%; animation-delay: 1s; }
+.fire-particle:nth-child(7) { left: 54%; animation-delay: 1.2s; }
+.fire-particle:nth-child(8) { left: 50%; animation-delay: 1.4s; }
+
+/* ============================================
+   RAYONS DE LUMIÈRE
+   ============================================ */
+
+.light-rays {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  animation: raysRotate 20s linear infinite;
+}
+
+@keyframes raysRotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.ray {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 250px;
+  background: linear-gradient(180deg, 
+    rgba(255, 215, 0, 0.6) 0%,
+    rgba(255, 215, 0, 0.3) 50%,
+    transparent 100%
+  );
+  transform-origin: bottom center;
+  opacity: 0;
+  animation: rayAppear 2s ease forwards;
+}
+
+@keyframes rayAppear {
+  0% { opacity: 0; height: 0; }
+  100% { opacity: 1; height: 250px; }
+}
+
+/* FLASH DORÉ */
+.golden-flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, 
+    rgba(255, 215, 0, 0.6) 0%,
+    rgba(255, 215, 0, 0.3) 30%,
+    transparent 70%
+  );
+  z-index: 100;
+  animation: flashBurst 1s ease forwards;
+}
+
+@keyframes flashBurst {
+  0% { opacity: 0; transform: scale(0.5); }
+  30% { opacity: 1; transform: scale(1.5); }
+  100% { opacity: 0; transform: scale(3); }
+}
+
+/* ============================================
+   ENVELOPPE PRINCIPALE
+   ============================================ */
+
+.envelope-torches {
+  width: 500px;
+  height: 330px;
+  position: relative;
+  z-index: 6;
+  animation: envelopeFloatTorches 5s ease-in-out infinite;
+}
+
+.clickable-torches {
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.clickable-torches:hover {
+  transform: scale(1.08) translateY(-15px) rotateY(3deg);
+  filter: drop-shadow(0 35px 70px rgba(0, 0, 0, 0.7)) brightness(1.1);
+}
+
+@keyframes envelopeFloatTorches {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-8px) rotate(-1deg); }
+  50% { transform: translateY(-12px) rotate(0deg); }
+  75% { transform: translateY(-8px) rotate(1deg); }
+}
+
+/* COURONNE LUMINEUSE */
+.royal-crown {
+  position: absolute;
+  top: -70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+  animation: crownFloat 3s ease-in-out infinite;
+}
+
+.crown-icon {
+  font-size: 50px;
+  filter: drop-shadow(0 5px 15px rgba(212, 175, 55, 0.8));
+  display: block;
+  animation: crownSpin 10s linear infinite;
+}
+
+@keyframes crownFloat {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-10px); }
+}
+
+@keyframes crownSpin {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+.crown-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, 
+    rgba(255, 215, 0, 0.4),
+    rgba(255, 215, 0, 0.2),
+    transparent
+  );
+  border-radius: 50%;
+  animation: crownGlowPulse 2s ease-in-out infinite;
+}
+
+@keyframes crownGlowPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+  50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+}
+
+/* BORDURE DORÉE ÉPAISSE */
+.golden-border {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border: 6px solid transparent;
+  border-radius: 20px;
+  background: 
+    linear-gradient(#FFF8E7, #FFF8E7) padding-box,
+    linear-gradient(135deg, 
+      #D4AF37 0%,
+      #FFD700 25%,
+      #D4AF37 50%,
+      #C9A227 75%,
+      #D4AF37 100%
+    ) border-box;
+  box-shadow: 
+    0 0 30px rgba(212, 175, 55, 0.6),
+    inset 0 0 20px rgba(212, 175, 55, 0.3);
+  z-index: 1;
+}
+
+/* ORNEMENTS DE COINS AMÉLIORÉS */
+.border-ornament-torches {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, 
+    #FFD700 0%,
+    #D4AF37 50%,
+    #C9A227 100%
+  );
+  z-index: 12;
+  box-shadow: 
+    0 5px 15px rgba(212, 175, 55, 0.6),
+    inset 0 2px 5px rgba(255, 255, 255, 0.4),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.border-ornament-torches::before {
+  content: '❖';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #0A2463;
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  animation: ornamentSpinTorches 6s linear infinite;
+}
+
+@keyframes ornamentSpinTorches {
+  from { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+  50% { transform: translate(-50%, -50%) rotate(180deg) scale(1.1); }
+  to { transform: translate(-50%, -50%) rotate(360deg) scale(1); }
+}
+
+.ornament-detail {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: inherit;
+}
+
+.top-left-torches { 
+  top: -15px; 
+  left: -15px; 
+  border-radius: 50% 10px 10px 10px;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.top-right-torches { 
+  top: -15px; 
+  right: -15px; 
+  border-radius: 10px 50% 10px 10px;
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+}
+
+.bottom-left-torches { 
+  bottom: -15px; 
+  left: -15px; 
+  border-radius: 10px 10px 10px 50%;
+  clip-path: polygon(0 100%, 100% 100%, 0 0);
+}
+
+.bottom-right-torches { 
+  bottom: -15px; 
+  right: -15px; 
+  border-radius: 10px 10px 50% 10px;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+/* RABAT AMÉLIORÉ */
+.envelope-flap-torches {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 68%;
+  background: linear-gradient(135deg, 
+    #E6C76B 0%,
+    #D4AF37 15%,
+    #FFD700 30%,
+    #D4AF37 50%,
+    #C9A227 70%,
+    #D4AF37 85%,
+    #E6C76B 100%
+  );
+  clip-path: polygon(0 0, 50% 78%, 100% 0);
+  z-index: 3;
+  box-shadow: 
+    inset 0 -15px 40px rgba(0, 0, 0, 0.4),
+    0 18px 50px rgba(212, 175, 55, 0.6);
+  transform-origin: top center;
+  transition: transform 2.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.flap-opening-torches {
+  transform: rotateX(185deg);
+  opacity: 0.2;
+}
+
+.flap-pattern-torches {
+  width: 100%;
+  height: 100%;
+  background-image: 
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 12px,
+      rgba(255, 255, 255, 0.08) 12px,
+      rgba(255, 255, 255, 0.08) 24px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 12px,
+      rgba(0, 0, 0, 0.05) 12px,
+      rgba(0, 0, 0, 0.05) 24px
+    );
+}
+
+.flap-embossed {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 30%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  box-shadow: 
+    inset 0 2px 5px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.flap-shine-torches {
+  position: absolute;
+  top: -60%;
+  left: -60%;
+  width: 220%;
+  height: 220%;
+  background: linear-gradient(
+    60deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 65%
+  );
+  animation: flapShimmerTorches 4s ease-in-out infinite;
+}
+
+@keyframes flapShimmerTorches {
+  0%, 100% { transform: translateX(-120%) translateY(-120%) rotate(-10deg); }
+  50% { transform: translateX(120%) translateY(120%) rotate(-10deg); }
+}
+
+/* CORPS DE L'ENVELOPPE */
+.envelope-body-torches {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 85%;
+  background: linear-gradient(180deg, 
+    #FFF8E7 0%,
+    #FEF5DC 30%,
+    #FFF0C8 60%,
+    #FEF5DC 100%
+  );
+  border-radius: 0 0 25px 25px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 30px;
+  box-shadow: 
+    inset 0 15px 40px rgba(212, 175, 55, 0.25),
+    inset 0 -5px 20px rgba(201, 162, 39, 0.15),
+    0 25px 70px rgba(0, 0, 0, 0.6);
+  border: 4px solid transparent;
+  border-top: none;
+  background-clip: padding-box;
+  position: relative;
+  overflow: hidden;
+}
+
+/* TEXTURE PARCHEMIN */
+.paper-texture {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(212, 175, 55, 0.04) 3px,
+      rgba(212, 175, 55, 0.04) 6px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgba(212, 175, 55, 0.04) 3px,
+      rgba(212, 175, 55, 0.04) 6px
+    ),
+    radial-gradient(circle at 20% 30%, rgba(201, 162, 39, 0.08), transparent),
+    radial-gradient(circle at 80% 70%, rgba(201, 162, 39, 0.08), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* RUBAN AVEC NOEUD 3D */
+.ribbon-container-torches {
+  position: absolute;
+  top: -20px;
+  width: 100%;
+  height: 40px;
+  z-index: 8;
+}
+
+.ribbon-left-torches,
+.ribbon-right-torches {
+  position: absolute;
+  top: 0;
+  width: 48%;
+  height: 100%;
+  background: linear-gradient(135deg, 
+    #C9A227 0%,
+    #D4AF37 30%,
+    #FFD700 50%,
+    #D4AF37 70%,
+    #C9A227 100%
+  );
+  box-shadow: 
+    0 6px 18px rgba(0, 0, 0, 0.5),
+    inset 0 2px 5px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.ribbon-left-torches {
+  left: 0;
+  clip-path: polygon(0 0, 85% 0, 93% 50%, 85% 100%, 0 100%);
+}
+
+.ribbon-right-torches {
+  right: 0;
+  clip-path: polygon(15% 0, 100% 0, 100% 100%, 15% 100%, 7% 50%);
+}
+
+.ribbon-knot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  z-index: 9;
+}
+
+.knot-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle, 
+    #FFD700 0%,
+    #D4AF37 50%,
+    #C9A227 100%
+  );
+  border-radius: 50%;
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.5),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.knot-left,
+.knot-right {
+  position: absolute;
+  top: 50%;
+  width: 35px;
+  height: 25px;
+  background: linear-gradient(135deg, #D4AF37, #FFD700, #C9A227);
+  border-radius: 50%;
+  box-shadow: 
+    0 3px 10px rgba(0, 0, 0, 0.4),
+    inset 0 1px 3px rgba(255, 255, 255, 0.3);
+}
+
+.knot-left {
+  left: -15px;
+  transform: translateY(-50%) rotate(-30deg);
+}
+
+.knot-right {
+  right: -15px;
+  transform: translateY(-50%) rotate(30deg);
+}
+
+/* SCEAU DE CIRE ULTRA DÉTAILLÉ */
+.wax-seal-torches {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, 
+    #A52A2A 0%,
+    #8B0000 30%,
+    #6B0000 60%,
+    #4B0000 100%
+  );
+  position: relative;
+  margin-bottom: 25px;
+  box-shadow: 
+    0 10px 30px rgba(139, 0, 0, 0.8),
+    inset 0 -8px 20px rgba(0, 0, 0, 0.6),
+    inset 0 8px 20px rgba(255, 255, 255, 0.15);
+  z-index: 10;
+  animation: sealPulseTorches 4s ease-in-out infinite;
+  transition: all 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes sealPulseTorches {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg); 
+    box-shadow: 
+      0 10px 30px rgba(139, 0, 0, 0.8),
+      inset 0 -8px 20px rgba(0, 0, 0, 0.6),
+      inset 0 8px 20px rgba(255, 255, 255, 0.15);
+  }
+  50% { 
+    transform: scale(1.06) rotate(2deg); 
+    box-shadow: 
+      0 12px 35px rgba(139, 0, 0, 1),
+      inset 0 -8px 20px rgba(0, 0, 0, 0.6),
+      inset 0 8px 20px rgba(255, 255, 255, 0.2);
+  }
+}
+
+.seal-breaking-torches {
+  animation: 
+    sealShakeTorches 0.6s ease-in-out,
+    sealCrumbleTorches 1.2s ease forwards 0.4s;
+}
+
+@keyframes sealShakeTorches {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  10% { transform: rotate(-8deg) scale(1.02); }
+  20% { transform: rotate(8deg) scale(0.98); }
+  30% { transform: rotate(-6deg) scale(1.01); }
+  40% { transform: rotate(6deg) scale(0.99); }
+  50% { transform: rotate(-4deg) scale(1); }
+  60% { transform: rotate(4deg) scale(1); }
+  70% { transform: rotate(-2deg) scale(1); }
+  80% { transform: rotate(2deg) scale(1); }
+}
+
+@keyframes sealCrumbleTorches {
+  0% { 
+    opacity: 1; 
+    transform: scale(1) rotate(0deg); 
+    filter: blur(0);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(0.7) rotate(25deg);
+    filter: blur(2px);
+  }
+  100% { 
+    opacity: 0; 
+    transform: scale(0.3) rotate(60deg); 
+    filter: blur(5px);
+  }
+}
+
+/* CRACKS AMÉLIORÉS */
+.seal-cracks-torches {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 15;
+}
+
+.crack-torches {
+  position: absolute;
+  width: 3px;
+  background: linear-gradient(180deg, 
+    #000 0%,
+    rgba(0, 0, 0, 0.8) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+  animation: crackAppearTorches 0.6s ease forwards;
+}
+
+.crack-1-torches {
+  height: 70%;
+  top: 15%;
+  left: 25%;
+  transform: rotate(35deg);
+  animation-delay: 0s;
+}
+
+.crack-2-torches {
+  height: 80%;
+  top: 10%;
+  left: 65%;
+  transform: rotate(-25deg);
+  animation-delay: 0.15s;
+}
+
+.crack-3-torches {
+  height: 60%;
+  top: 35%;
+  left: 45%;
+  transform: rotate(75deg);
+  animation-delay: 0.25s;
+}
+
+.crack-4-torches {
+  height: 55%;
+  top: 25%;
+  left: 55%;
+  transform: rotate(-60deg);
+  animation-delay: 0.35s;
+}
+
+@keyframes crackAppearTorches {
+  0% { 
+    opacity: 0; 
+    height: 0; 
+    filter: blur(2px);
+  }
+  50% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% { 
+    opacity: 1; 
+    height: 70%; 
+    filter: blur(0);
+  }
+}
+
+/* ANNEAUX DU SCEAU */
+.seal-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(212, 175, 55, 0.6);
+  box-shadow: 
+    0 0 10px rgba(212, 175, 55, 0.4),
+    inset 0 0 10px rgba(212, 175, 55, 0.2);
+}
+
+.ring-1 {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-width: 3px;
+  animation: ringPulse 3s ease-in-out infinite;
+}
+
+.ring-2 {
+  width: 88%;
+  height: 88%;
+  top: 6%;
+  left: 6%;
+  border-width: 2px;
+  animation: ringPulse 3s ease-in-out infinite 0.5s;
+}
+
+.ring-3 {
+  width: 76%;
+  height: 76%;
+  top: 12%;
+  left: 12%;
+  border-width: 2px;
+  animation: ringPulse 3s ease-in-out infinite 1s;
+}
+
+@keyframes ringPulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+.seal-inner-torches {
+  position: absolute;
+  width: 65%;
+  height: 65%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, 
+    rgba(139, 0, 0, 0.9),
+    rgba(107, 0, 0, 1)
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+/* DÉCORATIONS DU MONOGRAMME */
+.monogram-decoration {
+  width: 50%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent,
+    #D4AF37,
+    transparent
+  );
+  box-shadow: 0 0 5px rgba(212, 175, 55, 0.6);
+}
+
+.monogram-decoration.top {
+  margin-bottom: 5px;
+}
+
+.monogram-decoration.bottom {
+  margin-top: 5px;
+}
+
+/* MONOGRAMME A&U */
+.monogram-torches {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  font-family: 'Cinzel', serif;
+  color: #D4AF37;
+  text-shadow: 
+    0 3px 6px rgba(0, 0, 0, 0.6),
+    0 0 15px rgba(212, 175, 55, 0.6);
+  filter: drop-shadow(0 0 3px rgba(212, 175, 55, 0.4));
+}
+
+.letter-a-torches,
+.letter-u-torches {
+  font-size: 32px;
+  font-weight: bold;
+  animation: letterShine 4s ease-in-out infinite;
+}
+
+.letter-a-torches {
+  animation-delay: 0s;
+}
+
+.letter-u-torches {
+  animation-delay: 2s;
+}
+
+@keyframes letterShine {
+  0%, 100% { 
+    filter: brightness(1); 
+    text-shadow: 
+      0 3px 6px rgba(0, 0, 0, 0.6),
+      0 0 15px rgba(212, 175, 55, 0.6);
+  }
+  50% { 
+    filter: brightness(1.3); 
+    text-shadow: 
+      0 3px 6px rgba(0, 0, 0, 0.6),
+      0 0 25px rgba(212, 175, 55, 1);
+  }
+}
+
+.ampersand-torches {
+  font-size: 24px;
+  font-style: italic;
+  margin: 0 -3px;
+  opacity: 0.9;
+}
+
+.seal-shine-torches {
+  position: absolute;
+  top: 12%;
+  left: 12%;
+  width: 45%;
+  height: 45%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, 
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.2) 40%,
+    transparent 70%
+  );
+  filter: blur(8px);
+  animation: sealShinePulse 3s ease-in-out infinite;
+}
+
+@keyframes sealShinePulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+.seal-texture {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, rgba(0, 0, 0, 0.2) 1px, transparent 1px);
+  background-size: 8px 8px;
+  opacity: 0.4;
+}
+
+/* PARCHEMIN AVEC NOM */
+.scroll-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 20px;
+  z-index: 3;
+  position: relative;
+}
+
+.scroll-left,
+.scroll-right {
+  width: 15px;
+  height: 80px;
+  background: linear-gradient(90deg, 
+    #8B7355 0%,
+    #A0826D 50%,
+    #8B7355 100%
+  );
+  border-radius: 8px;
+  box-shadow: 
+    0 4px 10px rgba(0, 0, 0, 0.5),
+    inset 0 2px 5px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.scroll-left::before,
+.scroll-right::before,
+.scroll-left::after,
+.scroll-right::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #6B5D4F, #8B7355);
+  border-radius: 2px;
+}
+
+.scroll-left::before,
+.scroll-right::before {
+  top: 15%;
+}
+
+.scroll-left::after,
+.scroll-right::after {
+  bottom: 15%;
+}
+
+.scroll-paper {
+  background: linear-gradient(180deg, 
+    #FFF8E7 0%,
+    #FEF5DC 50%,
+    #FFF8E7 100%
+  );
+  padding: 15px 25px;
+  box-shadow: 
+    inset 0 3px 10px rgba(212, 175, 55, 0.2),
+    inset 0 -3px 10px rgba(201, 162, 39, 0.15),
+    0 5px 15px rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(212, 175, 55, 0.3);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  position: relative;
+  text-align: center;
+}
+
+.scroll-paper::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(212, 175, 55, 0.05) 2px,
+      rgba(212, 175, 55, 0.05) 4px
+    );
+}
+
+.invitation-label-torches {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: #8B0000;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.guest-name-torches {
+  font-family: 'Italiana', serif;
+  font-size: 28px;
+  color: #0A2463;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.15),
+    0 0 20px rgba(212, 175, 55, 0.3);
+  letter-spacing: 2px;
+  line-height: 1.2;
+}
+
+/* LIGNE DÉCORATIVE LUXUEUSE */
+.decorative-line-torches {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px 0;
+  z-index: 3;
+}
+
+.line-ornament-torches {
+  color: #D4AF37;
+  font-size: 18px;
+  animation: sparkleTorches 2.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6));
+}
+
+.line-ornament-center {
+  color: #FFD700;
+  font-size: 20px;
+  animation: sparkleTorches 2.5s ease-in-out infinite 1.25s;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+}
+
+@keyframes sparkleTorches {
+  0%, 100% { 
+    opacity: 0.8; 
+    transform: scale(1) rotate(0deg); 
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.3) rotate(180deg); 
+  }
+}
+
+.line-torches {
+  width: 70px;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent,
+    #D4AF37,
+    #FFD700,
+    #D4AF37,
+    transparent
+  );
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+}
+
+/* INSTRUCTION DE CLIC */
+.click-instruction-torches {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px 0 0;
+  z-index: 3;
+}
+
+.touch-icon-torches {
+  font-size: 28px;
+  animation: bounceTorches 2s ease-in-out infinite;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+@keyframes bounceTorches {
+  0%, 100% { transform: translateY(0) scale(1); }
+  25% { transform: translateY(-10px) scale(1.1); }
+  50% { transform: translateY(0) scale(1); }
+  75% { transform: translateY(-5px) scale(1.05); }
+}
+
+.touch-text-torches {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  color: #8B0000;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 0 15px rgba(139, 0, 0, 0.3);
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+  max-width: 250px;
+}
+
+/* TEXTE DES ÉTAPES */
+.stage-text-torches {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  color: #8B0000;
+  font-style: italic;
+  font-weight: 600;
+  margin: 15px 0 0;
+  text-align: center;
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 0 20px rgba(212, 175, 55, 0.4);
+  z-index: 3;
+  letter-spacing: 0.5px;
+}
+
+.fade-in-torches {
+  animation: fadeInTextTorches 1s ease;
+}
+
+@keyframes fadeInTextTorches {
+  from { 
+    opacity: 0; 
+    transform: translateY(15px) scale(0.95); 
+    filter: blur(3px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0) scale(1); 
+    filter: blur(0);
+  }
+}
+
+/* BRILLANCE QUI TRAVERSE */
+.shimmer-effect-torches {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 45%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.4) 55%,
+    transparent 100%
+  );
+  animation: shimmerTorches 5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 20;
+  transform: skewX(-20deg);
+}
+
+@keyframes shimmerTorches {
+  0% { left: -120%; }
+  40%, 100% { left: 220%; }
+}
+
+/* OMBRES MULTIPLES POUR PROFONDEUR */
+.envelope-shadow-torches {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.shadow-1 {
+  bottom: -35px;
+  width: 85%;
+  height: 35px;
+  background: radial-gradient(ellipse, 
+    rgba(0, 0, 0, 0.6),
+    rgba(0, 0, 0, 0.3) 50%,
+    transparent 70%
+  );
+  filter: blur(15px);
+}
+
+.shadow-2 {
+  bottom: -40px;
+  width: 70%;
+  height: 25px;
+  background: radial-gradient(ellipse, 
+    rgba(0, 0, 0, 0.4),
+    transparent
+  );
+  filter: blur(10px);
+}
+
+.shadow-3 {
+  bottom: -45px;
+  width: 55%;
+  height: 15px;
+  background: radial-gradient(ellipse, 
+    rgba(0, 0, 0, 0.3),
+    transparent
+  );
+  filter: blur(8px);
+}
+
+/* MESSAGE D'INSTRUCTION EN BAS */
+.instruction-message-torches {
+  position: relative;
+  text-align: center;
+  z-index: 15;
+  animation: pulseGlowTorches 3s ease-in-out infinite;
+}
+
+.instruction-border {
+  border: 2px solid rgba(212, 175, 55, 0.6);
+  border-radius: 15px;
+  padding: 15px 30px;
+  background: rgba(10, 36, 99, 0.3);
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 0 30px rgba(212, 175, 55, 0.4),
+    inset 0 0 20px rgba(212, 175, 55, 0.1);
+}
+
+.instruction-text-torches {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px;
+  color: #FFD700;
+  text-shadow: 
+    0 0 25px rgba(255, 215, 0, 0.9),
+    0 2px 5px rgba(0, 0, 0, 0.5);
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+@keyframes pulseGlowTorches {
+  0%, 100% { 
+    opacity: 0.85; 
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.03);
+    filter: brightness(1.2);
+  }
+}
+
+/* CONTENU FINAL APRÈS OUVERTURE */
+.invitation-content-torches {
+  width: 100%;
+  background: #FFF8F0;
+}
+
+.fade-in-final-torches {
+  animation: fadeInFinalTorches 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes fadeInFinalTorches {
+  0% { 
+    opacity: 0; 
+    transform: translateY(80px) scale(0.8) rotateX(-20deg);
+    filter: blur(20px);
+  }
+  60% {
+    opacity: 0.7;
+    transform: translateY(20px) scale(0.95) rotateX(-5deg);
+    filter: blur(5px);
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0) scale(1) rotateX(0);
+    filter: blur(0);
+  }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .envelope-torches {
+    width: 380px;
+    height: 250px;
+  }
+
+  .left-torch { left: 6%; }
+  .right-torch { right: 6%; }
+
+  .torch-holder {
+    width: 60px;
+    height: 200px;
+  }
+
+  .torch-pole {
+    width: 10px;
+    height: 140px;
+  }
+
+  .wax-seal-torches {
+    width: 110px;
+    height: 110px;
+  }
+
+  .guest-name-torches {
+    font-size: 24px;
+  }
+
+  .royal-crown {
+    top: -60px;
+  }
+
+  .crown-icon {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .envelope-torches {
+    width: 320px;
+    height: 210px;
+  }
+
+  .torch-holder {
+    display: none;
+  }
+
+  .divine-light {
+    width: 200px;
+  }
+
+  .wax-seal-torches {
+    width: 100px;
+    height: 100px;
+  }
+
+  .guest-name-torches {
+    font-size: 20px;
+  }
+
+  .instruction-text-torches {
+    font-size: 16px;
+  }
+
+  .golden-particles-torches .particle-torches {
+    width: 6px;
+    height: 6px;
+  }
+}

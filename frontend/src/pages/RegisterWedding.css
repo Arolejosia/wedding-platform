@@ -1,0 +1,398 @@
+/* pages/RegisterWedding.css */
+
+.register-wedding-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+  padding: 40px 20px;
+}
+
+/* ========== PROGRESS BAR ========== */
+.wizard-progress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 50px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.progress-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 25px;
+  left: calc(100% + 10px);
+  width: 20px;
+  height: 2px;
+  background: #ddd;
+}
+
+.progress-step.active:not(:last-child)::after {
+  background: #0A2463;
+}
+
+.step-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #999;
+  transition: all 0.3s;
+}
+
+.progress-step.active .step-circle {
+  border-color: #0A2463;
+  color: #0A2463;
+}
+
+.progress-step.current .step-circle {
+  background: #0A2463;
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(10, 36, 99, 0.3);
+}
+
+.step-label {
+  font-size: 0.85rem;
+  color: #999;
+  font-weight: 600;
+  text-align: center;
+}
+
+.progress-step.active .step-label {
+  color: #0A2463;
+}
+
+/* ========== WIZARD CONTENT ========== */
+.wizard-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.wizard-card {
+  background: white;
+  border-radius: 25px;
+  padding: 50px 40px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+
+.wizard-step {
+  min-height: 400px;
+}
+
+.step-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: #0A2463;
+  margin: 0 0 10px;
+  text-align: center;
+}
+
+.step-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0 0 40px;
+  text-align: center;
+}
+
+/* ========== FORM ELEMENTS ========== */
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #0A2463;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group input[type="email"],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+  transition: all 0.2s;
+
+  /* 🔥 FIX VISIBILITÉ */
+  color: #111111;
+  background-color: #ffffff;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #D4AF37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.form-group input[type="color"] {
+  width: 80px;
+  height: 50px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.form-group small {
+  display: block;
+  margin-top: 5px;
+  color: #999;
+  font-size: 0.85rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* ========== SECTIONS GRID ========== */
+.sections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.section-checkbox {
+  cursor: pointer;
+}
+
+.section-checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.section-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  border: 3px solid #e0e0e0;
+  border-radius: 15px;
+  transition: all 0.3s;
+  background: white;
+}
+
+.section-checkbox input:checked + .section-card {
+  border-color: #D4AF37;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.02));
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+
+.section-card:hover {
+  border-color: #D4AF37;
+  transform: translateY(-2px);
+}
+
+.section-icon {
+  font-size: 2.5rem;
+}
+
+.section-info strong {
+  display: block;
+  font-size: 1rem;
+  color: #0A2463;
+  margin-bottom: 4px;
+}
+
+.section-info small {
+  display: block;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* ========== PREVIEW ========== */
+.preview-section {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.preview-section h3 {
+  font-family: 'Playfair Display', serif;
+  color: #0A2463;
+  margin: 0 0 15px;
+  font-size: 1.3rem;
+}
+
+.preview-section p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.preview-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.preview-section li {
+  padding: 8px 0;
+  color: #555;
+}
+
+.color-preview {
+  display: flex;
+  gap: 15px;
+  margin: 15px 0;
+}
+
+.color-box {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  border: 2px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.site-url {
+  font-family: monospace;
+  font-size: 1.1rem;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #D4AF37;
+  color: #0A2463;
+  font-weight: 600;
+}
+
+/* ========== BUTTONS ========== */
+.wizard-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 40px;
+  justify-content: space-between;
+}
+
+.btn-primary,
+.btn-secondary {
+  flex: 1;
+  padding: 14px 28px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'Roboto', sans-serif;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #0A2463, #D4AF37);
+  color: white;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+}
+
+.btn-secondary {
+  background: white;
+  color: #0A2463;
+  border: 2px solid #0A2463;
+}
+
+
+.btn-secondary:hover {
+  background: #0A2463;
+  color: white;
+}
+
+.btn-primary:disabled,
+.btn-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ========== ERROR MESSAGE ========== */
+.error-message {
+  background: rgba(244, 67, 54, 0.1);
+  border: 2px solid #f44336;
+  border-radius: 12px;
+  padding: 14px 18px;
+  color: #c62828;
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .wizard-progress {
+    gap: 10px;
+  }
+
+  .step-circle {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .step-label {
+    font-size: 0.75rem;
+  }
+
+  .progress-step:not(:last-child)::after {
+    width: 10px;
+    top: 20px;
+  }
+
+  .wizard-card {
+    padding: 30px 20px;
+  }
+
+  .step-title {
+    font-size: 2rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sections-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wizard-buttons {
+    flex-direction: column;
+  }
+}
+
+/* ===== FIX DROPDOWN OPTIONS INVISIBLES ===== */
+
+.form-group select {
+  color: #111111 !important;
+  background-color: #ffffff !important;
+}
+
+.form-group select option {
+  color: #111111 !important;
+  background-color: #ffffff !important;
+}

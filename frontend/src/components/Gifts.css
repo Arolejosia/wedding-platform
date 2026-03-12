@@ -1,0 +1,442 @@
+/* ── Gifts.css — Section cadeaux restructurée ──────────────────── */
+
+.gifts {
+  padding: 80px 0;
+  background: var(--section-bg, #fff);
+}
+
+.gifts__inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── En-tête ─────────────────────────────────────────────────── */
+.gifts-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+.gifts-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--hp, #0A2463);
+  opacity: 0.6;
+  margin-bottom: 10px;
+}
+.gifts-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-family: var(--font-heading, 'Playfair Display', serif);
+  color: var(--hp, #0A2463);
+  margin: 0 0 14px;
+}
+.gifts-subtitle {
+  color: #666;
+  font-size: 1rem;
+  line-height: 1.7;
+  max-width: 540px;
+  margin: 0 auto 20px;
+}
+.gifts-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--hs, #D4AF37);
+  font-size: 1.1rem;
+}
+
+/* ── Blocs ───────────────────────────────────────────────────── */
+.gifts-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.gifts-block {
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 16px;
+  padding: 32px;
+  position: relative;
+}
+
+.gifts-block__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.gifts-block__num {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--hs, #D4AF37);
+  background: rgba(212,175,55,0.1);
+  border: 1px solid rgba(212,175,55,0.3);
+  border-radius: 6px;
+  padding: 4px 8px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.gifts-block__title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--hp, #0A2463);
+  margin: 0 0 4px;
+}
+.gifts-block__sub {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0;
+}
+
+/* ── 01 Liens externes ───────────────────────────────────────── */
+.gifts-links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+.gifts-link-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: #f8f9fa;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.gifts-link-card:hover {
+  border-color: var(--hp, #0A2463);
+  background: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.glc-icon { font-size: 1.3rem; }
+.glc-label { flex: 1; }
+.glc-arrow {
+  font-size: 0.85rem;
+  color: #aaa;
+  transition: color 0.2s;
+}
+.gifts-link-card:hover .glc-arrow { color: var(--hp, #0A2463); }
+
+/* ── 02 Dépôt direct ─────────────────────────────────────────── */
+.gifts-depot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.gifts-depot-card {
+  border: 1.5px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+}
+.gifts-depot-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--depot-color, #FFC300);
+}
+.gdc-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.gdc-icon { font-size: 1.4rem; }
+.gdc-label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #222;
+}
+.gdc-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  color: #888;
+  background: #f0f0f0;
+  border-radius: 4px;
+  padding: 1px 6px;
+  margin-top: 2px;
+}
+.gdc-name {
+  font-size: 0.82rem;
+  color: #666;
+  margin: 0 0 10px;
+}
+.gdc-value-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.gdc-value {
+  flex: 1;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #222;
+  letter-spacing: 0.03em;
+}
+.gdc-copy {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #888;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.gdc-copy:hover { background: #eee; color: #333; }
+
+.gifts-depot-note {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: #fffbf0;
+  border: 1px solid #ffe9a0;
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+.gdn-icon { font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+.gifts-depot-note p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #7a6000;
+  line-height: 1.5;
+}
+
+/* ── 03 Liste de cadeaux ──────────────────────────────────────── */
+.gifts-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+.gifts-item {
+  border: 1.5px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 18px;
+  position: relative;
+  transition: box-shadow 0.2s;
+}
+.gifts-item:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+}
+.gifts-item--done {
+  opacity: 0.65;
+  background: #f8f8f8;
+}
+.gi-badge {
+  position: absolute;
+  top: 12px; right: 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: #d1fae5;
+  color: #065f46;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+.gi-top {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+.gi-icon { font-size: 1.8rem; }
+.gi-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0 0 3px;
+}
+.gi-price {
+  font-size: 0.82rem;
+  color: #888;
+  margin: 0;
+}
+.gi-progress { margin-bottom: 10px; }
+.gi-bar {
+  height: 6px;
+  background: #eee;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+.gi-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--hp, #0A2463), var(--hs, #D4AF37));
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+.gi-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #999;
+}
+.gi-collected { color: #444; font-weight: 600; }
+.gi-link {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: var(--hp, #0A2463);
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px solid currentColor;
+}
+
+/* ── 04 Apporter le jour J ────────────────────────────────────── */
+.gifts-block--envelope {
+  background: linear-gradient(135deg, #fefcf3 0%, #fff9e6 100%);
+  border-color: #f0e0a0;
+}
+.gifts-envelope-card {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+.gec-visual {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.gec-envelope { font-size: 2.8rem; }
+.gec-lines {
+  display: flex;
+  gap: 4px;
+}
+.gec-lines span {
+  width: 16px;
+  height: 2px;
+  background: rgba(212,175,55,0.4);
+  border-radius: 1px;
+}
+.gec-text p {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.7;
+  margin: 0 0 12px;
+}
+.gec-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.gec-tags span {
+  font-size: 0.78rem;
+  background: rgba(212,175,55,0.15);
+  color: #7a6000;
+  border: 1px solid rgba(212,175,55,0.3);
+  border-radius: 20px;
+  padding: 3px 10px;
+}
+
+/* ── Preview banner ───────────────────────────────────────────── */
+.gifts-preview-banner {
+  text-align: center;
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.82rem;
+  color: #7a6000;
+  margin-bottom: 32px;
+}
+
+/* ── Thèmes ───────────────────────────────────────────────────── */
+.gifts--royal    { --hp: #0A2463; --hs: #D4AF37; background: #f8f6f0; }
+.gifts--minimal  { --hp: #1a1a1a; --hs: #666;    background: #ffffff; }
+.gifts--floral   { --hp: #7B2D8B; --hs: #FFB6C1; background: #fdf8fc; }
+.gifts--boho     { --hp: #6B4C3B; --hs: #D2A679; background: #faf6f0; }
+.gifts--luxury   { --hp: #1a1a1a; --hs: #C9A84C; background: #0d0d0d; color: #e8e8e8; }
+.gifts--luxury .gifts-block { background: #1a1a1a; border-color: #2a2a2a; }
+.gifts--luxury .gifts-block__title { color: #e8e8e8; }
+.gifts--luxury .gifts-link-card { background: #1a1a1a; border-color: #2a2a2a; color: #e8e8e8; }
+.gifts--luxury .gifts-item { border-color: #2a2a2a; }
+.gifts--luxury .gi-name { color: #e8e8e8; }
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .gifts-block { padding: 20px 16px; }
+  .gifts-links-grid { grid-template-columns: 1fr 1fr; }
+  .gifts-items-grid { grid-template-columns: 1fr; }
+  .gifts-envelope-card { flex-direction: column; text-align: center; }
+  .gec-tags { justify-content: center; }
+}
+
+/* ── Carte virement bancaire ──────────────────────────────────── */
+.gifts-bank-card {
+  border: 1.5px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 18px;
+  margin-top: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.gifts-bank-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: #4a5568;
+}
+.gbc-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.gbc-icon { font-size: 1.4rem; }
+.gbc-label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #222;
+}
+.gbc-rows { display: flex; flex-direction: column; gap: 10px; }
+.gbc-row { display: flex; flex-direction: column; gap: 4px; }
+.gbc-field {
+  font-size: 0.75rem;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* also update hasBank check in preview */
+
+/* ── Nom du titulaire (commun à tous les dépôts) ─────────────── */
+.gifts-depot-holder {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8f9fa;
+  border: 1px solid #e8e8e8;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin-bottom: 14px;
+}
+.gdh-icon { font-size: 1rem; }
+.gdh-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #222;
+}

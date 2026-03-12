@@ -1,0 +1,50 @@
+.App {
+  background: linear-gradient(135deg, #FFF8E7 0%, #F4E5C2 100%);
+  min-height: 100vh;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section {
+  min-height: 80vh;
+  padding: 100px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.public-wedding-site.theme-minimal section:nth-child(even) {
+  background: 
+    radial-gradient(circle at top right, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+    linear-gradient(135deg, #FFF8E7 0%, #F4E5C2 100%);
+}
+
+.public-wedding-site.theme-minimal section:nth-child(odd) {
+  background: 
+    radial-gradient(circle at top left, rgba(10, 36, 99, 0.05) 0%, transparent 50%),
+    linear-gradient(135deg, #F4E5C2 0%, #FFF8E7 100%);
+}
+/* Bordure dorée subtile entre sections */
+section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--champagne-gold),
+    transparent
+  );
+  opacity: 0.3;
+}
+
+section:first-of-type::before {
+  display: none;
+}

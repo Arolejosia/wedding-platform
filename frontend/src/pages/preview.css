@@ -1,0 +1,64 @@
+/* ==========================
+   PREVIEW FLOATING CONTROLS (DISCREET)
+   ========================== */
+
+.preview-floating-controls{
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Switcher compact */
+.theme-switcher{
+  display: flex;
+  gap: 4px;
+  background: rgba(255,255,255,0.75);
+  padding: 4px 6px;
+  border-radius: 50px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.theme-switcher button{
+  border: none;
+  background: transparent;
+  padding: 4px 8px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.6;
+  transition: all 0.2s ease;
+}
+
+.theme-switcher button:hover{
+  opacity: 1;
+}
+
+.theme-switcher button.active{
+  background: rgba(0,0,0,0.1);
+  opacity: 1;
+}
+
+/* Bouton discret */
+.create-site-floating{
+  background: rgba(0,0,0,0.75);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: all 0.2s ease;
+}
+
+.create-site-floating:hover{
+  background: rgba(0,0,0,0.9);
+  transform: translateY(-1px);
+}

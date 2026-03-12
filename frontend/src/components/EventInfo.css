@@ -1,0 +1,532 @@
+/* ═══════════════════════════════════════════════════════════════
+   EventInfo.css — couleurs distinctes hardcodées par thème
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Base commune ───────────────────────────────────────────────── */
+.ei {
+  position: relative;
+  padding: 100px 20px;
+  overflow: hidden;
+}
+
+.ei__inner {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* Ligne d'info commune */
+.ei-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.ei-row__icon { font-size:0.95rem; flex-shrink:0; margin-top:2px; }
+.ei-row__text { font-size:0.92rem; line-height:1.5; }
+.ei-row__text--small { font-size:0.82rem; opacity:0.65; }
+
+/* Animation carte */
+.ecard {
+  animation: ecardIn 0.5s ease both;
+}
+@keyframes ecardIn {
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* Toggle commun */
+.ecard__toggle {
+  background:none; border:none; cursor:pointer;
+  font-family:inherit; padding:6px 0; margin-top:8px;
+  font-size:0.8rem; letter-spacing:0.5px; transition:opacity 0.2s;
+}
+.ecard__toggle:hover { opacity:1; }
+
+/* ═══════════════════════════════════════════════════════════════
+   LAYOUT 1 — ROYAL
+   Fond: bleu nuit #0A2463 → #030d2a
+   Cartes: blanc 5%
+   Texte: blanc
+   Accent: or #D4AF37
+   ═══════════════════════════════════════════════════════════════ */
+.ei--royal {
+  background: linear-gradient(160deg, #0A2463 0%, #030d2a 100%);
+  color: #ffffff;
+  font-family: 'Playfair Display', serif;
+}
+
+.ei-royal-header { text-align:center; margin-bottom:52px; }
+.ei--royal .royal-divider {
+  display:flex; align-items:center; gap:12px;
+  margin:0 auto 20px; width:180px;
+}
+.ei--royal .royal-divider__line { flex:1; height:1px; background:#D4AF37; opacity:0.35; }
+.ei--royal .royal-divider__gem  { color:#D4AF37; font-size:0.9rem; }
+.ei-royal-title {
+  font-size:clamp(2rem,4vw,3rem); font-weight:400;
+  letter-spacing:3px; color:#ffffff; margin:0 0 10px;
+}
+.ei-royal-sub {
+  font-size:0.82rem; opacity:0.45;
+  letter-spacing:3px; text-transform:uppercase;
+}
+
+.ei-royal-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+  gap:24px;
+}
+
+.ecard--royal {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius:16px; padding:28px;
+  position:relative; overflow:hidden;
+  transition:transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+.ecard--royal:hover {
+  transform:translateY(-4px);
+  box-shadow:0 12px 40px rgba(0,0,0,0.4);
+  border-color:#D4AF37;
+}
+
+.ecard-royal__header {
+  display:flex; align-items:flex-start; gap:14px; margin-bottom:20px;
+}
+.ecard-royal__icon {
+  width:50px; height:50px; border-radius:12px;
+  background:rgba(212,175,55,0.1);
+  border:1px solid rgba(212,175,55,0.35);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.5rem; flex-shrink:0;
+}
+.ecard-royal__info { flex:1; }
+.ecard-royal__badge {
+  font-size:0.7rem; letter-spacing:2px; text-transform:uppercase;
+  font-weight:600; color:#D4AF37;
+}
+.ecard-royal__title {
+  margin:4px 0 0; font-size:1.1rem; font-weight:700; color:#ffffff;
+}
+.ecard-royal__num {
+  font-size:0.85rem; font-weight:800; color:#D4AF37;
+  opacity:0.4; border:1px solid rgba(212,175,55,0.2);
+  border-radius:8px; width:40px; height:40px;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+
+.ecard-royal__body { display:flex; flex-direction:column; gap:9px; }
+.ecard--royal .ei-row__text { opacity:0.8; color:#ffffff; }
+
+.ecard__toggle--royal { color:#D4AF37; opacity:0.75; }
+
+.ecard-royal__desc {
+  font-size:0.88rem; opacity:0.7; line-height:1.7;
+  margin:6px 0 0; padding:12px;
+  background:rgba(255,255,255,0.04); border-radius:8px;
+}
+
+.ecard-royal__footer {
+  margin-top:18px; padding-top:14px;
+  border-top:1px solid rgba(255,255,255,0.07);
+}
+.ecard-royal__mapbtn {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:10px 20px; border-radius:8px;
+  background:#D4AF37; color:#0A2463;
+  font-weight:700; font-size:0.83rem; text-decoration:none;
+  transition:opacity 0.2s, transform 0.2s;
+}
+.ecard-royal__mapbtn:hover { opacity:0.85; transform:translateY(-1px); }
+
+.ecard-royal__line {
+  position:absolute; bottom:0; left:0; right:0; height:3px;
+  background:linear-gradient(to right, transparent, #D4AF37, transparent);
+  border-radius:0 0 16px 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LAYOUT 2 — MINIMAL
+   Fond: #fafafa
+   Timeline: ligne noire #1a1a1a
+   Cartes: fond blanc, texte noir
+   Accent: #C9A84C or + #1a1a1a noir
+   ═══════════════════════════════════════════════════════════════ */
+.ei--minimal {
+  background: #fafafa;
+  color: #1a1a1a;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.ei-minimal-header { margin-bottom:52px; }
+.ei-minimal-eyebrow {
+  display:block; font-size:0.72rem; letter-spacing:5px;
+  text-transform:uppercase; color:#C9A84C; margin-bottom:12px;
+}
+.ei-minimal-title {
+  font-size:clamp(2rem,4vw,3.2rem);
+  font-weight:900; color:#1a1a1a; line-height:1; margin:0 0 16px;
+}
+.ei-minimal-rule { width:56px; height:3px; background:#1a1a1a; }
+
+.ei-minimal-timeline {
+  position:relative; padding-left:48px;
+}
+.ei-minimal-line {
+  position:absolute; left:12px; top:8px; bottom:8px;
+  width:2px; background:#1a1a1a;
+}
+
+.ecard--minimal {
+  position:relative; margin-bottom:40px;
+  padding:24px 28px;
+  background:#ffffff;
+  border:1px solid #ebebeb;
+  border-radius:4px;
+  transition:border-color 0.2s, box-shadow 0.2s;
+}
+.ecard--minimal:hover {
+  border-color:#1a1a1a;
+  box-shadow:0 4px 20px rgba(0,0,0,0.07);
+}
+.ecard-minimal__dot {
+  position:absolute; left:-42px; top:28px;
+  width:12px; height:12px; border-radius:50%;
+  background:#1a1a1a; border:3px solid #fafafa;
+  box-shadow:0 0 0 2px #1a1a1a;
+}
+
+.ecard-minimal__top {
+  display:flex; align-items:center; gap:12px; margin-bottom:8px;
+}
+.ecard-minimal__time {
+  font-size:0.78rem; font-weight:800; letter-spacing:2px;
+  color:#C9A84C; white-space:nowrap;
+}
+.ecard-minimal__label {
+  font-size:0.72rem; letter-spacing:2px; text-transform:uppercase;
+  color:#888; font-weight:600;
+}
+.ecard-minimal__title {
+  font-size:1.2rem; font-weight:900; color:#1a1a1a; margin:0 0 16px;
+}
+.ecard-minimal__details { display:flex; flex-direction:column; gap:8px; }
+.ecard--minimal .ei-row__text { color:#555; }
+
+.ecard__toggle--minimal { color:#C9A84C; font-weight:700; opacity:0.8; }
+.ecard-minimal__desc {
+  font-size:0.88rem; color:#666; line-height:1.7;
+  margin:8px 0 0; padding:12px; background:#f5f5f5; border-radius:4px;
+}
+.ecard-minimal__mapbtn {
+  display:inline-block; margin-top:12px;
+  font-size:0.82rem; font-weight:700; color:#1a1a1a;
+  text-decoration:none; letter-spacing:1px;
+  border-bottom:2px solid #C9A84C;
+  padding-bottom:2px;
+  transition:color 0.2s;
+}
+.ecard-minimal__mapbtn:hover { color:#C9A84C; }
+
+/* ═══════════════════════════════════════════════════════════════
+   LAYOUT 3 — FLORAL
+   Fond: #fdf0f4 rosé
+   Cartes: blanc pur
+   Texte: #4A1530 bordeaux
+   Accent: #C4836A terracotta
+   ═══════════════════════════════════════════════════════════════ */
+.ei--floral {
+  background: #fdf0f4;
+  color: #4A1530;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.floral-ei-deco {
+  position:absolute; font-size:3rem; opacity:0.2; pointer-events:none;
+  animation:floralFloat 6s ease-in-out infinite;
+}
+.floral-ei-deco--tl { top:20px; left:20px; animation-delay:0s; }
+.floral-ei-deco--tr { top:20px; right:20px; animation-delay:2s; }
+@keyframes floralFloat {
+  0%,100% { transform:translateY(0) rotate(0deg); }
+  50%      { transform:translateY(-10px) rotate(4deg); }
+}
+
+.ei-floral-header { text-align:center; margin-bottom:40px; }
+.ei-floral-ornament { font-size:2rem; color:#C4836A; margin-bottom:10px; }
+.ei-floral-title {
+  font-size:clamp(1.8rem,4vw,2.8rem);
+  font-weight:700; color:#4A1530; margin:0 0 8px;
+}
+.ei-floral-sub {
+  font-size:0.9rem; color:#9a5a6a; font-style:italic;
+}
+
+.ei-floral-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+  gap:24px;
+}
+
+.ecard--floral {
+  background:#ffffff;
+  border:1px solid rgba(196,131,106,0.2);
+  border-radius:20px;
+  padding:28px 32px;
+  box-shadow:0 6px 30px rgba(74,21,48,0.06);
+  position:relative; overflow:hidden;
+  transition:transform 0.3s, box-shadow 0.3s;
+}
+.ecard--floral::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(to right, #4A1530, #C4836A);
+  border-radius:20px 20px 0 0;
+}
+.ecard--floral:hover {
+  transform:translateY(-4px);
+  box-shadow:0 12px 40px rgba(74,21,48,0.1);
+}
+
+.ecard-floral__top {
+  display:flex; align-items:center; gap:10px; margin-bottom:14px;
+  flex-wrap:wrap;
+}
+.ecard-floral__icon { font-size:1.4rem; }
+.ecard-floral__badge {
+  font-size:0.72rem; letter-spacing:2px; text-transform:uppercase;
+  font-weight:600; color:#C4836A; flex:1;
+}
+.ecard-floral__time {
+  font-size:0.85rem; font-weight:700; color:#4A1530;
+  background:rgba(196,131,106,0.1); padding:3px 10px; border-radius:999px;
+}
+.ecard-floral__title {
+  font-size:1.25rem; font-weight:700; color:#4A1530; margin:0 0 8px;
+}
+.ecard-floral__divider { color:#C4836A; font-size:1.2rem; margin:8px 0 14px; text-align:center; }
+.ecard-floral__details { display:flex; flex-direction:column; gap:8px; }
+.ecard--floral .ei-row__text { color:#6b3a4a; }
+
+.ecard__toggle--floral { color:#C4836A; opacity:0.8; }
+.ecard-floral__desc {
+  font-size:0.9rem; color:#7a4a5a; line-height:1.7;
+  margin:8px 0 0; padding:12px;
+  background:rgba(196,131,106,0.05); border-radius:8px;
+}
+.ecard-floral__footer {
+  margin-top:18px; padding-top:14px;
+  border-top:1px solid rgba(196,131,106,0.15);
+}
+.ecard-floral__mapbtn {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:9px 20px; border-radius:999px;
+  background:#4A1530; color:#ffffff;
+  font-size:0.82rem; font-weight:600; text-decoration:none;
+  transition:background 0.2s;
+}
+.ecard-floral__mapbtn:hover { background:#C4836A; }
+
+/* ═══════════════════════════════════════════════════════════════
+   LAYOUT 4 — BOHO
+   Fond: #fdf8f2 beige
+   Cartes: #fff9f4 blanc chaud
+   Texte: #5c3d2e brun
+   Accent: #D2691E orange terre
+   ═══════════════════════════════════════════════════════════════ */
+.ei--boho {
+  background: #fdf8f2;
+  color: #5c3d2e;
+  font-family: 'Lora', serif;
+}
+
+.ei-boho-header { text-align:center; margin-bottom:44px; }
+.ei-boho-eyebrow {
+  display:block; font-size:0.95rem;
+  color:#D2691E; font-style:italic; letter-spacing:4px; margin-bottom:10px;
+}
+.ei-boho-title {
+  font-size:clamp(1.8rem,4vw,2.8rem);
+  font-weight:700; color:#3d2210; margin:0 0 8px;
+}
+.ei-boho-branch { font-size:1.5rem; color:#D2691E; opacity:0.65; }
+
+.ei-boho-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+  gap:24px;
+}
+
+.ecard--boho {
+  background:#fff9f4;
+  border:1px solid rgba(210,105,30,0.18);
+  border-radius:12px;
+  padding:28px 28px 36px;
+  position:relative; overflow:hidden;
+  box-shadow:0 4px 18px rgba(139,69,19,0.06);
+  transition:transform 0.3s, box-shadow 0.3s;
+}
+.ecard--boho:hover {
+  transform:translateY(-3px);
+  box-shadow:0 10px 30px rgba(139,69,19,0.1);
+}
+.ecard-boho__badge {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:0.78rem; letter-spacing:2px; text-transform:uppercase;
+  color:#D2691E; font-weight:600; margin-bottom:10px;
+}
+.ecard-boho__title {
+  font-size:1.2rem; font-weight:700; color:#3d2210; margin:0 0 4px;
+}
+.ecard-boho__time {
+  font-size:0.88rem; color:#D2691E; font-style:italic; margin:0 0 14px;
+}
+.ecard-boho__details { display:flex; flex-direction:column; gap:8px; }
+.ecard--boho .ei-row__text { color:#7a5040; }
+
+.ecard__toggle--boho { color:#D2691E; opacity:0.8; }
+.ecard-boho__desc {
+  font-size:0.88rem; color:#8a6050; line-height:1.7;
+  margin:8px 0 0; padding:12px;
+  background:rgba(210,105,30,0.05); border-radius:8px;
+}
+.ecard-boho__mapbtn {
+  display:inline-block; margin-top:14px;
+  padding:9px 20px; border-radius:6px;
+  border:2px solid #8B4513; color:#8B4513;
+  font-size:0.82rem; font-weight:600; text-decoration:none;
+  font-family:'Lora',serif;
+  transition:all 0.2s;
+}
+.ecard-boho__mapbtn:hover { background:#8B4513; color:white; }
+
+/* Feuille déco */
+.ecard-boho__leaf {
+  position:absolute; bottom:8px; right:12px;
+  font-size:2rem; opacity:0.15; pointer-events:none;
+  transform:rotate(20deg);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LAYOUT 5 — LUXURY
+   Fond: #080808 noir
+   Cartes: rgba(or, 0.05) quasi-noir
+   Texte: #C6A75E or
+   Accent: #C6A75E or, borders fines
+   ═══════════════════════════════════════════════════════════════ */
+.ei--luxury {
+  background: #080808;
+  color: #C6A75E;
+  font-family: 'Cinzel', serif;
+}
+
+.luxury-ei-frame {
+  position:absolute; inset:24px; pointer-events:none; z-index:1;
+}
+.lef-tl,.lef-tr,.lef-bl,.lef-br {
+  position:absolute; width:50px; height:50px;
+  border-color:rgba(198,167,94,0.2);
+}
+.lef-tl { top:0; left:0;  border-top:1px solid; border-left:1px solid; }
+.lef-tr { top:0; right:0; border-top:1px solid; border-right:1px solid; }
+.lef-bl { bottom:0; left:0;  border-bottom:1px solid; border-left:1px solid; }
+.lef-br { bottom:0; right:0; border-bottom:1px solid; border-right:1px solid; }
+
+.ei-luxury-header { text-align:center; margin-bottom:52px; }
+.ei-luxury-rule {
+  width:100px; height:1px;
+  background:linear-gradient(to right, transparent, #C6A75E, transparent);
+  margin:0 auto 20px;
+}
+.ei-luxury-title {
+  font-size:clamp(1.6rem,3.5vw,2.6rem);
+  font-weight:400; color:#C6A75E;
+  letter-spacing:5px; margin:0 0 10px;
+  text-shadow:0 0 30px rgba(198,167,94,0.15);
+}
+.ei-luxury-sub {
+  font-size:0.7rem; letter-spacing:4px; text-transform:uppercase;
+  color:rgba(198,167,94,0.35); font-family:'Montserrat',sans-serif;
+}
+
+.ei-luxury-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+  gap:1px; /* effet tableau */
+  border:1px solid rgba(198,167,94,0.15);
+}
+
+.ecard--luxury {
+  background:rgba(198,167,94,0.03);
+  padding:32px 28px;
+  border:none;
+  border-right:1px solid rgba(198,167,94,0.1);
+  transition:background 0.3s;
+}
+.ecard--luxury:hover { background:rgba(198,167,94,0.07); }
+
+.ecard-luxury__header {
+  display:flex; align-items:flex-start; gap:14px; margin-bottom:18px;
+}
+.ecard-luxury__num {
+  font-size:0.65rem; letter-spacing:3px; color:rgba(198,167,94,0.35);
+  font-family:'Montserrat',sans-serif; padding-top:4px; flex-shrink:0;
+}
+.ecard-luxury__info { flex:1; }
+.ecard-luxury__badge {
+  font-size:0.68rem; letter-spacing:2px; text-transform:uppercase;
+  color:rgba(198,167,94,0.5); font-family:'Montserrat',sans-serif;
+}
+.ecard-luxury__title {
+  font-size:1rem; font-weight:400; color:#C6A75E;
+  letter-spacing:2px; margin:6px 0 0;
+}
+.ecard-luxury__time {
+  font-size:0.78rem; color:rgba(198,167,94,0.4);
+  font-family:'Montserrat',sans-serif; letter-spacing:2px;
+  flex-shrink:0;
+}
+.ecard-luxury__rule {
+  height:1px; background:rgba(198,167,94,0.12); margin-bottom:16px;
+}
+.ecard-luxury__details { display:flex; flex-direction:column; gap:8px; }
+.ecard--luxury .ei-row__text { color:rgba(198,167,94,0.6); font-family:'Montserrat',sans-serif; font-size:0.85rem; }
+
+.ecard__toggle--luxury { color:rgba(198,167,94,0.5); opacity:0.8; font-family:'Montserrat',sans-serif; }
+.ecard-luxury__desc {
+  font-size:0.85rem; color:rgba(198,167,94,0.5); line-height:1.8;
+  margin:8px 0 0; padding:12px;
+  background:rgba(198,167,94,0.04); font-family:'Montserrat',sans-serif;
+}
+.ecard-luxury__mapbtn {
+  display:inline-block; margin-top:14px;
+  padding:9px 22px;
+  border:1px solid rgba(198,167,94,0.3);
+  color:#C6A75E;
+  font-size:0.72rem; font-weight:600; text-decoration:none;
+  letter-spacing:3px; text-transform:uppercase;
+  font-family:'Montserrat',sans-serif;
+  transition:all 0.2s;
+}
+.ecard-luxury__mapbtn:hover { background:#C6A75E; color:#000; }
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .ei { padding:60px 16px; }
+
+  .ei-royal-grid,
+  .ei-floral-grid,
+  .ei-boho-grid,
+  .ei-luxury-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ei-minimal-timeline { padding-left:32px; }
+  .ei-minimal-line { left:8px; }
+  .ecard-minimal__dot { left:-28px; }
+
+  .ecard--luxury { border-right:none; border-bottom:1px solid rgba(198,167,94,0.1); }
+}

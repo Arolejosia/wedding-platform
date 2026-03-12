@@ -1,0 +1,205 @@
+/* ═══════════════════════════════════════════════════════════════
+   Footer.css — 5 layouts couleurs distinctes
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Base ───────────────────────────────────────────────────────── */
+.footer { position:relative; padding:80px 20px 40px; text-align:center; overflow:hidden; }
+.footer__inner { max-width:700px; margin:0 auto; position:relative; z-index:2; }
+
+.footer-ornament { margin:32px 0; opacity:0.7; }
+.footer-ornament svg { display:inline-block; }
+
+.footer-social { display:flex; justify-content:center; gap:16px; margin:28px 0; }
+.footer-social-link {
+  display:flex; align-items:center; justify-content:center;
+  width:46px; height:46px; border-radius:50%;
+  font-size:1.3rem; text-decoration:none;
+  transition:all 0.3s;
+}
+
+.footer-copyright { font-size:0.85rem; margin:24px 0 0; padding-top:24px; }
+
+@keyframes footerIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+/* ═══════════════════════════════════════════════════════════════
+   ROYAL — bleu nuit dégradé → noir, or, blanc
+   ═══════════════════════════════════════════════════════════════ */
+.footer--royal {
+  background: linear-gradient(160deg, #0A2463 0%, #010820 100%);
+  color: #ffffff;
+  font-family: 'Playfair Display', serif;
+}
+.footer--royal::before {
+  content:''; position:absolute; inset:0; opacity:0.04;
+  background-image:repeating-linear-gradient(45deg,transparent,transparent 35px,#D4AF37 35px,#D4AF37 70px),repeating-linear-gradient(-45deg,transparent,transparent 35px,#D4AF37 35px,#D4AF37 70px);
+  pointer-events:none;
+}
+.footer--royal::after {
+  content:''; position:absolute; top:0; left:0; right:0; height:4px;
+  background:linear-gradient(to right, transparent, #D4AF37, transparent);
+}
+
+.footer-royal-message {
+  font-size:1.15rem; font-style:italic; color:#D4AF37;
+  margin:0 0 28px; letter-spacing:1px; line-height:1.6;
+  animation:footerIn 1s ease;
+}
+.footer-royal-divider { display:flex; align-items:center; gap:12px; margin:0 auto 24px; width:160px; }
+.frd-line { flex:1; height:1px; background:#D4AF37; opacity:0.35; }
+.frd-gem  { color:#D4AF37; font-size:0.9rem; }
+.footer-royal-names {
+  font-size:clamp(2rem,5vw,3rem); font-weight:700;
+  color:#ffffff; margin:0 0 12px; letter-spacing:3px;
+  text-shadow:0 4px 20px rgba(0,0,0,0.5);
+}
+.footer-royal-year {
+  font-size:1.1rem; color:rgba(255,255,255,0.55);
+  letter-spacing:4px; margin:0 0 8px;
+}
+.footer-social-link--royal {
+  background:rgba(255,255,255,0.08);
+  border:2px solid #D4AF37; color:#D4AF37;
+}
+.footer-social-link--royal:hover { background:#D4AF37; color:#0A2463; transform:translateY(-4px) scale(1.1); }
+.footer-copyright--royal { color:rgba(255,255,255,0.35); border-top:1px solid rgba(255,255,255,0.08); }
+
+/* ═══════════════════════════════════════════════════════════════
+   MINIMAL — noir pur, typo bold, or discret
+   ═══════════════════════════════════════════════════════════════ */
+.footer--minimal {
+  background: #111111;
+  color: #ffffff;
+  font-family: 'Montserrat', sans-serif;
+  padding:60px 20px 40px;
+}
+
+.footer-minimal-top {
+  display:flex; align-items:baseline; justify-content:space-between;
+  flex-wrap:wrap; gap:12px; margin-bottom:20px;
+}
+.footer-minimal-names {
+  font-size:clamp(1.8rem,4vw,2.8rem); font-weight:900;
+  color:#ffffff; margin:0; letter-spacing:2px;
+}
+.footer-minimal-year {
+  font-size:1rem; color:#C9A84C; letter-spacing:4px; font-weight:600;
+}
+.footer-minimal-rule { height:1px; background:#C9A84C; margin-bottom:24px; }
+.footer-minimal-message {
+  font-size:1rem; color:rgba(255,255,255,0.5); margin:0 0 24px;
+  letter-spacing:0.5px; line-height:1.6;
+}
+.footer-social-link--minimal {
+  background:transparent; border:2px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.6);
+}
+.footer-social-link--minimal:hover { background:#C9A84C; border-color:#C9A84C; color:#111; transform:translateY(-4px); }
+.footer-copyright--minimal { color:rgba(255,255,255,0.25); border-top:1px solid rgba(255,255,255,0.07); text-align:right; }
+
+/* ═══════════════════════════════════════════════════════════════
+   FLORAL — fond bordeaux profond, terracotta, blanc cassé
+   ═══════════════════════════════════════════════════════════════ */
+.footer--floral {
+  background: linear-gradient(160deg, #3a0f20 0%, #1a0510 100%);
+  color: #f5e8ea;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.footer-floral-deco {
+  position:absolute; font-size:4rem; opacity:0.12; pointer-events:none;
+}
+.footer-floral-deco--l { left:24px; top:50%; transform:translateY(-50%); }
+.footer-floral-deco--r { right:24px; top:50%; transform:translateY(-50%); }
+
+.footer-floral-ornament { font-size:2.5rem; color:#C4836A; margin-bottom:20px; }
+.footer-floral-message {
+  font-size:1.15rem; font-style:italic; color:#C4836A;
+  margin:0 0 24px; letter-spacing:1px; line-height:1.6;
+}
+.footer-floral-names {
+  font-size:clamp(2rem,5vw,3rem); font-weight:700;
+  color:#f5e8ea; margin:0 0 10px; letter-spacing:2px;
+}
+.footer-floral-year {
+  font-size:1rem; color:rgba(245,232,234,0.5); letter-spacing:3px; margin:0 0 8px;
+}
+.footer-social-link--floral {
+  background:rgba(245,232,234,0.08); border:1px solid rgba(196,131,106,0.4); color:#C4836A;
+}
+.footer-social-link--floral:hover { background:#C4836A; color:#fff; border-color:#C4836A; transform:translateY(-4px); }
+.footer-copyright--floral { color:rgba(245,232,234,0.3); border-top:1px solid rgba(245,232,234,0.08); }
+
+/* ═══════════════════════════════════════════════════════════════
+   BOHO — brun tabac profond, beige chaud, orange
+   ═══════════════════════════════════════════════════════════════ */
+.footer--boho {
+  background: linear-gradient(160deg, #3d2210 0%, #1e0f06 100%);
+  color: #f5ede0;
+  font-family: 'Lora', serif;
+}
+
+.footer-boho-eyebrow {
+  font-size:0.9rem; color:#D2691E; font-style:italic;
+  letter-spacing:4px; margin:0 0 16px;
+}
+.footer-boho-message {
+  font-size:1.1rem; font-style:italic; color:rgba(245,237,224,0.65);
+  margin:0 0 20px; line-height:1.6; letter-spacing:0.5px;
+}
+.footer-boho-names {
+  font-size:clamp(1.8rem,4vw,2.8rem); font-weight:700;
+  color:#f5ede0; margin:0 0 10px;
+}
+.footer-boho-branch {
+  font-size:1.3rem; color:#D2691E; opacity:0.75; margin:0 0 28px;
+}
+.footer-social-link--boho {
+  background:rgba(245,237,224,0.06); border:1px solid rgba(210,105,30,0.35); color:#D2691E;
+}
+.footer-social-link--boho:hover { background:#D2691E; color:#fff; transform:translateY(-4px); }
+.footer-copyright--boho { color:rgba(245,237,224,0.25); border-top:1px solid rgba(245,237,224,0.08); }
+
+/* ═══════════════════════════════════════════════════════════════
+   LUXURY — noir absolu, or, lettres ultra-espacées
+   ═══════════════════════════════════════════════════════════════ */
+.footer--luxury {
+  background: #000000;
+  color: #C6A75E;
+  font-family: 'Cinzel', serif;
+  padding:100px 20px 60px;
+}
+
+.luxury-footer-frame { position:absolute; inset:24px; pointer-events:none; }
+.lff-tl,.lff-tr,.lff-bl,.lff-br { position:absolute; width:50px; height:50px; border-color:rgba(198,167,94,0.15); }
+.lff-tl { top:0; left:0;  border-top:1px solid; border-left:1px solid; }
+.lff-tr { top:0; right:0; border-top:1px solid; border-right:1px solid; }
+.lff-bl { bottom:0; left:0;  border-bottom:1px solid; border-left:1px solid; }
+.lff-br { bottom:0; right:0; border-bottom:1px solid; border-right:1px solid; }
+
+.footer-luxury-rule { width:100px; height:1px; background:linear-gradient(to right,transparent,#C6A75E,transparent); margin:0 auto 28px; }
+.footer-luxury-message {
+  font-size:0.8rem; letter-spacing:4px; text-transform:uppercase;
+  color:rgba(198,167,94,0.4); margin:0 0 28px;
+  font-family:'Montserrat',sans-serif; line-height:1.8;
+}
+.footer-luxury-names {
+  font-size:clamp(1.6rem,4vw,2.8rem); font-weight:400;
+  color:#C6A75E; margin:0 0 12px; letter-spacing:6px;
+  text-shadow:0 0 40px rgba(198,167,94,0.2);
+}
+.footer-luxury-year {
+  font-size:0.75rem; letter-spacing:6px; color:rgba(198,167,94,0.35);
+  text-transform:uppercase; margin:0 0 24px; font-family:'Montserrat',sans-serif;
+}
+.footer-social-link--luxury {
+  background:transparent; border:1px solid rgba(198,167,94,0.25); color:rgba(198,167,94,0.5);
+}
+.footer-social-link--luxury:hover { background:#C6A75E; color:#000; border-color:#C6A75E; transform:translateY(-4px); }
+.footer-copyright--luxury { color:rgba(198,167,94,0.2); border-top:1px solid rgba(198,167,94,0.1); font-family:'Montserrat',sans-serif; font-size:0.75rem; letter-spacing:2px; }
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .footer { padding:60px 20px 32px; }
+  .footer-minimal-top { flex-direction:column; gap:6px; }
+  .footer-copyright--minimal { text-align:center; }
+  .footer-luxury-names { letter-spacing:3px; }
+}
