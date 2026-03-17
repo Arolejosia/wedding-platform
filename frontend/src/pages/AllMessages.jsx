@@ -105,7 +105,7 @@ const AllMessages = () => {
     append ? setLoadingMore(true) : setLoading(true);
     setError(null);
     try {
-      const res  = await ffetch(`${API}/guestbook?weddingId=${weddingId}&limit=15&page=${p}&priority=true`)
+      const res  = await fetch(`${API}/guestbook?weddingId=${weddingId}&limit=15&page=${p}&priority=true`)
       if (!res.ok) throw new Error(`Erreur ${res.status}`);
       const data = await res.json();
       setMessages(prev => append ? [...prev, ...(data.messages || [])] : (data.messages || []));

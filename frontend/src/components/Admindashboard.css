@@ -5,7 +5,7 @@
 
 /* ========== HEADER ========== */
 .admin-header {
-  background: linear-gradient(135deg, var(--royal-blue), var(--dark-blue));
+  background: blue;
   color: white;
   padding: 20px 30px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
@@ -48,7 +48,7 @@
 
 /* ========== TABS ========== */
 .admin-tabs {
-  background: white;
+  background: gray;
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   display: flex;
   gap: 5px;

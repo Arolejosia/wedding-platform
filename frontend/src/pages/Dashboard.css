@@ -7,7 +7,7 @@
 
 /* ========== HEADER ========== */
 .dashboard-header {
-  background: linear-gradient(135deg, var(--royal-blue), var(--dark-blue));
+  background: blue;
   color: white;
   padding: 30px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.15);
