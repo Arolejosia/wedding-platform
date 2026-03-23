@@ -1,4 +1,4 @@
-// components/RSVP.jsx — 5 LAYOUTS PAR THÈME
+// components/RSVP.jsx — 5 LAYOUTS PAR THÈME + LIVRE D'OR
 import React, { useState, useEffect } from 'react';
 import CodeModal from './CodeModal';
 import './RSVP.css';
@@ -6,17 +6,21 @@ import API_URL from '../config/api';
 
 const PREVIEW_GUEST = { code: 'DEMO01', ticketType: 'couple', hasRsvp: false };
 
-// ── Hook logique RSVP (partagé) ──────────────────────────────────
+// ── Hook logique RSVP ────────────────────────────────────────────
 const useRSVP = (wedding, isPreview) => {
   const [showCodeModal, setShowCodeModal] = useState(false);
-  const [guestData, setGuestData]         = useState(isPreview ? PREVIEW_GUEST : null);
-  const [formData, setFormData]           = useState({
+  const [guestData,     setGuestData]     = useState(isPreview ? PREVIEW_GUEST : null);
+  const [formData,      setFormData]      = useState({
     person1Name:'', person2Name:'', email:'', phone:'',
     rsvpStatus:'confirmed', attendanceType:'full', dietaryRestrictions:'',
   });
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted]   = useState(false);
-  const [error, setError]           = useState('');
+  const [submitting,  setSubmitting]  = useState(false);
+  const [submitted,   setSubmitted]   = useState(false);
+  const [error,       setError]       = useState('');
+  const [showGuestbook, setShowGuestbook] = useState(false);
+  const [gbMessage,     setGbMessage]     = useState('');
+  const [gbSent,        setGbSent]        = useState(false);
+  const [gbLoading,     setGbLoading]     = useState(false);
 
   const API = `${API_URL}/guests`;
 
@@ -25,14 +29,13 @@ const useRSVP = (wedding, isPreview) => {
     const code = localStorage.getItem('wedding_guest_code');
     if (code) verifyCode(code);
     else setShowCodeModal(true);
-  }, []);
+  }, []); // eslint-disable-line
 
   const verifyCode = async (code) => {
     try {
       const res  = await fetch(`${API}/verify`, {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ code }),
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code }),
       });
       const data = await res.json();
       if (res.ok && data.guest) {
@@ -66,7 +69,7 @@ const useRSVP = (wedding, isPreview) => {
     e.preventDefault();
     if (isPreview) {
       setSubmitting(true);
-      setTimeout(() => { setSubmitting(false); setSubmitted(true); }, 1000);
+      setTimeout(() => { setSubmitting(false); setSubmitted(true); setTimeout(() => setShowGuestbook(true), 800); }, 1000);
       return;
     }
     if (!formData.person1Name.trim()) { setError('Veuillez entrer votre nom'); return; }
@@ -74,8 +77,7 @@ const useRSVP = (wedding, isPreview) => {
     setSubmitting(true); setError('');
     try {
       const res = await fetch(`${API}/rsvp`, {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           code:                guestData.code,
           person1Name:         formData.person1Name.trim(),
@@ -90,6 +92,9 @@ const useRSVP = (wedding, isPreview) => {
       const data = await res.json();
       if (!res.ok) { setError(data.error || 'Erreur'); return; }
       setSubmitted(true);
+      if (formData.rsvpStatus === 'confirmed') {
+        setTimeout(() => setShowGuestbook(true), 800);
+      }
     } catch { setError('Erreur de connexion.'); }
     finally { setSubmitting(false); }
   };
@@ -102,10 +107,86 @@ const useRSVP = (wedding, isPreview) => {
     setShowCodeModal(true);
   };
 
-  return { showCodeModal, setShowCodeModal, guestData, formData, setFormData, submitting, submitted, error, handleCodeVerified, handleSubmit, handleChangeCode };
+  const handleGuestbookSubmit = async () => {
+    if (!gbMessage.trim()) return;
+    setGbLoading(true);
+    try {
+      await fetch(`${API_URL}/guestbook`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          weddingId:  wedding._id,
+          authorName: formData.person1Name || guestData?.code,
+          message:    gbMessage.trim(),
+          approved:   true,
+        }),
+      });
+      setGbSent(true);
+    } catch { setGbSent(true); }
+    finally { setGbLoading(false); }
+  };
+
+  return {
+    showCodeModal, setShowCodeModal, guestData, formData, setFormData,
+    submitting, submitted, error,
+    handleCodeVerified, handleSubmit, handleChangeCode,
+    showGuestbook, setShowGuestbook,
+    gbMessage, setGbMessage, gbSent, gbLoading, handleGuestbookSubmit,
+  };
 };
 
-// ── Champs de formulaire communs ─────────────────────────────────
+// ── Prompt livre d'or ────────────────────────────────────────────
+const GuestbookPrompt = ({ r, wedding }) => {
+  if (!r.showGuestbook) return null;
+  const p1 = wedding?.couple?.person1?.firstName || '';
+  const p2 = wedding?.couple?.person2?.firstName || '';
+  return (
+    <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.75)', zIndex:9999, display:'flex', alignItems:'center', justifyContent:'center', padding:'20px' }}>
+      <div style={{ background:'white', borderRadius:'20px', padding:'36px', maxWidth:'440px', width:'100%', textAlign:'center', boxShadow:'0 20px 60px rgba(0,0,0,0.3)' }}>
+        {r.gbSent ? (
+          <>
+            <div style={{ fontSize:'52px', marginBottom:'12px' }}>💌</div>
+            <h3 style={{ fontSize:'20px', fontWeight:'800', color:'#1a1a2e', marginBottom:'8px' }}>Merci pour votre message !</h3>
+            <p style={{ color:'#888', fontSize:'14px', marginBottom:'24px', lineHeight:1.5 }}>
+              {r.formData.person1Name}, votre message sera affiché dans notre livre d'or. 💍
+            </p>
+            <button onClick={() => r.setShowGuestbook(false)} style={{ padding:'12px 28px', background:'linear-gradient(135deg,#1a1a2e,#2a2a4e)', color:'#c9a84c', border:'none', borderRadius:'12px', fontWeight:'700', cursor:'pointer', fontSize:'14px' }}>
+              Fermer
+            </button>
+          </>
+        ) : (
+          <>
+            <div style={{ fontSize:'52px', marginBottom:'12px' }}>📖</div>
+            <h3 style={{ fontSize:'20px', fontWeight:'800', color:'#1a1a2e', marginBottom:'8px' }}>Laissez-nous un message !</h3>
+            <p style={{ color:'#888', fontSize:'14px', marginBottom:'20px', lineHeight:1.5 }}>
+              {r.formData.person1Name}, partagez vos vœux pour {p1} & {p2} 💝
+            </p>
+            <textarea
+              value={r.gbMessage}
+              onChange={e => r.setGbMessage(e.target.value)}
+              placeholder="Tous mes vœux de bonheur pour vous deux..."
+              rows={4}
+              style={{ width:'100%', padding:'12px 16px', border:'2px solid #e0e0e0', borderRadius:'12px', fontSize:'14px', resize:'vertical', boxSizing:'border-box', fontFamily:'inherit', outline:'none', marginBottom:'16px', lineHeight:1.5 }}
+            />
+            <div style={{ display:'flex', gap:'8px' }}>
+              <button onClick={() => r.setShowGuestbook(false)} style={{ flex:1, padding:'12px', background:'#f5f5f5', color:'#555', border:'none', borderRadius:'12px', fontWeight:'600', cursor:'pointer', fontSize:'14px' }}>
+                Passer
+              </button>
+              <button
+                onClick={r.handleGuestbookSubmit}
+                disabled={r.gbLoading || !r.gbMessage.trim()}
+                style={{ flex:2, padding:'12px', background:'linear-gradient(135deg,#c9a84c,#f0d080)', color:'#1a1a2e', border:'none', borderRadius:'12px', fontWeight:'800', cursor: r.gbLoading || !r.gbMessage.trim() ? 'not-allowed' : 'pointer', fontSize:'14px', opacity: r.gbLoading || !r.gbMessage.trim() ? 0.7 : 1 }}
+              >
+                {r.gbLoading ? '⏳ Envoi...' : '💌 Envoyer mon message'}
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// ── Champs formulaire communs ─────────────────────────────────────
 const FormFields = ({ formData, setFormData, guestData, submitting, variant }) => (
   <>
     <div className={`rsvp-radio-group rsvp-radio-group--${variant}`}>
@@ -148,13 +229,12 @@ const FormFields = ({ formData, setFormData, guestData, submitting, variant }) =
   </>
 );
 
-// ════════════════════════════════════════════════════════════════
-// LAYOUT 1 — ROYAL
-// ════════════════════════════════════════════════════════════════
+// ── LAYOUT 1 — ROYAL ─────────────────────────────────────────────
 const RSVPRoyal = ({ wedding, isPreview }) => {
   const r = useRSVP(wedding, isPreview);
   return (
     <>
+      <GuestbookPrompt r={r} wedding={wedding} />
       {!isPreview && r.showCodeModal && <CodeModal wedding={wedding} onCodeVerified={r.handleCodeVerified} onClose={()=>r.setShowCodeModal(false)}/>}
       <section id="rsvp" className="rsvp rsvp--royal">
         <div className="rsvp__inner">
@@ -168,6 +248,11 @@ const RSVPRoyal = ({ wedding, isPreview }) => {
                 <span>{r.formData.rsvpStatus==='confirmed'?'🎉':'😢'}</span>
                 <h3>{r.formData.rsvpStatus==='confirmed'?'Merci pour votre confirmation !':'Merci de votre réponse'}</h3>
                 <p>{isPreview?'Aperçu — vos invités verront leur confirmation ici.':`${r.formData.person1Name}, nous avons hâte de vous voir !`}</p>
+                {r.formData.rsvpStatus==='confirmed' && !isPreview && (
+                  <button onClick={()=>r.setShowGuestbook(true)} style={{ marginTop:'16px', padding:'10px 20px', background:'linear-gradient(135deg,#c9a84c,#f0d080)', color:'#1a1a2e', border:'none', borderRadius:'10px', fontWeight:'700', cursor:'pointer', fontSize:'13px' }}>
+                    📖 Laisser un message dans le livre d'or
+                  </button>
+                )}
               </div>
             ) : r.guestData ? (
               <form onSubmit={r.handleSubmit}>
@@ -193,13 +278,12 @@ const RSVPRoyal = ({ wedding, isPreview }) => {
   );
 };
 
-// ════════════════════════════════════════════════════════════════
-// LAYOUT 2 — MINIMAL
-// ════════════════════════════════════════════════════════════════
+// ── LAYOUT 2 — MINIMAL ───────────────────────────────────────────
 const RSVPMinimal = ({ wedding, isPreview }) => {
   const r = useRSVP(wedding, isPreview);
   return (
     <>
+      <GuestbookPrompt r={r} wedding={wedding} />
       {!isPreview && r.showCodeModal && <CodeModal wedding={wedding} onCodeVerified={r.handleCodeVerified} onClose={()=>r.setShowCodeModal(false)}/>}
       <section id="rsvp" className="rsvp rsvp--minimal">
         <div className="rsvp__inner">
@@ -213,6 +297,11 @@ const RSVPMinimal = ({ wedding, isPreview }) => {
                 <span>{r.formData.rsvpStatus==='confirmed'?'🎉':'😔'}</span>
                 <h3>{r.formData.rsvpStatus==='confirmed'?'Confirmé !':'Réponse reçue'}</h3>
                 <p>{isPreview?'Aperçu.':r.formData.person1Name+', merci pour votre réponse.'}</p>
+                {r.formData.rsvpStatus==='confirmed' && !isPreview && (
+                  <button onClick={()=>r.setShowGuestbook(true)} style={{ marginTop:'16px', padding:'10px 20px', background:'#1a1a2e', color:'#c9a84c', border:'none', borderRadius:'10px', fontWeight:'700', cursor:'pointer', fontSize:'13px' }}>
+                    📖 Laisser un message
+                  </button>
+                )}
               </div>
             ) : r.guestData ? (
               <form onSubmit={r.handleSubmit}>
@@ -236,13 +325,12 @@ const RSVPMinimal = ({ wedding, isPreview }) => {
   );
 };
 
-// ════════════════════════════════════════════════════════════════
-// LAYOUT 3 — FLORAL
-// ════════════════════════════════════════════════════════════════
+// ── LAYOUT 3 — FLORAL ────────────────────────────────────────────
 const RSVPFloral = ({ wedding, isPreview }) => {
   const r = useRSVP(wedding, isPreview);
   return (
     <>
+      <GuestbookPrompt r={r} wedding={wedding} />
       {!isPreview && r.showCodeModal && <CodeModal wedding={wedding} onCodeVerified={r.handleCodeVerified} onClose={()=>r.setShowCodeModal(false)}/>}
       <section id="rsvp" className="rsvp rsvp--floral">
         <div className="floral-rsvp-deco floral-rsvp-deco--tl">🌸</div>
@@ -258,6 +346,11 @@ const RSVPFloral = ({ wedding, isPreview }) => {
                 <span>{r.formData.rsvpStatus==='confirmed'?'🎉':'😢'}</span>
                 <h3>{r.formData.rsvpStatus==='confirmed'?'Merci !':'Réponse reçue'}</h3>
                 <p>{isPreview?'Aperçu.':r.formData.person1Name+', nous avons hâte de vous voir !'}</p>
+                {r.formData.rsvpStatus==='confirmed' && !isPreview && (
+                  <button onClick={()=>r.setShowGuestbook(true)} style={{ marginTop:'16px', padding:'10px 20px', background:'#c2185b', color:'white', border:'none', borderRadius:'10px', fontWeight:'700', cursor:'pointer', fontSize:'13px' }}>
+                    📖 Laisser un message
+                  </button>
+                )}
               </div>
             ) : r.guestData ? (
               <form onSubmit={r.handleSubmit}>
@@ -281,13 +374,12 @@ const RSVPFloral = ({ wedding, isPreview }) => {
   );
 };
 
-// ════════════════════════════════════════════════════════════════
-// LAYOUT 4 — BOHO
-// ════════════════════════════════════════════════════════════════
+// ── LAYOUT 4 — BOHO ──────────────────────────────────────────────
 const RSVPBoho = ({ wedding, isPreview }) => {
   const r = useRSVP(wedding, isPreview);
   return (
     <>
+      <GuestbookPrompt r={r} wedding={wedding} />
       {!isPreview && r.showCodeModal && <CodeModal wedding={wedding} onCodeVerified={r.handleCodeVerified} onClose={()=>r.setShowCodeModal(false)}/>}
       <section id="rsvp" className="rsvp rsvp--boho">
         <div className="rsvp__inner">
@@ -301,6 +393,11 @@ const RSVPBoho = ({ wedding, isPreview }) => {
                 <span>{r.formData.rsvpStatus==='confirmed'?'🎉':'😔'}</span>
                 <h3>{r.formData.rsvpStatus==='confirmed'?'Merci !':'Réponse reçue'}</h3>
                 <p>{isPreview?'Aperçu.':r.formData.person1Name+', merci pour votre réponse.'}</p>
+                {r.formData.rsvpStatus==='confirmed' && !isPreview && (
+                  <button onClick={()=>r.setShowGuestbook(true)} style={{ marginTop:'16px', padding:'10px 20px', background:'#8b5e3c', color:'white', border:'none', borderRadius:'10px', fontWeight:'700', cursor:'pointer', fontSize:'13px' }}>
+                    📖 Laisser un message
+                  </button>
+                )}
               </div>
             ) : r.guestData ? (
               <form onSubmit={r.handleSubmit}>
@@ -324,13 +421,12 @@ const RSVPBoho = ({ wedding, isPreview }) => {
   );
 };
 
-// ════════════════════════════════════════════════════════════════
-// LAYOUT 5 — LUXURY
-// ════════════════════════════════════════════════════════════════
+// ── LAYOUT 5 — LUXURY ────────────────────────────────────────────
 const RSVPLuxury = ({ wedding, isPreview }) => {
   const r = useRSVP(wedding, isPreview);
   return (
     <>
+      <GuestbookPrompt r={r} wedding={wedding} />
       {!isPreview && r.showCodeModal && <CodeModal wedding={wedding} onCodeVerified={r.handleCodeVerified} onClose={()=>r.setShowCodeModal(false)}/>}
       <section id="rsvp" className="rsvp rsvp--luxury">
         <div className="luxury-rsvp-frame"><div className="lrf-tl"/><div className="lrf-tr"/><div className="lrf-bl"/><div className="lrf-br"/></div>
@@ -346,6 +442,11 @@ const RSVPLuxury = ({ wedding, isPreview }) => {
                 <span>{r.formData.rsvpStatus==='confirmed'?'🎉':'😢'}</span>
                 <h3>{r.formData.rsvpStatus==='confirmed'?'Confirmation reçue':'Réponse enregistrée'}</h3>
                 <p>{isPreview?'Aperçu.':r.formData.person1Name+', votre réponse a été enregistrée.'}</p>
+                {r.formData.rsvpStatus==='confirmed' && !isPreview && (
+                  <button onClick={()=>r.setShowGuestbook(true)} style={{ marginTop:'16px', padding:'10px 20px', background:'#d4af37', color:'#0d0d0d', border:'none', borderRadius:'10px', fontWeight:'700', cursor:'pointer', fontSize:'13px' }}>
+                    📖 Laisser un message
+                  </button>
+                )}
               </div>
             ) : r.guestData ? (
               <form onSubmit={r.handleSubmit}>
@@ -369,9 +470,7 @@ const RSVPLuxury = ({ wedding, isPreview }) => {
   );
 };
 
-// ════════════════════════════════════════════════════════════════
-// COMPOSANT PRINCIPAL
-// ════════════════════════════════════════════════════════════════
+// ── COMPOSANT PRINCIPAL ──────────────────────────────────────────
 const RSVP = ({ wedding, isPreview = false }) => {
   const layout = wedding.settings.theme.heroLayout || 'centered';
   const props  = { wedding, isPreview };
