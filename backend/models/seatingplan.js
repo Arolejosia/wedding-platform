@@ -2,18 +2,7 @@
 const mongoose = require('mongoose');
 
 const tableSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-    index: true,
-  },
-  weddingId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Wedding',
-    required: true,
-    index: true,
-  },
+
   
     tableNumber: {
     type: Number,
@@ -97,7 +86,7 @@ const seatingPlanSchema = new mongoose.Schema({
   
 });
 
-seatingPlanSchema.index({ userId: 1, weddingId: 1, 'tables.tableNumber': 1 }, { unique: true, sparse: true });
+
 
 seatingPlanSchema.pre('save', function(next) {
   this.updatedAt = Date.now();

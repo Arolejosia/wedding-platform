@@ -6,7 +6,7 @@ const GuestSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
+   
     index: true,
   },
   weddingId: {
@@ -37,8 +37,14 @@ const GuestSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ['JF', 'JA', 'UF', 'UA']
+    
   },
+
+  // Ajoute categoryLabel
+categoryLabel: {
+  type: String,
+  default: ''
+},
   
   person1Name: {
     type: String,

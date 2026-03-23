@@ -18,47 +18,77 @@ const useRSVP = (wedding, isPreview) => {
   const [submitted, setSubmitted]   = useState(false);
   const [error, setError]           = useState('');
 
-  const API = 'API_URL/api/public/rsvp';
+  const API = `${API_URL}/guests`;
 
   useEffect(() => {
     if (isPreview) return;
     const code = localStorage.getItem('wedding_guest_code');
     if (code) verifyCode(code);
+    else setShowCodeModal(true);
   }, []);
 
   const verifyCode = async (code) => {
     try {
-      const res  = await fetch(`${API}/verify`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ code, weddingId: wedding._id }) });
+      const res  = await fetch(`${API}/verify`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ code }),
+      });
       const data = await res.json();
-      if (res.ok) {
+      if (res.ok && data.guest) {
+        localStorage.setItem('wedding_guest_code', code);
         setGuestData(data.guest);
         if (data.guest.hasRsvp) { populateForm(data.guest); setSubmitted(true); }
-      } else { localStorage.removeItem('wedding_guest_code'); setShowCodeModal(true); }
+      } else {
+        localStorage.removeItem('wedding_guest_code');
+        setShowCodeModal(true);
+      }
     } catch { setShowCodeModal(true); }
   };
 
   const populateForm = (g) => setFormData({
-    person1Name: g.person1Name||'', person2Name: g.person2Name||'',
-    email: g.email||'', phone: g.phone||'',
-    rsvpStatus: g.rsvpStatus, attendanceType: g.attendanceType||'full',
-    dietaryRestrictions: g.dietaryRestrictions||'',
+    person1Name:         g.person1Name         || '',
+    person2Name:         g.person2Name         || '',
+    email:               g.email               || '',
+    phone:               g.phone               || '',
+    rsvpStatus:          g.rsvpStatus          || 'confirmed',
+    attendanceType:      g.attendanceType       || 'full',
+    dietaryRestrictions: g.dietaryRestrictions  || '',
   });
 
   const handleCodeVerified = (guest) => {
-    setGuestData(guest); setShowCodeModal(false);
+    setGuestData(guest);
+    setShowCodeModal(false);
     if (guest.hasRsvp) { populateForm(guest); setSubmitted(true); }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isPreview) { setSubmitting(true); setTimeout(() => { setSubmitting(false); setSubmitted(true); }, 1000); return; }
+    if (isPreview) {
+      setSubmitting(true);
+      setTimeout(() => { setSubmitting(false); setSubmitted(true); }, 1000);
+      return;
+    }
     if (!formData.person1Name.trim()) { setError('Veuillez entrer votre nom'); return; }
     if (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email)) { setError('Email valide requis'); return; }
     setSubmitting(true); setError('');
     try {
-      const res = await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ weddingId:wedding._id, code:guestData.code, person1Name:formData.person1Name.trim(), person2Name:guestData.ticketType==='couple'?formData.person2Name.trim():null, email:formData.email.trim(), phone:formData.phone.trim(), rsvpStatus:formData.rsvpStatus, attendanceType:formData.rsvpStatus==='confirmed'?formData.attendanceType:null, dietaryRestrictions:formData.dietaryRestrictions.trim() }) });
+      const res = await fetch(`${API}/rsvp`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code:                guestData.code,
+          person1Name:         formData.person1Name.trim(),
+          person2Name:         guestData.ticketType === 'couple' ? formData.person2Name.trim() : null,
+          email:               formData.email.trim(),
+          phone:               formData.phone.trim(),
+          rsvpStatus:          formData.rsvpStatus,
+          attendanceType:      formData.rsvpStatus === 'confirmed' ? formData.attendanceType : null,
+          dietaryRestrictions: formData.dietaryRestrictions.trim(),
+        }),
+      });
       const data = await res.json();
-      if (!res.ok) { setError(data.error||'Erreur'); return; }
+      if (!res.ok) { setError(data.error || 'Erreur'); return; }
       setSubmitted(true);
     } catch { setError('Erreur de connexion.'); }
     finally { setSubmitting(false); }

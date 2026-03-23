@@ -3,8 +3,9 @@ import './CodeModal.css';
 import API_URL from '../config/api';
 
 const CodeModal = ({ wedding, onCodeVerified, onClose }) => {
+  const API = `${API_URL}/guests`;  // ← bonne URL
   // ✅ DYNAMIQUE - API avec wedding
-  const API_URL = 'API_URL/api/public/rsvp';
+  
   
   const [code, setCode] = useState('');
   const [verifying, setVerifying] = useState(false);
@@ -22,7 +23,7 @@ const CodeModal = ({ wedding, onCodeVerified, onClose }) => {
     setError('');
 
     try {
-      const res = await fetch(`${API_URL}/verify`, {
+      const res = await fetch(`${API}/verify`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

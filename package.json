@@ -15,6 +15,7 @@
     "express": "^5.2.1",
     "mongoose": "^9.1.5",
     "nodemon": "^3.1.11",
+    "qrcode": "^1.5.4",
     "react-qr-code": "^2.0.18"
   }
 }

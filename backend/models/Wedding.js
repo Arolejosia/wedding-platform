@@ -2,6 +2,69 @@
 const mongoose = require('mongoose');
 
 const weddingSchema = new mongoose.Schema({
+  planner: {
+  sideA: {
+    name: { type: String, default: 'Côté A' },
+    themeMode: { type: String, enum: ['predefini', 'custom'], default: 'predefini' },
+    themeKey: { type: String, default: 'Royal' },
+    customColors: {
+      bg: { type: String, default: '#1a1a2e' },
+      accent: { type: String, default: '#c9a84c' },
+      text: { type: String, default: '#ffffff' },
+      bar: { type: String, default: '#c9a84c' },
+    },
+    totalPlaces: { type: Number, default: 100 },
+    usedPlaces: { type: Number, default: 0 },
+    categories: [{
+      id: { type: String, required: true },
+      label: { type: String, required: true },
+      prefix: { type: String, required: true },
+      color: { type: String, default: '#FF69B4' },
+      ticketType: {
+        type: String,
+        enum: ['couple', 'simple'],
+        default: 'couple',
+      },
+      codes: [{
+        code: { type: String, required: true },
+        used: { type: Boolean, default: false },
+        guestNames: [{ type: String }],
+        createdAt: { type: Date, default: Date.now },
+      }],
+    }],
+  },
+
+  sideB: {
+    name: { type: String, default: 'Côté B' },
+    themeMode: { type: String, enum: ['predefini', 'custom'], default: 'predefini' },
+    themeKey: { type: String, default: 'Royal' },
+    customColors: {
+      bg: { type: String, default: '#1a1a2e' },
+      accent: { type: String, default: '#c9a84c' },
+      text: { type: String, default: '#ffffff' },
+      bar: { type: String, default: '#c9a84c' },
+    },
+    totalPlaces: { type: Number, default: 100 },
+    usedPlaces: { type: Number, default: 0 },
+    categories: [{
+      id: { type: String, required: true },
+      label: { type: String, required: true },
+      prefix: { type: String, required: true },
+      color: { type: String, default: '#4169E1' },
+      ticketType: {
+        type: String,
+        enum: ['couple', 'simple'],
+        default: 'couple',
+      },
+      codes: [{
+        code: { type: String, required: true },
+        used: { type: Boolean, default: false },
+        guestNames: [{ type: String }],
+        createdAt: { type: Date, default: Date.now },
+      }],
+    }],
+  },
+},
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -121,42 +184,52 @@ const weddingSchema = new mongoose.Schema({
 
   // ── Cadeaux ─────────────────────────────────────────────────────
   gifts: {
-    enabled:  { type: Boolean, default: true },
-    title:    { type: String, default: 'Liste de Mariage' },
-    subtitle: { type: String, default: 'Votre présence est notre plus beau cadeau.' },
+  enabled:  { type: Boolean, default: true },
+  title:    { type: String, default: 'Liste de Mariage' },
+  subtitle: { type: String, default: 'Votre présence est notre plus beau cadeau.' },
 
-    // Mobile Money Cameroun
-    // Dépôt direct — tous modes de paiement
-    paymentNumbers: {
-      // 🇨🇲 MTN MoMo
-      mtnMoMo:     { type: String, default: '' },
-      mtnName:     { type: String, default: '' }, // Nom enregistré MTN
-      // 🇨🇲 Orange Money
-      orangeMoney: { type: String, default: '' },
-      orangeName:  { type: String, default: '' }, // Nom enregistré Orange
-      // 🇨🇦 Interac
-      interac:     { type: String, default: '' },
-      interacName: { type: String, default: '' }, // Nom Interac
-      // 🌐 PayPal
-      paypal:      { type: String, default: '' },
-      paypalName:  { type: String, default: '' }, // Nom PayPal
-      // 🏦 Virement bancaire
-      bankName:    { type: String, default: '' },
-      bankAccount: { type: String, default: '' },
-      bankHolder:  { type: String, default: '' },
-      // Commun
-      message:     { type: String, default: '' },
-    }, // Email Interac
-      // 🌐 International
-      paypal:       { type: String, default: '' }, // Email ou @PayPal
-      // 🏦 Virement bancaire
-      bankName:     { type: String, default: '' }, // Nom de la banque
-      bankAccount:  { type: String, default: '' }, // Numéro de compte / IBAN
-      bankHolder:   { type: String, default: '' }, // Titulaire du compte
-      // Commun
-      accountName:  { type: String, default: '' }, // Nom affiché
-      message:      { type: String, default: '' }, // Référence / message
-    },
+  paymentNumbers: {
+    mtnMoMo:     { type: String, default: '' },
+    mtnName:     { type: String, default: '' },
+    orangeMoney: { type: String, default: '' },
+    orangeName:  { type: String, default: '' },
+    interac:     { type: String, default: '' },
+    interacName: { type: String, default: '' },
+    paypal:      { type: String, default: '' },
+    paypalName:  { type: String, default: '' },
+    bankName:    { type: String, default: '' },
+    bankAccount: { type: String, default: '' },
+    bankHolder:  { type: String, default: '' },
+    message:     { type: String, default: '' },
+  },
+
+  externalLinks: [{
+    _id:   { type: String },
+    id:    { type: String },
+    icon:  { type: String, default: '📦' },
+    label: { type: String, default: '' },
+    url:   { type: String, default: '' },
+  }],
+
+  cagnotte: {
+    title:       { type: String, default: '' },
+    description: { type: String, default: '' },
+    goal:        { type: Number, default: 0 },
+    collected:   { type: Number, default: 0 },
+    currency:    { type: String, default: 'FCFA' },
+  },
+
+  items: [{
+    _id:       { type: String },
+    id:        { type: String },
+    icon:      { type: String, default: '🎁' },
+    name:      { type: String, default: '' },
+    price:     { type: Number, default: 0 },
+    collected: { type: Number, default: 0 },
+    currency:  { type: String, default: 'FCFA' },
+    reserved:  { type: Boolean, default: false },
+  }],
+},
 
     // Liens externes
     externalLinks: [{

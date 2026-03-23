@@ -23,6 +23,8 @@ const giftsRoutes        = require('./routes/gifts');
 const stripeWebhook      = require('./webhooks/stripeWebhook');
 const flutterwaveWebhook = require('./webhooks/flutterwaveWebhook');
 const uploadRoutes = require('./routes/upload');
+const vendorsRoutes = require('./routes/vendors');
+
 const app  = express();
 const PORT = process.env.PORT || 5002;
 
@@ -59,6 +61,7 @@ app.use('/api/public',    publicRoutes);
 app.use('/api/budget',    budgetRouter);
 app.use('/api/auth',      authRouter);
 app.use('/api/weddings',  weddingsRouter);
+app.use('/api/vendors', vendorsRoutes);
 //app.use('/api/gifts',     giftsRoutes);
 app.use('/uploads', express.static('uploads'));
 

@@ -4,6 +4,7 @@ import './LandingPage.css';
 import HeroSection from '../components/HeroSection';
 import { useNavigate } from "react-router-dom";
 import { THEMES } from '../config/themes'; // ← AJOUT
+import VendorsSection from '../components/VendorsSection';
 
 // ─── TRANSLATIONS ────────────────────────────────────────────────
 const T = {
@@ -329,11 +330,12 @@ const LandingPage = () => {
             <span className="logo-ring">💍</span>
             <span>Wedding<strong>App</strong></span>
           </a>
-
+        
           <div className={`nav-links ${menuOpen ? 'nav-links--open' : ''}`}>
             <a href="#themes" onClick={() => setMenuOpen(false)}>{t.nav.preview}</a>
             <a href="#pricing" onClick={() => setMenuOpen(false)}>{t.nav.pricing}</a>
             <a href="/login" onClick={() => setMenuOpen(false)}>{t.nav.login}</a>
+            <a href="/prestataires" onClick={() => setMenuOpen(false)}>Prestataires</a>
             <button
               className="lang-toggle"
               onClick={() => { setLang(l => l === 'fr' ? 'en' : 'fr'); setMenuOpen(false); }}
@@ -463,6 +465,7 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+      
 
       {/* ── CTA FINAL ── */}
       <section className="section cta-final">

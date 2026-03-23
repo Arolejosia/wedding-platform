@@ -3,8 +3,9 @@ const express = require('express');
 const router  = express.Router();
 const Wedding = require('../models/Wedding');
 const { authMiddleware } = require('../middleware/auth');
+const Guest = require('../models/Guest');
 
-// ── GET /api/weddings/by-slug/:slug — PUBLIQUE (pas d'auth) ─────
+// ── GET /api/weddings/by-slug/:slug — PUBLIQUE ──────────────────
 router.get('/by-slug/:slug', async (req, res) => {
   try {
     const wedding = await Wedding.findOne({ customSlug: req.params.slug });
@@ -40,17 +41,6 @@ router.get('/', async (req, res) => {
       status: { $ne: 'archived' }
     }).sort({ weddingDate: 1 });
     res.json({ success:true, weddings, count:weddings.length });
-  } catch (error) {
-    res.status(500).json({ error:'Erreur serveur' });
-  }
-});
-
-// ── GET /api/weddings/:id ────────────────────────────────────────
-router.get('/:id', async (req, res) => {
-  try {
-    const wedding = await Wedding.findOne({ _id:req.params.id, userId:req.userId });
-    if (!wedding) return res.status(404).json({ error:'Mariage introuvable' });
-    res.json({ success:true, wedding });
   } catch (error) {
     res.status(500).json({ error:'Erreur serveur' });
   }
@@ -107,6 +97,7 @@ router.post('/', async (req, res) => {
   }
 });
 
+// ── PUT /api/weddings/:id ────────────────────────────────────────
 router.put('/:id', async (req, res) => {
   try {
     const wedding = await Wedding.findOne({ _id:req.params.id, userId:req.userId });
@@ -116,7 +107,7 @@ router.put('/:id', async (req, res) => {
     await wedding.save();
     res.json({ success:true, wedding });
   } catch (error) {
-    console.error('❌ Erreur PUT wedding:', error.message); // ← ajoute ça
+    console.error('❌ Erreur PUT wedding:', error.message);
     res.status(500).json({ error:'Erreur lors de la modification' });
   }
 });
@@ -134,7 +125,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// ── PATCH /api/weddings/:id/stats ───────────────────────────────
+// ── PATCH /api/weddings/:id/stats ────────────────────────────────
 router.patch('/:id/stats', async (req, res) => {
   try {
     const wedding = await Wedding.findOne({ _id:req.params.id, userId:req.userId });
@@ -144,6 +135,148 @@ router.patch('/:id/stats', async (req, res) => {
       await wedding.save();
     }
     res.json({ success:true, stats:wedding.stats });
+  } catch (error) {
+    res.status(500).json({ error:'Erreur serveur' });
+  }
+});
+
+router.post('/:id/guests/bulk', async (req, res) => {
+  try {
+    const { codes } = req.body;
+    console.log('BULK codes reçus:', JSON.stringify(codes));
+    
+    const guests = codes.map(c => ({
+      weddingId:     req.params.id,
+      code:          c.code,
+      ticketType:    c.ticketType || 'couple',
+      category:      c.categoryLabel || 'custom',
+      categoryLabel: c.categoryLabel || '',
+      rsvpStatus:    'pending',
+    }));
+    
+    console.log('BULK guests à insérer:', JSON.stringify(guests));
+    
+    const result = await Guest.insertMany(guests, { ordered: false });
+    console.log('BULK résultat:', result.length, 'documents insérés');
+    
+    res.json({ success: true, count: result.length });
+  } catch (e) {
+    console.error('BULK ERROR:', e.message);
+    console.error('BULK ERROR détail:', e);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// ────────────────────────────────────────────────────────────────
+// PLANNER ROUTES
+// ────────────────────────────────────────────────────────────────
+
+// ── GET /api/weddings/:id/planner ────────────────────────────────
+router.get('/:id/planner', async (req, res) => {
+  try {
+    const wedding = await Wedding.findOne({ _id: req.params.id, userId: req.userId });
+    if (!wedding) return res.status(404).json({ error: 'Mariage introuvable' });
+
+    // Initialiser le planner si vide
+    if (!wedding.planner) {
+      wedding.planner = {};
+      await wedding.save();
+    }
+
+    res.json({ planner: wedding.planner });
+  } catch (error) {
+    console.error('Erreur GET planner:', error);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
+// ── PUT /api/weddings/:id/planner ────────────────────────────────
+router.put('/:id/planner', async (req, res) => {
+  try {
+    const wedding = await Wedding.findOne({ _id: req.params.id, userId: req.userId });
+    if (!wedding) return res.status(404).json({ error: 'Mariage introuvable' });
+
+    if (!wedding.planner) wedding.planner = {};
+
+    if (req.body.sideA !== undefined) wedding.planner.sideA = req.body.sideA;
+    if (req.body.sideB !== undefined) wedding.planner.sideB = req.body.sideB;
+
+    wedding.markModified('planner');
+    await wedding.save();
+
+    res.json({ planner: wedding.planner });
+  } catch (error) {
+    console.error('Erreur PUT planner:', error);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
+// ── POST /api/weddings/:id/planner/generate-codes ────────────────
+router.post('/:id/planner/generate-codes', async (req, res) => {
+  try {
+    const { sideKey, categoryId, count } = req.body;
+
+    if (!['sideA', 'sideB'].includes(sideKey)) {
+      return res.status(400).json({ error: 'Côté invalide — utilise sideA ou sideB' });
+    }
+
+    const qty = Number(count);
+    if (!qty || qty < 1) {
+      return res.status(400).json({ error: 'Nombre invalide' });
+    }
+
+    const wedding = await Wedding.findOne({ _id: req.params.id, userId: req.userId });
+    if (!wedding) return res.status(404).json({ error: 'Mariage introuvable' });
+
+    const side = wedding.planner?.[sideKey];
+    if (!side) return res.status(400).json({ error: `Côté "${sideKey}" introuvable dans le planner` });
+
+    const category = side.categories.find(c => c.id === categoryId);
+    if (!category) return res.status(404).json({ error: 'Catégorie introuvable' });
+
+    const placesParCode     = category.ticketType === 'couple' ? 2 : 1;
+    const placesNecessaires = qty * placesParCode;
+    const remaining         = (side.totalPlaces || 0) - (side.usedPlaces || 0);
+
+    if (placesNecessaires > remaining) {
+      return res.status(400).json({
+        error: `Places insuffisantes. Il reste ${remaining} place(s), besoin de ${placesNecessaires}.`
+      });
+    }
+
+    const startIndex = (category.codes || []).length + 1;
+
+    const newCodes = Array.from({ length: qty }, (_, i) => ({
+      code:       `${category.prefix}${String(startIndex + i).padStart(2, '0')}`,
+      used:       false,
+      guestNames: [],
+      createdAt:  new Date(),
+    }));
+
+    category.codes.push(...newCodes);
+    side.usedPlaces = (side.usedPlaces || 0) + placesNecessaires;
+
+    wedding.markModified('planner');
+    await wedding.save();
+
+    res.json({
+      success:   true,
+      generated: newCodes,
+      planner:   wedding.planner,
+    });
+  } catch (error) {
+    console.error('Erreur generate-codes:', error);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
+// ── GET /api/weddings/:id ────────────────────────────────────────
+// ⚠️ Cette route doit rester EN DERNIER pour ne pas capturer /planner etc.
+router.get('/:id', async (req, res) => {
+  try {
+    const wedding = await Wedding.findOne({ _id:req.params.id, userId:req.userId });
+    if (!wedding) return res.status(404).json({ error:'Mariage introuvable' });
+    res.json({ success:true, wedding });
   } catch (error) {
     res.status(500).json({ error:'Erreur serveur' });
   }

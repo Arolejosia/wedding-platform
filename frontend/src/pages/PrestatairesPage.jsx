@@ -1,0 +1,376 @@
+// src/pages/PrestatairesPage.jsx
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import API_URL from '../config/api';
+
+const CATEGORIES = [
+  { value: '',                 label: 'Tous',             icon: '🌟' },
+  { value: 'photographe',     label: 'Photographes',      icon: '📸' },
+  { value: 'traiteur',        label: 'Traiteurs',         icon: '🍽️' },
+  { value: 'dj',              label: 'DJ / Musique',      icon: '🎵' },
+  { value: 'fleuriste',       label: 'Fleuristes',        icon: '💐' },
+  { value: 'salle',           label: 'Salles',            icon: '🏛️' },
+  { value: 'decorateur',      label: 'Décorateurs',       icon: '✨' },
+  { value: 'robe',            label: 'Robes / Costumes',  icon: '👗' },
+  { value: 'transport',       label: 'Transport',         icon: '🚗' },
+  { value: 'wedding_planner', label: 'Wedding Planners',  icon: '📋' },
+  { value: 'autre',           label: 'Autre',             icon: '💼' },
+];
+
+const PRICE_LABELS = {
+  budget:  { label: 'Budget',  color: '#26a69a' },
+  moyen:   { label: 'Moyen',   color: '#c9a84c' },
+  premium: { label: 'Premium', color: '#7c3aed' },
+  luxe:    { label: 'Luxe',    color: '#1a1a2e' },
+};
+
+// ── Carte prestataire ────────────────────────────────────────────
+const VendorCard = ({ vendor, onContact }) => {
+  const price  = PRICE_LABELS[vendor.priceRange] || PRICE_LABELS.moyen;
+  const catObj = CATEGORIES.find(c => c.value === vendor.category);
+  return (
+    <div style={{
+      background:'white', borderRadius:'16px', overflow:'hidden',
+      boxShadow:'0 4px 20px rgba(0,0,0,0.08)', transition:'transform 0.2s, box-shadow 0.2s',
+      position:'relative',
+    }}
+      onMouseEnter={e => { e.currentTarget.style.transform='translateY(-4px)'; e.currentTarget.style.boxShadow='0 8px 32px rgba(0,0,0,0.14)'; }}
+      onMouseLeave={e => { e.currentTarget.style.transform='none'; e.currentTarget.style.boxShadow='0 4px 20px rgba(0,0,0,0.08)'; }}
+    >
+      {vendor.featured && (
+        <div style={{ position:'absolute', top:'12px', left:'12px', background:'#c9a84c', color:'#1a1a2e', fontSize:'10px', fontWeight:'800', padding:'3px 8px', borderRadius:'20px', zIndex:2 }}>
+          ⭐ EN VEDETTE
+        </div>
+      )}
+      <div style={{ height:'180px', background: vendor.logo ? `url(${vendor.logo}) center/cover` : 'linear-gradient(135deg,#1a1a2e,#2a2a4e)', position:'relative' }}>
+        {!vendor.logo && (
+          <div style={{ position:'absolute', inset:0, display:'flex', alignItems:'center', justifyContent:'center', fontSize:'52px' }}>
+            {catObj?.icon || '💼'}
+          </div>
+        )}
+        <div style={{ position:'absolute', bottom:'10px', right:'10px', background:'rgba(0,0,0,0.6)', color:'white', fontSize:'11px', padding:'3px 8px', borderRadius:'20px' }}>
+          {catObj?.icon} {catObj?.label}
+        </div>
+      </div>
+      <div style={{ padding:'16px' }}>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:'6px' }}>
+          <h3 style={{ fontSize:'15px', fontWeight:'800', color:'#1a1a2e', margin:0, lineHeight:1.3 }}>{vendor.businessName}</h3>
+          <span style={{ fontSize:'10px', fontWeight:'700', padding:'2px 8px', borderRadius:'10px', background:`${price.color}15`, color:price.color, flexShrink:0, marginLeft:'8px' }}>
+            {price.label}
+          </span>
+        </div>
+        {vendor.tagline && <p style={{ fontSize:'12px', color:'#888', margin:'0 0 8px', fontStyle:'italic' }}>{vendor.tagline}</p>}
+        <div style={{ fontSize:'12px', color:'#666', marginBottom:'12px' }}>📍 {vendor.city}, {vendor.country}</div>
+        {vendor.startingPrice > 0 && (
+          <div style={{ fontSize:'12px', color:'#c9a84c', fontWeight:'700', marginBottom:'12px' }}>
+            À partir de {vendor.startingPrice.toLocaleString()} {vendor.currency}
+          </div>
+        )}
+        <button onClick={() => onContact(vendor)} style={{ width:'100%', padding:'10px', background:'linear-gradient(135deg,#1a1a2e,#2a2a4e)', color:'white', border:'none', borderRadius:'10px', fontSize:'13px', fontWeight:'700', cursor:'pointer' }}>
+          Contacter →
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// ── Formulaire inscription ───────────────────────────────────────
+const RegisterForm = ({ onClose, onSuccess }) => {
+  const [form, setForm] = useState({
+    businessName:'', ownerName:'', email:'', phone:'', website:'', instagram:'',
+    category:'photographe', country:'', city:'',
+    description:'', tagline:'', priceRange:'moyen', startingPrice:'', currency:'FCFA',
+  });
+  const [loading, setLoading] = useState(false);
+  const [error,   setError]   = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!form.businessName || !form.ownerName || !form.email || !form.country || !form.city) {
+      setError('Veuillez remplir tous les champs obligatoires *'); return;
+    }
+    setLoading(true); setError('');
+    try {
+      const res  = await fetch(`${API_URL}/vendors/register`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, startingPrice: Number(form.startingPrice) || 0 }),
+      });
+      const data = await res.json();
+      if (!res.ok) { setError(data.error || 'Erreur'); return; }
+      onSuccess();
+    } catch { setError('Erreur de connexion'); }
+    finally { setLoading(false); }
+  };
+
+  const inp = { width:'100%', padding:'10px 14px', border:'1.5px solid #e0e0e0', borderRadius:'10px', fontSize:'13px', boxSizing:'border-box', outline:'none', fontFamily:'inherit' };
+  const lbl = { fontSize:'11px', fontWeight:'700', color:'#555', display:'block', marginBottom:'4px', textTransform:'uppercase', letterSpacing:'0.5px' };
+
+  return (
+    <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.75)', zIndex:9999, display:'flex', alignItems:'center', justifyContent:'center', padding:'20px' }}>
+      <div style={{ background:'white', borderRadius:'20px', width:'100%', maxWidth:'580px', maxHeight:'92vh', overflowY:'auto', padding:'32px' }}>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'24px' }}>
+          <div>
+            <h2 style={{ fontSize:'20px', fontWeight:'800', color:'#1a1a2e', margin:0 }}>💼 Rejoindre l'annuaire</h2>
+            <p style={{ fontSize:'12px', color:'#888', margin:'4px 0 0' }}>Profil visible après approbation (sous 48h)</p>
+          </div>
+          <button onClick={onClose} style={{ background:'none', border:'none', fontSize:'24px', cursor:'pointer', color:'#888' }}>✕</button>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'12px', marginBottom:'12px' }}>
+            <div><label style={lbl}>Nom entreprise *</label><input style={inp} value={form.businessName} onChange={e=>setForm({...form,businessName:e.target.value})} placeholder="Mon Studio Photo"/></div>
+            <div><label style={lbl}>Votre nom *</label><input style={inp} value={form.ownerName} onChange={e=>setForm({...form,ownerName:e.target.value})} placeholder="Jean Dupont"/></div>
+          </div>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'12px', marginBottom:'12px' }}>
+            <div><label style={lbl}>Email *</label><input style={inp} type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="contact@studio.com"/></div>
+            <div><label style={lbl}>Téléphone</label><input style={inp} value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})} placeholder="+237 6XX XX XX XX"/></div>
+          </div>
+          <div style={{ marginBottom:'12px' }}>
+            <label style={lbl}>Catégorie *</label>
+            <select style={inp} value={form.category} onChange={e=>setForm({...form,category:e.target.value})}>
+              {CATEGORIES.filter(c=>c.value).map(c=><option key={c.value} value={c.value}>{c.icon} {c.label}</option>)}
+            </select>
+          </div>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'12px', marginBottom:'12px' }}>
+            <div><label style={lbl}>Pays *</label><input style={inp} value={form.country} onChange={e=>setForm({...form,country:e.target.value})} placeholder="Cameroun"/></div>
+            <div><label style={lbl}>Ville *</label><input style={inp} value={form.city} onChange={e=>setForm({...form,city:e.target.value})} placeholder="Douala"/></div>
+          </div>
+          <div style={{ marginBottom:'12px' }}>
+            <label style={lbl}>Slogan (court)</label>
+            <input style={inp} value={form.tagline} onChange={e=>setForm({...form,tagline:e.target.value})} placeholder="Des photos qui racontent votre histoire" maxLength={150}/>
+          </div>
+          <div style={{ marginBottom:'12px' }}>
+            <label style={lbl}>Description</label>
+            <textarea style={{...inp,height:'80px',resize:'vertical'}} value={form.description} onChange={e=>setForm({...form,description:e.target.value})} placeholder="Décrivez vos services..." maxLength={1000}/>
+          </div>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:'12px', marginBottom:'12px' }}>
+            <div>
+              <label style={lbl}>Gamme</label>
+              <select style={inp} value={form.priceRange} onChange={e=>setForm({...form,priceRange:e.target.value})}>
+                <option value="budget">Budget</option>
+                <option value="moyen">Moyen</option>
+                <option value="premium">Premium</option>
+                <option value="luxe">Luxe</option>
+              </select>
+            </div>
+            <div><label style={lbl}>Prix de départ</label><input style={inp} type="number" value={form.startingPrice} onChange={e=>setForm({...form,startingPrice:e.target.value})} placeholder="50000"/></div>
+            <div>
+              <label style={lbl}>Devise</label>
+              <select style={inp} value={form.currency} onChange={e=>setForm({...form,currency:e.target.value})}>
+                <option value="FCFA">FCFA</option>
+                <option value="EUR">EUR</option>
+                <option value="USD">USD</option>
+                <option value="CAD">CAD</option>
+              </select>
+            </div>
+          </div>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'12px', marginBottom:'20px' }}>
+            <div><label style={lbl}>Site web</label><input style={inp} value={form.website} onChange={e=>setForm({...form,website:e.target.value})} placeholder="https://monstudio.com"/></div>
+            <div><label style={lbl}>Instagram</label><input style={inp} value={form.instagram} onChange={e=>setForm({...form,instagram:e.target.value})} placeholder="@monstudio"/></div>
+          </div>
+          {error && <p style={{ color:'#ef5350', fontSize:'13px', marginBottom:'12px', fontWeight:'600' }}>❌ {error}</p>}
+          <button type="submit" disabled={loading} style={{ width:'100%', padding:'14px', background:'linear-gradient(135deg,#c9a84c,#f0d080)', color:'#1a1a2e', border:'none', borderRadius:'12px', fontSize:'15px', fontWeight:'800', cursor:loading?'not-allowed':'pointer', opacity:loading?0.7:1 }}>
+            {loading ? '⏳ Envoi...' : '✅ Soumettre mon profil'}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+// ── Modal contact ────────────────────────────────────────────────
+const ContactModal = ({ vendor, onClose }) => (
+  <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.7)', zIndex:9999, display:'flex', alignItems:'center', justifyContent:'center', padding:'20px' }}>
+    <div style={{ background:'white', borderRadius:'20px', padding:'32px', maxWidth:'420px', width:'100%' }}>
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'20px' }}>
+        <h3 style={{ fontSize:'18px', fontWeight:'800', color:'#1a1a2e', margin:0 }}>{vendor.businessName}</h3>
+        <button onClick={onClose} style={{ background:'none', border:'none', fontSize:'22px', cursor:'pointer', color:'#888' }}>✕</button>
+      </div>
+      {vendor.description && <p style={{ color:'#666', fontSize:'13px', marginBottom:'20px' }}>{vendor.description}</p>}
+      <div style={{ display:'flex', flexDirection:'column', gap:'10px' }}>
+        {vendor.phone && <a href={`tel:${vendor.phone}`} style={{ display:'flex', alignItems:'center', gap:'10px', padding:'12px 16px', background:'#f5f5f5', borderRadius:'10px', textDecoration:'none', color:'#1a1a2e', fontWeight:'600', fontSize:'14px' }}>📞 {vendor.phone}</a>}
+        {vendor.website && <a href={vendor.website} target="_blank" rel="noreferrer" style={{ display:'flex', alignItems:'center', gap:'10px', padding:'12px 16px', background:'#f5f5f5', borderRadius:'10px', textDecoration:'none', color:'#1a1a2e', fontWeight:'600', fontSize:'14px' }}>🌐 Visiter le site web</a>}
+        {vendor.instagram && <a href={`https://instagram.com/${vendor.instagram.replace('@','')}`} target="_blank" rel="noreferrer" style={{ display:'flex', alignItems:'center', gap:'10px', padding:'12px 16px', background:'#f5f5f5', borderRadius:'10px', textDecoration:'none', color:'#1a1a2e', fontWeight:'600', fontSize:'14px' }}>📸 {vendor.instagram}</a>}
+      </div>
+      <p style={{ fontSize:'11px', color:'#bbb', textAlign:'center', marginTop:'16px' }}>📍 {vendor.city}, {vendor.country}</p>
+    </div>
+  </div>
+);
+
+// ── PAGE PRINCIPALE ──────────────────────────────────────────────
+const PrestatairesPage = () => {
+  const [vendors,       setVendors]       = useState([]);
+  const [loading,       setLoading]       = useState(true);
+  const [category,      setCategory]      = useState('');
+  const [country,       setCountry]       = useState('');
+  const [search,        setSearch]        = useState('');
+  const [page,          setPage]          = useState(1);
+  const [totalPages,    setTotalPages]    = useState(1);
+  const [total,         setTotal]         = useState(0);
+  const [showRegister,  setShowRegister]  = useState(false);
+  const [showSuccess,   setShowSuccess]   = useState(false);
+  const [contactVendor, setContactVendor] = useState(null);
+
+  useEffect(() => { fetchVendors(); }, [category, page]); // eslint-disable-line
+
+  const fetchVendors = async () => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams({ page, limit: 12 });
+      if (category) params.append('category', category);
+      if (country)  params.append('country',  country);
+      if (search)   params.append('search',   search);
+      const res  = await fetch(`${API_URL}/vendors?${params}`);
+      const data = await res.json();
+      setVendors(data.vendors || []);
+      setTotalPages(data.pages || 1);
+      setTotal(data.total || 0);
+    } catch (err) { console.error(err); }
+    finally { setLoading(false); }
+  };
+
+  const handleSearch = (e) => { e.preventDefault(); setPage(1); fetchVendors(); };
+
+  return (
+    <div style={{ minHeight:'100vh', background:'#f8f9ff', fontFamily:'system-ui, sans-serif' }}>
+
+      {/* Modals */}
+      {showRegister && <RegisterForm onClose={()=>setShowRegister(false)} onSuccess={()=>{setShowRegister(false);setShowSuccess(true);}}/>}
+      {showSuccess && (
+        <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.7)', zIndex:9999, display:'flex', alignItems:'center', justifyContent:'center' }}>
+          <div style={{ background:'white', borderRadius:'20px', padding:'40px', maxWidth:'400px', textAlign:'center' }}>
+            <div style={{ fontSize:'48px', marginBottom:'16px' }}>🎉</div>
+            <h3 style={{ fontSize:'20px', fontWeight:'800', color:'#1a1a2e', marginBottom:'8px' }}>Demande envoyée !</h3>
+            <p style={{ color:'#666', fontSize:'14px', marginBottom:'24px' }}>Votre profil sera examiné et publié après approbation sous 48h.</p>
+            <button onClick={()=>setShowSuccess(false)} style={{ padding:'12px 28px', background:'linear-gradient(135deg,#c9a84c,#f0d080)', color:'#1a1a2e', border:'none', borderRadius:'10px', fontWeight:'700', cursor:'pointer' }}>Parfait !</button>
+          </div>
+        </div>
+      )}
+      {contactVendor && <ContactModal vendor={contactVendor} onClose={()=>setContactVendor(null)}/>}
+
+      {/* Nav */}
+      <nav style={{ background:'linear-gradient(135deg,#1a1a2e,#16213e)', padding:'16px 32px', display:'flex', justifyContent:'space-between', alignItems:'center', position:'sticky', top:0, zIndex:100 }}>
+        <Link to="/" style={{ display:'flex', alignItems:'center', gap:'8px', textDecoration:'none', color:'#c9a84c', fontWeight:'800', fontSize:'18px' }}>
+          <span>💍</span> Wedding<strong>App</strong>
+        </Link>
+        <div style={{ display:'flex', gap:'16px', alignItems:'center' }}>
+          <Link to="/" style={{ color:'#a0a8c0', textDecoration:'none', fontSize:'14px' }}>Accueil</Link>
+          <Link to="/login" style={{ color:'#a0a8c0', textDecoration:'none', fontSize:'14px' }}>Connexion</Link>
+          <button onClick={()=>setShowRegister(true)} style={{ padding:'8px 18px', background:'linear-gradient(135deg,#c9a84c,#f0d080)', color:'#1a1a2e', border:'none', borderRadius:'8px', fontWeight:'700', cursor:'pointer', fontSize:'13px' }}>
+            + Inscrire mon entreprise
+          </button>
+        </div>
+      </nav>
+
+      {/* Hero */}
+      <div style={{ background:'linear-gradient(135deg,#1a1a2e 0%,#16213e 100%)', padding:'64px 32px', textAlign:'center' }}>
+        <div style={{ display:'inline-block', background:'rgba(201,168,76,0.15)', color:'#c9a84c', fontSize:'11px', fontWeight:'800', letterSpacing:'3px', textTransform:'uppercase', padding:'6px 16px', borderRadius:'20px', marginBottom:'20px' }}>
+          Annuaire Mondial
+        </div>
+        <h1 style={{ fontSize:'clamp(28px,5vw,52px)', fontWeight:'900', color:'white', lineHeight:1.15, marginBottom:'16px' }}>
+          Trouvez les meilleurs<br/>
+          <span style={{ color:'#c9a84c' }}>prestataires de mariage</span>
+        </h1>
+        <p style={{ fontSize:'16px', color:'#a0a8c0', maxWidth:'520px', margin:'0 auto 32px', lineHeight:1.6 }}>
+          Des professionnels vérifiés dans le monde entier. Photographes, traiteurs, DJ, fleuristes et bien plus.
+        </p>
+
+        {/* Barre de recherche hero */}
+        <form onSubmit={handleSearch} style={{ display:'flex', gap:'8px', maxWidth:'640px', margin:'0 auto', flexWrap:'wrap', justifyContent:'center' }}>
+          <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="🔍 Photographe, DJ, Traiteur..."
+            style={{ flex:2, minWidth:'200px', padding:'14px 18px', border:'none', borderRadius:'12px', fontSize:'14px', outline:'none' }}/>
+          <input value={country} onChange={e=>setCountry(e.target.value)} placeholder="🌍 Pays"
+            style={{ flex:1, minWidth:'120px', padding:'14px 18px', border:'none', borderRadius:'12px', fontSize:'14px', outline:'none' }}/>
+          <button type="submit" style={{ padding:'14px 24px', background:'linear-gradient(135deg,#c9a84c,#f0d080)', color:'#1a1a2e', border:'none', borderRadius:'12px', fontWeight:'800', cursor:'pointer', fontSize:'14px' }}>
+            Rechercher
+          </button>
+        </form>
+      </div>
+
+      <div style={{ maxWidth:'1200px', margin:'0 auto', padding:'40px 24px' }}>
+
+        {/* Filtres catégories */}
+        <div style={{ display:'flex', gap:'8px', flexWrap:'wrap', marginBottom:'32px' }}>
+          {CATEGORIES.map(cat => (
+            <button key={cat.value} onClick={()=>{setCategory(cat.value);setPage(1);}}
+              style={{ padding:'8px 16px', borderRadius:'20px', border:'none', cursor:'pointer', fontSize:'13px', fontWeight:'600', transition:'all 0.15s',
+                background: category===cat.value ? '#1a1a2e' : 'white',
+                color:      category===cat.value ? '#c9a84c'  : '#555',
+                boxShadow:  category===cat.value ? '0 4px 12px rgba(0,0,0,0.15)' : '0 2px 6px rgba(0,0,0,0.06)',
+              }}>
+              {cat.icon} {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Compteur résultats */}
+        {!loading && (
+          <p style={{ color:'#888', fontSize:'13px', marginBottom:'24px' }}>
+            {total} prestataire{total > 1 ? 's' : ''} trouvé{total > 1 ? 's' : ''}
+            {category ? ` dans "${CATEGORIES.find(c=>c.value===category)?.label}"` : ''}
+            {country ? ` au ${country}` : ''}
+          </p>
+        )}
+
+        {/* Grille */}
+        {loading ? (
+          <div style={{ textAlign:'center', padding:'80px', color:'#888' }}>
+            <div style={{ fontSize:'40px', marginBottom:'16px' }}>⏳</div>
+            <p>Chargement des prestataires...</p>
+          </div>
+        ) : vendors.length === 0 ? (
+          <div style={{ textAlign:'center', padding:'80px', color:'#888' }}>
+            <div style={{ fontSize:'56px', marginBottom:'16px' }}>🔍</div>
+            <h3 style={{ fontSize:'20px', color:'#1a1a2e', marginBottom:'8px' }}>Aucun prestataire trouvé</h3>
+            <p style={{ marginBottom:'24px' }}>Soyez le premier à rejoindre l'annuaire dans cette région !</p>
+            <button onClick={()=>setShowRegister(true)} style={{ padding:'12px 28px', background:'linear-gradient(135deg,#c9a84c,#f0d080)', color:'#1a1a2e', border:'none', borderRadius:'12px', fontWeight:'700', cursor:'pointer', fontSize:'14px' }}>
+              + Ajouter mon entreprise
+            </button>
+          </div>
+        ) : (
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(300px,1fr))', gap:'24px', marginBottom:'48px' }}>
+            {vendors.map(vendor => <VendorCard key={vendor._id} vendor={vendor} onContact={setContactVendor}/>)}
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div style={{ display:'flex', justifyContent:'center', gap:'8px', marginBottom:'48px' }}>
+            <button onClick={()=>setPage(p=>Math.max(1,p-1))} disabled={page===1}
+              style={{ padding:'8px 16px', borderRadius:'8px', border:'1px solid #e0e0e0', background:'white', cursor:page===1?'not-allowed':'pointer', color:'#555', fontWeight:'600' }}>
+              ← Précédent
+            </button>
+            {Array.from({length:totalPages},(_,i)=>i+1).map(p=>(
+              <button key={p} onClick={()=>setPage(p)}
+                style={{ width:'36px', height:'36px', borderRadius:'8px', border:'none', cursor:'pointer', fontWeight:'700', fontSize:'14px', background:page===p?'#1a1a2e':'white', color:page===p?'#c9a84c':'#555', boxShadow:'0 2px 6px rgba(0,0,0,0.06)' }}>
+                {p}
+              </button>
+            ))}
+            <button onClick={()=>setPage(p=>Math.min(totalPages,p+1))} disabled={page===totalPages}
+              style={{ padding:'8px 16px', borderRadius:'8px', border:'1px solid #e0e0e0', background:'white', cursor:page===totalPages?'not-allowed':'pointer', color:'#555', fontWeight:'600' }}>
+              Suivant →
+            </button>
+          </div>
+        )}
+
+        {/* CTA inscription */}
+        <div style={{ background:'linear-gradient(135deg,#1a1a2e,#16213e)', borderRadius:'20px', padding:'48px', textAlign:'center' }}>
+          <h2 style={{ fontSize:'28px', fontWeight:'900', color:'white', marginBottom:'12px' }}>Vous êtes prestataire ?</h2>
+          <p style={{ color:'#a0a8c0', fontSize:'15px', marginBottom:'28px', maxWidth:'400px', margin:'0 auto 28px' }}>
+            Rejoignez notre annuaire et trouvez de nouveaux clients pour votre mariage.
+          </p>
+          <button onClick={()=>setShowRegister(true)} style={{ padding:'14px 32px', background:'linear-gradient(135deg,#c9a84c,#f0d080)', color:'#1a1a2e', border:'none', borderRadius:'12px', fontWeight:'800', cursor:'pointer', fontSize:'16px' }}>
+            💼 Inscrire mon entreprise gratuitement
+          </button>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer style={{ background:'#1a1a2e', color:'#a0a8c0', textAlign:'center', padding:'24px', fontSize:'13px' }}>
+        <Link to="/" style={{ color:'#c9a84c', textDecoration:'none', fontWeight:'700' }}>💍 WeddingApp</Link>
+        {' · '}Annuaire des prestataires de mariage
+      </footer>
+    </div>
+  );
+};
+
+export default PrestatairesPage;

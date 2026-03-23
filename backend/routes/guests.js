@@ -88,15 +88,17 @@ router.get('/', async (req, res) => {
       },
     };
 
-    ['JF', 'JA', 'UF', 'UA'].forEach(cat => {
-      const catGuests = guests.filter(g => g.category === cat);
-      stats.byCategory[cat] = {
-        total: catGuests.length,
-        confirmed: catGuests.filter(g => g.rsvpStatus === 'confirmed').length,
-        declined: catGuests.filter(g => g.rsvpStatus === 'declined').length,
-        pending: catGuests.filter(g => g.rsvpStatus === 'pending').length,
-      };
-    });
+    // Remplace le forEach fixe par dynamique
+const allCategories = [...new Set(guests.map(g => g.category || g.categoryLabel).filter(Boolean))];
+allCategories.forEach(cat => {
+  const catGuests = guests.filter(g => (g.category === cat || g.categoryLabel === cat));
+  stats.byCategory[cat] = {
+    total:     catGuests.length,
+    confirmed: catGuests.filter(g => g.rsvpStatus === 'confirmed').length,
+    declined:  catGuests.filter(g => g.rsvpStatus === 'declined').length,
+    pending:   catGuests.filter(g => g.rsvpStatus === 'pending').length,
+  };
+});
 
     res.json({ success: true, guests, stats });
   } catch (error) {
@@ -268,5 +270,7 @@ router.get('/export', async (req, res) => {
     res.status(500).json({ error: 'Erreur export' });
   }
 });
+
+
 
 module.exports = router;

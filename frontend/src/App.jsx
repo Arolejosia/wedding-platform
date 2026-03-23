@@ -36,7 +36,10 @@ import AllMessages from "./pages/AllMessages";
 import SiteCreated from "./pages/SiteCreated";
 import ShareSite from "./pages/admin/ShareSite";
 import AdminPhotos from './pages/AdminPhotos';
+import PrestatairesPage  from './pages/PrestatairesPage';
+import VendorsAdminPage  from './pages/VendorsAdminPage';
 
+// Dans les routes :
 
 import './App.css';
 
@@ -58,7 +61,10 @@ function App() {
         <Route path="/admin/:weddingId/share" element={<ShareSite />} />
 
         <Route path="/admin/:weddingId/photos" element={<AdminPhotos />} />
-        
+        <Route path="/prestataires"    element={<PrestatairesPage />} />
+<Route path="/admin-vendors"   element={<VendorsAdminPage />} />
+
+
         {/* ========== DASHBOARD ========== */}
         <Route path="/start-preview" element={<StartPreview />} />
         <Route path="/preview/:theme" element={<PreviewWeddingSite />} />

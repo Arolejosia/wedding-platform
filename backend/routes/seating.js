@@ -31,45 +31,53 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST /api/seating/tables - Ajouter/Mettre à jour une table
 router.post('/tables', async (req, res) => {
   try {
-    const plan = await SeatingPlan.findOne({ isActive: true });
-    if (!plan) return res.status(404).json({ error: 'Plan introuvable' });
+    let plan = await SeatingPlan.findOne({ isActive: true });
+    if (!plan) {
+      plan = new SeatingPlan({
+        planName: 'Plan principal',
+        venue: { name: 'Salle de réception', dimensions: { width: 1200, height: 800 } },
+        tables: [],
+        assignments: [],
+      });
+    }
 
     const { tableNumber, tableName, shape, capacity, position, rotation, theme } = req.body;
+
+    // Valider que tableNumber est bien là
+    if (!tableNumber) {
+      return res.status(400).json({ error: 'tableNumber requis' });
+    }
 
     const existingIndex = plan.tables.findIndex(t => t.tableNumber === tableNumber);
 
     if (existingIndex >= 0) {
-      // Mettre à jour
-      plan.tables[existingIndex] = {
-        ...plan.tables[existingIndex],
-        tableName,
-        shape,
-        capacity,
-        position,
-        rotation,
-        theme,
-      };
+      // Mettre à jour position (drag & drop)
+      plan.tables[existingIndex].position  = position  || plan.tables[existingIndex].position;
+      plan.tables[existingIndex].tableName = tableName || plan.tables[existingIndex].tableName;
+      plan.tables[existingIndex].shape     = shape     || plan.tables[existingIndex].shape;
+      plan.tables[existingIndex].capacity  = capacity  || plan.tables[existingIndex].capacity;
+      plan.tables[existingIndex].rotation  = rotation  || plan.tables[existingIndex].rotation;
+      plan.tables[existingIndex].theme     = theme     || plan.tables[existingIndex].theme;
     } else {
-      // Ajouter
+      // Ajouter nouvelle table
       plan.tables.push({
         tableNumber,
         tableName: tableName || `Table ${tableNumber}`,
-        shape,
-        capacity,
-        position,
-        rotation: rotation || 0,
-        theme: theme || { color: '#D4AF37', icon: '' },
+        shape:     shape     || 'round',
+        capacity:  capacity  || 8,
+        position:  position  || { x: 100, y: 100 },
+        rotation:  rotation  || 0,
+        theme:     theme     || { color: '#D4AF37', icon: '' },
       });
     }
 
     await plan.save();
     res.json({ success: true, plan });
   } catch (error) {
-    console.error('Erreur ajout table:', error);
-    res.status(500).json({ error: 'Erreur serveur' });
+    console.error('Erreur ajout table:', error.message);
+    res.status(500).json({ error: error.message });
   }
 });
 
