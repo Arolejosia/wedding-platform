@@ -1,20 +1,9 @@
-// routes/gifts.js
-const express      = require('express');
-const router       = express.Router();
-const Stripe       = require('stripe');
-const Flutterwave  = require('flutterwave-node-v3');
-const Gift         = require('../models/Gift');
-// ✅ APRÈS
+const express = require('express');
+const router  = express.Router();
+const Gift    = require('../models/Gift');
 const { authMiddleware: protect } = require('../middleware/auth');
 
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
-const flw    = new Flutterwave(
-  process.env.FLW_PUBLIC_KEY,
-  process.env.FLW_SECRET_KEY
-);
-
-// ── COMMISSION PLATEFORME ────────────────────────────────────────
-const PLATFORM_FEE_PCT = 0.03; // 3%
+const PLATFORM_FEE_PCT = 0.03;
 
 // ════════════════════════════════════════════════════════════════
 // GET /api/gifts/:weddingId
