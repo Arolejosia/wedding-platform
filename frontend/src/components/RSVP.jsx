@@ -17,10 +17,6 @@ const useRSVP = (wedding, isPreview) => {
   const [submitting,  setSubmitting]  = useState(false);
   const [submitted,   setSubmitted]   = useState(false);
   const [error,       setError]       = useState('');
-  const [showGuestbook, setShowGuestbook] = useState(false);
-  const [gbMessage,     setGbMessage]     = useState('');
-  const [gbSent,        setGbSent]        = useState(false);
-  const [gbLoading,     setGbLoading]     = useState(false);
 
   const API = `${API_URL}/guests`;
 
@@ -69,7 +65,7 @@ const useRSVP = (wedding, isPreview) => {
     e.preventDefault();
     if (isPreview) {
       setSubmitting(true);
-      setTimeout(() => { setSubmitting(false); setSubmitted(true); setTimeout(() => setShowGuestbook(true), 800); }, 1000);
+      setTimeout(() => { setSubmitting(false); setSubmitted(true); }, 1000);
       return;
     }
     if (!formData.person1Name.trim()) { setError('Veuillez entrer votre nom'); return; }
@@ -92,9 +88,6 @@ const useRSVP = (wedding, isPreview) => {
       const data = await res.json();
       if (!res.ok) { setError(data.error || 'Erreur'); return; }
       setSubmitted(true);
-      if (formData.rsvpStatus === 'confirmed') {
-        setTimeout(() => setShowGuestbook(true), 800);
-      }
     } catch { setError('Erreur de connexion.'); }
     finally { setSubmitting(false); }
   };
@@ -107,83 +100,16 @@ const useRSVP = (wedding, isPreview) => {
     setShowCodeModal(true);
   };
 
-  const handleGuestbookSubmit = async () => {
-    if (!gbMessage.trim()) return;
-    setGbLoading(true);
-    try {
-      await fetch(`${API_URL}/guestbook`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          weddingId:  wedding._id,
-          authorName: formData.person1Name || guestData?.code,
-          message:    gbMessage.trim(),
-          approved:   true,
-        }),
-      });
-      setGbSent(true);
-    } catch { setGbSent(true); }
-    finally { setGbLoading(false); }
+  const scrollToGuestbook = () => {
+    const section = document.getElementById('guestbook');
+    if (section) section.scrollIntoView({ behavior: 'smooth' });
   };
 
   return {
     showCodeModal, setShowCodeModal, guestData, formData, setFormData,
     submitting, submitted, error,
-    handleCodeVerified, handleSubmit, handleChangeCode,
-    showGuestbook, setShowGuestbook,
-    gbMessage, setGbMessage, gbSent, gbLoading, handleGuestbookSubmit,
+    handleCodeVerified, handleSubmit, handleChangeCode, scrollToGuestbook,
   };
-};
-
-// ── Prompt livre d'or ────────────────────────────────────────────
-const GuestbookPrompt = ({ r, wedding }) => {
-  if (!r.showGuestbook) return null;
-  const p1 = wedding?.couple?.person1?.firstName || '';
-  const p2 = wedding?.couple?.person2?.firstName || '';
-  return (
-    <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.75)', zIndex:9999, display:'flex', alignItems:'center', justifyContent:'center', padding:'20px' }}>
-      <div style={{ background:'white', borderRadius:'20px', padding:'36px', maxWidth:'440px', width:'100%', textAlign:'center', boxShadow:'0 20px 60px rgba(0,0,0,0.3)' }}>
-        {r.gbSent ? (
-          <>
-            <div style={{ fontSize:'52px', marginBottom:'12px' }}>💌</div>
-            <h3 style={{ fontSize:'20px', fontWeight:'800', color:'#1a1a2e', marginBottom:'8px' }}>Merci pour votre message !</h3>
-            <p style={{ color:'#888', fontSize:'14px', marginBottom:'24px', lineHeight:1.5 }}>
-              {r.formData.person1Name}, votre message sera affiché dans notre livre d'or. 💍
-            </p>
-            <button onClick={() => r.setShowGuestbook(false)} style={{ padding:'12px 28px', background:'linear-gradient(135deg,#1a1a2e,#2a2a4e)', color:'#c9a84c', border:'none', borderRadius:'12px', fontWeight:'700', cursor:'pointer', fontSize:'14px' }}>
-              Fermer
-            </button>
-          </>
-        ) : (
-          <>
-            <div style={{ fontSize:'52px', marginBottom:'12px' }}>📖</div>
-            <h3 style={{ fontSize:'20px', fontWeight:'800', color:'#1a1a2e', marginBottom:'8px' }}>Laissez-nous un message !</h3>
-            <p style={{ color:'#888', fontSize:'14px', marginBottom:'20px', lineHeight:1.5 }}>
-              {r.formData.person1Name}, partagez vos vœux pour {p1} & {p2} 💝
-            </p>
-            <textarea
-              value={r.gbMessage}
-              onChange={e => r.setGbMessage(e.target.value)}
-              placeholder="Tous mes vœux de bonheur pour vous deux..."
-              rows={4}
-              style={{ width:'100%', padding:'12px 16px', border:'2px solid #e0e0e0', borderRadius:'12px', fontSize:'14px', resize:'vertical', boxSizing:'border-box', fontFamily:'inherit', outline:'none', marginBottom:'16px', lineHeight:1.5 }}
-            />
-            <div style={{ display:'flex', gap:'8px' }}>
-              <button onClick={() => r.setShowGuestbook(false)} style={{ flex:1, padding:'12px', background:'#f5f5f5', color:'#555', border:'none', borderRadius:'12px', fontWeight:'600', cursor:'pointer', fontSize:'14px' }}>
-                Passer
-              </button>
-              <button
-                onClick={r.handleGuestbookSubmit}
-                disabled={r.gbLoading || !r.gbMessage.trim()}
-                style={{ flex:2, padding:'12px', background:'linear-gradient(135deg,#c9a84c,#f0d080)', color:'#1a1a2e', border:'none', borderRadius:'12px', fontWeight:'800', cursor: r.gbLoading || !r.gbMessage.trim() ? 'not-allowed' : 'pointer', fontSize:'14px', opacity: r.gbLoading || !r.gbMessage.trim() ? 0.7 : 1 }}
-              >
-                {r.gbLoading ? '⏳ Envoi...' : '💌 Envoyer mon message'}
-              </button>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  );
 };
 
 // ── Champs formulaire communs ─────────────────────────────────────
@@ -234,7 +160,6 @@ const RSVPRoyal = ({ wedding, isPreview }) => {
   const r = useRSVP(wedding, isPreview);
   return (
     <>
-      <GuestbookPrompt r={r} wedding={wedding} />
       {!isPreview && r.showCodeModal && <CodeModal wedding={wedding} onCodeVerified={r.handleCodeVerified} onClose={()=>r.setShowCodeModal(false)}/>}
       <section id="rsvp" className="rsvp rsvp--royal">
         <div className="rsvp__inner">
@@ -247,10 +172,10 @@ const RSVPRoyal = ({ wedding, isPreview }) => {
               <div className="rsvp-success rsvp-success--royal">
                 <span>{r.formData.rsvpStatus==='confirmed'?'🎉':'😢'}</span>
                 <h3>{r.formData.rsvpStatus==='confirmed'?'Merci pour votre confirmation !':'Merci de votre réponse'}</h3>
-                <p>{isPreview?'Aperçu — vos invités verront leur confirmation ici.':`${r.formData.person1Name}, nous avons hâte de vous voir !`}</p>
+                <p>{isPreview ? 'Aperçu — vos invités verront leur confirmation ici.' : `Merci ${r.formData.person1Name} ! Au plaisir de vous revoir 🎊`}</p>
                 {r.formData.rsvpStatus==='confirmed' && !isPreview && (
-                  <button onClick={()=>r.setShowGuestbook(true)} style={{ marginTop:'16px', padding:'10px 20px', background:'linear-gradient(135deg,#c9a84c,#f0d080)', color:'#1a1a2e', border:'none', borderRadius:'10px', fontWeight:'700', cursor:'pointer', fontSize:'13px' }}>
-                    📖 Laisser un message dans le livre d'or
+                  <button onClick={r.scrollToGuestbook} style={{ marginTop:'16px', padding:'12px 24px', background:'linear-gradient(135deg,#c9a84c,#f0d080)', color:'#1a1a2e', border:'none', borderRadius:'10px', fontWeight:'700', cursor:'pointer', fontSize:'14px' }}>
+                    📖 Partagez vos vœux dans notre livre d'or
                   </button>
                 )}
               </div>
@@ -283,7 +208,6 @@ const RSVPMinimal = ({ wedding, isPreview }) => {
   const r = useRSVP(wedding, isPreview);
   return (
     <>
-      <GuestbookPrompt r={r} wedding={wedding} />
       {!isPreview && r.showCodeModal && <CodeModal wedding={wedding} onCodeVerified={r.handleCodeVerified} onClose={()=>r.setShowCodeModal(false)}/>}
       <section id="rsvp" className="rsvp rsvp--minimal">
         <div className="rsvp__inner">
@@ -296,10 +220,10 @@ const RSVPMinimal = ({ wedding, isPreview }) => {
               <div className="rsvp-success rsvp-success--minimal">
                 <span>{r.formData.rsvpStatus==='confirmed'?'🎉':'😔'}</span>
                 <h3>{r.formData.rsvpStatus==='confirmed'?'Confirmé !':'Réponse reçue'}</h3>
-                <p>{isPreview?'Aperçu.':r.formData.person1Name+', merci pour votre réponse.'}</p>
+                <p>{isPreview ? 'Aperçu.' : `Merci ${r.formData.person1Name} ! Au plaisir de vous revoir 🎊`}</p>
                 {r.formData.rsvpStatus==='confirmed' && !isPreview && (
-                  <button onClick={()=>r.setShowGuestbook(true)} style={{ marginTop:'16px', padding:'10px 20px', background:'#1a1a2e', color:'#c9a84c', border:'none', borderRadius:'10px', fontWeight:'700', cursor:'pointer', fontSize:'13px' }}>
-                    📖 Laisser un message
+                  <button onClick={r.scrollToGuestbook} style={{ marginTop:'16px', padding:'12px 24px', background:'#1a1a2e', color:'#c9a84c', border:'none', borderRadius:'10px', fontWeight:'700', cursor:'pointer', fontSize:'14px' }}>
+                    📖 Partagez vos vœux dans notre livre d'or
                   </button>
                 )}
               </div>
@@ -330,7 +254,6 @@ const RSVPFloral = ({ wedding, isPreview }) => {
   const r = useRSVP(wedding, isPreview);
   return (
     <>
-      <GuestbookPrompt r={r} wedding={wedding} />
       {!isPreview && r.showCodeModal && <CodeModal wedding={wedding} onCodeVerified={r.handleCodeVerified} onClose={()=>r.setShowCodeModal(false)}/>}
       <section id="rsvp" className="rsvp rsvp--floral">
         <div className="floral-rsvp-deco floral-rsvp-deco--tl">🌸</div>
@@ -345,10 +268,10 @@ const RSVPFloral = ({ wedding, isPreview }) => {
               <div className="rsvp-success rsvp-success--floral">
                 <span>{r.formData.rsvpStatus==='confirmed'?'🎉':'😢'}</span>
                 <h3>{r.formData.rsvpStatus==='confirmed'?'Merci !':'Réponse reçue'}</h3>
-                <p>{isPreview?'Aperçu.':r.formData.person1Name+', nous avons hâte de vous voir !'}</p>
+                <p>{isPreview ? 'Aperçu.' : `Merci ${r.formData.person1Name} ! Au plaisir de vous revoir 🎊`}</p>
                 {r.formData.rsvpStatus==='confirmed' && !isPreview && (
-                  <button onClick={()=>r.setShowGuestbook(true)} style={{ marginTop:'16px', padding:'10px 20px', background:'#c2185b', color:'white', border:'none', borderRadius:'10px', fontWeight:'700', cursor:'pointer', fontSize:'13px' }}>
-                    📖 Laisser un message
+                  <button onClick={r.scrollToGuestbook} style={{ marginTop:'16px', padding:'12px 24px', background:'#c2185b', color:'white', border:'none', borderRadius:'10px', fontWeight:'700', cursor:'pointer', fontSize:'14px' }}>
+                    📖 Partagez vos vœux dans notre livre d'or
                   </button>
                 )}
               </div>
@@ -379,7 +302,6 @@ const RSVPBoho = ({ wedding, isPreview }) => {
   const r = useRSVP(wedding, isPreview);
   return (
     <>
-      <GuestbookPrompt r={r} wedding={wedding} />
       {!isPreview && r.showCodeModal && <CodeModal wedding={wedding} onCodeVerified={r.handleCodeVerified} onClose={()=>r.setShowCodeModal(false)}/>}
       <section id="rsvp" className="rsvp rsvp--boho">
         <div className="rsvp__inner">
@@ -392,10 +314,10 @@ const RSVPBoho = ({ wedding, isPreview }) => {
               <div className="rsvp-success rsvp-success--boho">
                 <span>{r.formData.rsvpStatus==='confirmed'?'🎉':'😔'}</span>
                 <h3>{r.formData.rsvpStatus==='confirmed'?'Merci !':'Réponse reçue'}</h3>
-                <p>{isPreview?'Aperçu.':r.formData.person1Name+', merci pour votre réponse.'}</p>
+                <p>{isPreview ? 'Aperçu.' : `Merci ${r.formData.person1Name} ! Au plaisir de vous revoir 🎊`}</p>
                 {r.formData.rsvpStatus==='confirmed' && !isPreview && (
-                  <button onClick={()=>r.setShowGuestbook(true)} style={{ marginTop:'16px', padding:'10px 20px', background:'#8b5e3c', color:'white', border:'none', borderRadius:'10px', fontWeight:'700', cursor:'pointer', fontSize:'13px' }}>
-                    📖 Laisser un message
+                  <button onClick={r.scrollToGuestbook} style={{ marginTop:'16px', padding:'12px 24px', background:'#8b5e3c', color:'white', border:'none', borderRadius:'10px', fontWeight:'700', cursor:'pointer', fontSize:'14px' }}>
+                    📖 Partagez vos vœux dans notre livre d'or
                   </button>
                 )}
               </div>
@@ -426,7 +348,6 @@ const RSVPLuxury = ({ wedding, isPreview }) => {
   const r = useRSVP(wedding, isPreview);
   return (
     <>
-      <GuestbookPrompt r={r} wedding={wedding} />
       {!isPreview && r.showCodeModal && <CodeModal wedding={wedding} onCodeVerified={r.handleCodeVerified} onClose={()=>r.setShowCodeModal(false)}/>}
       <section id="rsvp" className="rsvp rsvp--luxury">
         <div className="luxury-rsvp-frame"><div className="lrf-tl"/><div className="lrf-tr"/><div className="lrf-bl"/><div className="lrf-br"/></div>
@@ -441,10 +362,10 @@ const RSVPLuxury = ({ wedding, isPreview }) => {
               <div className="rsvp-success rsvp-success--luxury">
                 <span>{r.formData.rsvpStatus==='confirmed'?'🎉':'😢'}</span>
                 <h3>{r.formData.rsvpStatus==='confirmed'?'Confirmation reçue':'Réponse enregistrée'}</h3>
-                <p>{isPreview?'Aperçu.':r.formData.person1Name+', votre réponse a été enregistrée.'}</p>
+                <p>{isPreview ? 'Aperçu.' : `Merci ${r.formData.person1Name} ! Au plaisir de vous revoir 🎊`}</p>
                 {r.formData.rsvpStatus==='confirmed' && !isPreview && (
-                  <button onClick={()=>r.setShowGuestbook(true)} style={{ marginTop:'16px', padding:'10px 20px', background:'#d4af37', color:'#0d0d0d', border:'none', borderRadius:'10px', fontWeight:'700', cursor:'pointer', fontSize:'13px' }}>
-                    📖 Laisser un message
+                  <button onClick={r.scrollToGuestbook} style={{ marginTop:'16px', padding:'12px 24px', background:'#d4af37', color:'#0d0d0d', border:'none', borderRadius:'10px', fontWeight:'700', cursor:'pointer', fontSize:'14px' }}>
+                    📖 Partagez vos vœux dans notre livre d'or
                   </button>
                 )}
               </div>
