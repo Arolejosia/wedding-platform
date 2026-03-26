@@ -20,8 +20,7 @@ const authRouter         = require('./routes/auth');
 const weddingsRouter     = require('./routes/weddings');
 const publicRoutes       = require('./routes/public');
 const giftsRoutes        = require('./routes/gifts');
-const stripeWebhook      = require('./webhooks/stripeWebhook');
-const flutterwaveWebhook = require('./webhooks/flutterwaveWebhook');
+
 const uploadRoutes = require('./routes/upload');
 const vendorsRoutes = require('./routes/vendors');
 
@@ -36,9 +35,7 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-// ⚠️ Webhooks AVANT express.json() — Stripe exige le body RAW
-app.use('/webhook/stripe',      stripeWebhook);
-app.use('/webhook/flutterwave', flutterwaveWebhook);
+
 
 // ── Body parser (après webhooks) ─────────────────────────────────
 app.use(express.json());
