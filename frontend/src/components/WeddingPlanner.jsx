@@ -717,142 +717,118 @@ ${methods.length?`<div class="pay-titre">— Cadeaux & Contributions —</div>${
 };
 
 // ── EDITORIAL ──
-
+// ── EDITORIAL ──
 const buildEditorial = (t, info, cat, nom1, nom2, code) => {
-  const pay = info.pay || {}, methods = buildPayMethods(pay);
-
+  const pay=info.pay||{}, methods=buildPayMethods(pay);
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Billet ${code}</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Playfair+Display:ital,wght@0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
-
 ${makePdfScript(code,700)}
-
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{background:#e0e0e0;font-family:'Montserrat',sans-serif;}
-
+<style>*{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}html,body{background:#e0e0e0;font-family:'Montserrat',sans-serif;}@media print{.no-print{display:none!important;}body{background:transparent;padding:0;}@page{margin:0;size:720px auto;}}
+.no-print{position:fixed;top:0;left:0;right:0;background:rgba(0,0,0,0.92);padding:10px 24px;display:flex;justify-content:space-between;align-items:center;z-index:9999;font-family:sans-serif;}.spacer-top{height:56px;}
 #billet{width:700px;background:${t.bg};overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.4);margin:0 auto;}
-
-.hero{background:linear-gradient(135deg,${t.accent},${t.accent}cc);padding:42px 52px 34px;}
-.hero-noms-row{font-family:'Playfair Display',serif;font-size:42px;font-weight:700;color:${t.bg};}
-.hero-et-inline{font-size:32px;font-style:italic;margin:0 8px;}
-
+.hero{background:linear-gradient(135deg,${t.accent},${t.accent}cc);padding:42px 52px 34px;position:relative;overflow:hidden;}
+.hero::after{content:'';position:absolute;right:-50px;top:-50px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.06);}
+.hero-sub{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:${t.bg}80;margin-bottom:10px;font-weight:700;}
+.hero-noms-row{font-family:'Playfair Display',serif;font-size:42px;font-weight:700;color:${t.bg};line-height:1.1;margin:4px 0;}
+.hero-et-inline{font-size:32px;font-style:italic;color:${t.bg}80;margin:0 8px;}
+.hero-date{margin-top:18px;}.hero-d{font-size:14px;color:${t.bg};font-weight:700;letter-spacing:1px;}.hero-l{font-size:11px;color:${t.bg}60;letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
+.hero-num{font-size:80px;font-weight:900;color:${t.bg};opacity:.10;position:absolute;right:48px;bottom:8px;font-family:'Montserrat',sans-serif;line-height:1;}
 .inv-strip{background:${t.accent}18;border-left:6px solid ${t.accent};padding:20px 52px;display:flex;justify-content:space-between;align-items:center;}
-
-.inv-nom{
-  font-family:'Playfair Display',serif;
-  font-size:34px;
-  font-weight:800;
-  letter-spacing:1px;
-  color:${t.text};
-}
-
-.code-chip{
-  font-family:'Courier New',monospace;
-  font-size:28px;
-  font-weight:900;
-  color:${t.accent};
-  background:${t.accent}15;
-  padding:12px 20px;
-  border:2px solid ${t.accent};
-  letter-spacing:6px;
-}
-
-.section{
-  padding:22px 52px;
-  margin-bottom:10px;
-}
-
-.sec-lbl{
-  font-size:10px;
-  letter-spacing:5px;
-  font-weight:800;
-  color:${t.accent};
-}
-
-.footer-band{
-  background:linear-gradient(135deg,${t.accent}20,${t.accent}06);
-  padding:14px 52px;
-  display:flex;
-  justify-content:space-between;
-}
-</style>
-
-</head><body>
-
+.inv-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:5px;}
+.inv-nom{font-family:'Playfair Display',serif;font-size:34px;color:${t.text};font-weight:800;letter-spacing:1px;}
+.code-chip{font-family:'Courier New',monospace;font-size:28px;font-weight:900;color:${t.accent};background:${t.accent}15;padding:12px 20px;border:2px solid ${t.accent};letter-spacing:6px;flex-shrink:0;}
+.section{padding:22px 52px;margin-bottom:10px;border-top:1px solid ${t.accent}12;}.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.sec-num{font-size:36px;font-weight:900;color:${t.accent}18;line-height:1;}.sec-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};font-weight:700;}
+.dress-badges{display:flex;flex-wrap:wrap;gap:8px;}
+.dress-badge{display:flex;align-items:center;gap:8px;background:${t.accent}12;border:1px solid ${t.accent}40;border-radius:8px;padding:10px 14px;flex:1;min-width:150px;}
+.dress-badge-icon{font-size:20px;}
+.dress-badge-lbl{font-size:8px;text-transform:uppercase;letter-spacing:2px;color:${t.accent};margin-bottom:2px;}
+.dress-badge-val{font-size:12px;font-weight:700;color:${t.text};}
+.ev-list{display:flex;flex-direction:column;gap:10px;}.ev-row{display:flex;gap:12px;align-items:flex-start;}
+.ev-t{min-width:55px;text-align:right;font-size:20px;font-weight:900;color:${t.accent};line-height:1;font-family:'Montserrat',sans-serif;}
+.ev-line{width:2px;background:${t.accent}25;margin:4px 6px 0;flex-shrink:0;}.ev-cnt{flex:1;padding-bottom:8px;border-bottom:1px solid ${t.accent}08;}
+.ev-n{font-size:13px;font-weight:700;color:${t.text};}.ev-d{font-size:11px;color:${t.text};opacity:.55;margin-top:2px;}
+.pay-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;}.pay-it{display:flex;gap:8px;align-items:center;background:${t.accent}08;padding:10px 12px;border-radius:3px;}
+.pay-ico{font-size:18px;}.pay-lb{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:${t.accent}70;}.pay-vl{font-size:12px;font-weight:700;color:${t.text};}.pay-nm{font-size:10px;color:${t.text};opacity:.45;}
+.cta-bloc{text-align:center;margin:20px 52px 0;padding-top:16px;border-top:1px solid ${t.accent}30;}
+.cta-msg{font-size:12px;color:${t.text};opacity:.7;margin-bottom:12px;}
+.cta-btn{display:inline-block;background:linear-gradient(135deg,${t.accent},#f0d080);color:#1a1a2e;font-weight:800;padding:13px 28px;border-radius:10px;font-size:14px;letter-spacing:1px;box-shadow:0 6px 18px ${t.accent}50;text-decoration:none;}
+.cta-sub{margin-top:8px;font-size:11px;color:${t.text};opacity:.5;}
+.footer-band{background:linear-gradient(135deg,${t.accent}20,${t.accent}06);padding:16px 52px;display:flex;justify-content:space-between;align-items:center;border-top:2px solid ${t.accent}40;margin-top:16px;}
+.ft-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:${t.accent}70;margin-bottom:4px;}
+.ft-code{font-family:'Courier New',monospace;font-size:20px;font-weight:800;color:${t.accent};letter-spacing:4px;}
+.ft-famille{text-align:right;}.ft-famille-lbl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:${t.accent}70;margin-bottom:4px;}
+.ft-famille-val{font-size:14px;font-weight:800;color:${t.accent};letter-spacing:2px;text-transform:uppercase;border:2px solid ${t.accent}50;padding:6px 14px;background:${t.accent}10;display:inline-block;}
+</style></head><body>
+${TOOLBAR(code, info.nomMariee, info.nomMarie)}
 <div id="billet">
-
 <div class="hero">
-  <div class="hero-noms-row">
-    ${info.nomMariee} <span class="hero-et-inline">&</span> ${info.nomMarie}
-  </div>
+  <div class="hero-sub">💍 &nbsp; Mariage &nbsp; 💍</div>
+  <div class="hero-noms-row">${info.nomMariee} <span class="hero-et-inline">&amp;</span> ${info.nomMarie}</div>
+  <div class="hero-date"><div class="hero-d">${info.dateStr||'—'}</div>${info.lieu?`<div class="hero-l">${info.lieu}</div>`:''}</div>
+  <div class="hero-num">${info.dateStr?.split(' ')[0]||''}</div>
 </div>
 
 <div class="inv-strip">
-  <div>
-    <div class="inv-lbl">Invitation remise à</div>
-    <div class="inv-nom">${nom1 || '—'} ${nom2 ? `& ${nom2}` : ''}</div>
-  </div>
+  <div><div class="inv-lbl">Invitation remise à</div><div class="inv-nom">${nom1||'—'}${nom2?` &amp; ${nom2}`:''}</div></div>
   <div class="code-chip">${code}</div>
 </div>
 
-${methods.length ? `
+${(info.dressCode||info.dressHomme||info.dressFemme)?`
 <div class="section">
-  <div class="sec-lbl">Cadeaux & Contributions</div>
-
-  <div style="font-size:11px;color:${t.text};opacity:.7;margin:10px 0;">
-    💛 Votre présence est notre plus beau cadeau.
-    Si vous souhaitez contribuer, voici quelques options :
+  <div class="sec-head"><div class="sec-num">01</div><div class="sec-lbl">Dress Code</div></div>
+  <div class="dress-badges">
+    ${info.dressCode?`<div class="dress-badge"><span class="dress-badge-icon">👗</span><div><div class="dress-badge-lbl">Tenue soirée</div><div class="dress-badge-val">${info.dressCode}</div></div></div>`:''}
+    ${info.dressHomme?`<div class="dress-badge"><span class="dress-badge-icon">👔</span><div><div class="dress-badge-lbl">Messieurs</div><div class="dress-badge-val">${info.dressHomme}</div></div></div>`:''}
+    ${info.dressFemme?`<div class="dress-badge"><span class="dress-badge-icon">💃</span><div><div class="dress-badge-lbl">Mesdames</div><div class="dress-badge-val">${info.dressFemme}</div></div></div>`:''}
   </div>
+</div>`:''}
 
-  ${methods.map(m => `
-    <div style="margin-bottom:8px;">
-      ${m.ico} ${m.lbl} : ${m.val}
-    </div>
-  `).join('')}
-</div>
-` : ''}
+${info.events?.length?`
+<div class="section">
+  <div class="sec-head"><div class="sec-num">02</div><div class="sec-lbl">Programme</div></div>
+  <div class="ev-list">${info.events.map(ev=>`
+    <div class="ev-row">
+      <div class="ev-t">${ev.time||'—'}</div>
+      <div class="ev-line"></div>
+      <div class="ev-cnt">
+        <div class="ev-n">${ev.title||ev.type||''}</div>
+        <div class="ev-d">${[ev.location,ev.address,ev.dressCode?'👗 '+ev.dressCode:''].filter(Boolean).join(' · ')}</div>
+      </div>
+    </div>`).join('')}
+  </div>
+</div>`:''}
 
-<!-- 🔥 CTA RSVP -->
-<div style="text-align:center;margin-top:20px;padding-top:16px;border-top:1px solid ${t.accent}30;">
+${methods.length?`
+<div class="section">
+  <div class="sec-head"><div class="sec-num">03</div><div class="sec-lbl">Cadeaux &amp; Contributions</div></div>
+  <div style="font-size:11px;color:${t.text};opacity:.7;font-style:italic;margin-bottom:12px;">
+    💛 ${pay.message||'Votre présence est notre plus beau cadeau. Si vous souhaitez contribuer, voici quelques options :'}
+  </div>
+  <div class="pay-list">${methods.map(m=>`
+    <div class="pay-it">
+      <div class="pay-ico">${m.ico}</div>
+      <div><div class="pay-lb">${m.lbl}</div><div class="pay-vl">${m.val}</div>${m.nm?`<div class="pay-nm">${m.nm}</div>`:''}</div>
+    </div>`).join('')}
+  </div>
+</div>`:''}
 
-  <p style="font-size:12px;color:${t.text};opacity:.7;margin-bottom:10px;">
-    Nous avons hâte de célébrer ce moment avec vous ✨
-  </p>
-
-  <a href="https://wedding-platform-1.onrender.com/w/josia-ulrich" target="_blank" style="text-decoration:none;">
-    <div style="
-      display:inline-block;
-      background:linear-gradient(135deg,${t.accent},#f0d080);
-      color:#1a1a2e;
-      font-weight:800;
-      padding:12px 24px;
-      border-radius:10px;
-      font-size:14px;
-      letter-spacing:1px;
-      box-shadow:0 6px 18px ${t.accent}50;
-    ">
-      📲 Confirmer votre présence
-    </div>
-  </a>
-
-  <p style="margin-top:8px;font-size:11px;color:${t.text};opacity:.5;">
-    🎟️ Présentez ce billet à l’entrée
-  </p>
-
+<div class="cta-bloc">
+  <div class="cta-msg">Nous avons hâte de célébrer ce moment avec vous ✨</div>
+  <a href="https://wedding-platform-1.onrender.com/w/josia-ulrich" target="_blank" class="cta-btn">📲 Confirmer votre présence</a>
+  <div class="cta-sub">🎟️ Votre Code sera requis à l'entrée</div>
 </div>
 
 <div class="footer-band">
-  <div>Code : <b>${code}</b></div>
-  ${cat ? `<div>${cat.label}</div>` : ''}
+  <div>
+    <div class="ft-lbl">Code d'entrée :</div>
+    <div class="ft-code">${code}</div>
+  </div>
+  ${cat?`<div class="ft-famille"><div class="ft-famille-lbl">Invitation de :</div><div class="ft-famille-val">🎊 FAMILLE ${cat.label.toUpperCase()}</div></div>`:''}
 </div>
 
-</div>
-
-</body></html>`;
+</div></body></html>`;
 };
-
-
 
 // ── PARCHEMIN ──
 const buildParchemin = (t, info, cat, nom1, nom2, code) => {
