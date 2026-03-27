@@ -835,12 +835,26 @@ ${methods.length?`
 // ── PARCHEMIN ──
 const buildParchemin = (t, info, cat, nom1, nom2, code) => {
   const pay=info.pay||{}, methods=buildPayMethods(pay);
+
+  // Fusionner les événements qui ont le même lieu
+  const groupedLieux = [];
+  info.events?.forEach(ev => {
+    if (!ev.location) return;
+    const key = [ev.location, ev.address].filter(Boolean).join(', ');
+    const existing = groupedLieux.find(g => g.key === key);
+    if (existing) {
+      existing.titres.push(ev.title||ev.type||'');
+    } else {
+      groupedLieux.push({ key, location: ev.location, address: ev.address, titres: [ev.title||ev.type||''] });
+    }
+  });
+
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Billet ${code}</title>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 ${makePdfScript(code,700)}
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
-html,body{background:#1a140a;font-family:'Lato',sans-serif;}
+html,body{background:#1a140a;font-family:'Libre Baskerville',serif;}
 @media print{.no-print{display:none!important;}body{background:transparent;padding:0;}@page{margin:0;size:720px auto;}}
 .no-print{position:fixed;top:0;left:0;right:0;background:rgba(0,0,0,0.88);padding:10px 24px;display:flex;justify-content:space-between;align-items:center;z-index:9999;font-family:sans-serif;}
 .spacer-top{height:56px;}
@@ -863,9 +877,9 @@ html,body{background:#1a140a;font-family:'Lato',sans-serif;}
 /* ── ACTION REQUISE + CODE ── */
 .action-band{display:flex;justify-content:space-between;align-items:center;background:${t.accent}20;border:1px solid ${t.accent}50;padding:14px 20px;margin-bottom:24px;}
 .action-tag{font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};margin-bottom:5px;}
-.action-txt{font-size:14px;color:#ffffff;font-weight:700;}
+.action-txt{font-family:'Libre Baskerville',serif;font-size:13px;color:#ffffff;font-weight:700;}
 .action-date{color:${t.accent};}
-.action-sub{font-size:11px;color:#ffffff;opacity:.7;margin-top:3px;}
+.action-sub{font-family:'Libre Baskerville',serif;font-size:11px;color:#ffffff;opacity:.7;margin-top:3px;font-style:italic;}
 .action-code-lbl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:5px;text-align:center;}
 .action-code{font-family:'Courier New',monospace;font-size:20px;font-weight:800;color:${t.accent};letter-spacing:5px;background:${t.accent}20;padding:8px 14px;border:1px solid ${t.accent}50;}
 
@@ -876,7 +890,7 @@ html,body{background:#1a140a;font-family:'Lato',sans-serif;}
 /* ── DATE ── */
 .date-f{text-align:center;margin:16px auto;max-width:400px;padding:14px 24px;border-top:2px solid ${t.accent};border-bottom:2px solid ${t.accent};}
 .date-txt{font-family:'Cinzel',serif;font-size:20px;color:#ffffff;letter-spacing:3px;text-transform:uppercase;}
-.lieu-txt{font-family:'IM Fell English',serif;font-size:14px;color:#ffffff;opacity:.8;font-style:italic;margin-top:5px;}
+.lieu-txt{font-family:'Libre Baskerville',serif;font-size:13px;color:#ffffff;opacity:.8;font-style:italic;margin-top:5px;}
 
 /* ── FILET ── */
 .filet{display:flex;align-items:center;gap:8px;margin:16px 0;color:${t.accent};font-size:14px;letter-spacing:8px;justify-content:center;}
@@ -888,47 +902,47 @@ html,body{background:#1a140a;font-family:'Lato',sans-serif;}
 .inv-nom{font-family:'Great Vibes',cursive;font-size:48px;color:#ffffff;text-align:center;padding-bottom:14px;border-bottom:1px solid ${t.accent}40;}
 
 /* ── TITRE SECTION ── */
-.section-titre{font-family:'Cinzel',serif;font-size:13px;letter-spacing:5px;text-transform:uppercase;color:#ffffff;background:${t.accent}35;border:1px solid ${t.accent}60;text-align:center;margin:20px 0 16px;padding:11px 0;}
+.section-titre{font-family:'Cinzel',serif;font-size:12px;letter-spacing:5px;text-transform:uppercase;color:#ffffff;background:${t.accent}35;border:1px solid ${t.accent}60;text-align:center;margin:20px 0 16px;padding:11px 0;}
 
 /* ── PROGRAMME ICÔNES ── */
-.prog-icones{display:flex;justify-content:center;gap:0;margin-bottom:16px;border:1px solid ${t.accent}30;}
+.prog-icones{display:flex;justify-content:center;gap:0;margin-bottom:0;border:1px solid ${t.accent}30;}
 .prog-item{flex:1;text-align:center;padding:18px 12px;position:relative;border-right:1px solid ${t.accent}25;}
 .prog-item:last-child{border-right:none;}
-.prog-ico{font-size:34px;margin-bottom:10px;}
-.prog-nom{font-family:'Lato',sans-serif;font-size:14px;font-weight:700;color:#ffffff;margin-bottom:8px;line-height:1.4;}
-.prog-heure{font-family:'Cinzel',serif;font-size:14px;color:${t.accent};letter-spacing:2px;}
+.prog-ico{font-size:32px;margin-bottom:10px;}
+.prog-nom{font-family:'Libre Baskerville',serif;font-size:14px;font-weight:700;color:#ffffff;margin-bottom:8px;line-height:1.4;}
+.prog-heure{font-family:'Cinzel',serif;font-size:13px;color:${t.accent};letter-spacing:2px;}
 .prog-heure::before{content:'• ';}
 .prog-heure::after{content:' •';}
 
-/* ── LIEUX ── */
-.lieux-bloc{margin:16px 0;}
-.lieu-item{text-align:center;padding:12px 0;border-bottom:1px solid ${t.accent}20;}
+/* ── LIEUX FUSIONNÉS ── */
+.lieux-bloc{margin:0 0 16px;border:1px solid ${t.accent}25;border-top:none;}
+.lieu-item{text-align:center;padding:12px 16px;border-bottom:1px solid ${t.accent}15;}
 .lieu-item:last-child{border-bottom:none;}
-.lieu-nom{font-family:'Cinzel',serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;}
-.lieu-adresse{font-size:13px;color:#ffffff;opacity:.85;}
+.lieu-nom{font-family:'Cinzel',serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;}
+.lieu-adresse{font-family:'Libre Baskerville',serif;font-size:13px;color:#ffffff;opacity:.85;}
 
 /* ── CADEAUX ── */
-.cad-msg{font-size:14px;color:#ffffff;opacity:.85;text-align:center;font-style:italic;margin-bottom:14px;}
+.cad-msg{font-family:'Libre Baskerville',serif;font-size:13px;color:#ffffff;opacity:.85;text-align:center;font-style:italic;margin-bottom:14px;}
 .cad-g{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
 .cad-i{border:1px solid ${t.accent}35;padding:13px 14px;display:flex;gap:10px;background:${t.accent}12;align-items:flex-start;}
 .cad-ico{font-size:20px;flex-shrink:0;}
 .cad-l{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;}
-.cad-v{font-size:14px;font-weight:800;color:#ffffff;word-break:break-all;}
-.cad-n{font-size:12px;color:#ffffff;opacity:.85;margin-top:2px;}
+.cad-v{font-family:'Libre Baskerville',serif;font-size:13px;font-weight:700;color:#ffffff;word-break:break-all;}
+.cad-n{font-family:'Libre Baskerville',serif;font-size:11px;color:#ffffff;opacity:.85;margin-top:2px;font-style:italic;}
 
 /* ── CTA ── */
 .cta-bloc{text-align:center;margin-top:22px;padding-top:16px;border-top:1px solid ${t.accent}30;}
-.cta-msg-gold{font-size:15px;color:${t.accent};font-weight:700;margin-bottom:8px;}
-.cta-msg-white{font-size:13px;color:#ffffff;opacity:.8;margin-bottom:14px;}
-.cta-btn{display:inline-block;background:linear-gradient(135deg,${t.accent},#f0d080);color:#1a1a2e;font-weight:800;padding:14px 32px;border-radius:10px;font-size:15px;letter-spacing:1px;box-shadow:0 6px 18px ${t.accent}50;text-decoration:none;}
-.cta-sub{margin-top:10px;font-size:12px;color:#ffffff;opacity:.65;}
+.cta-msg-gold{font-family:'Libre Baskerville',serif;font-size:14px;color:${t.accent};font-style:italic;margin-bottom:8px;}
+.cta-msg-white{font-family:'Libre Baskerville',serif;font-size:13px;color:#ffffff;opacity:.8;margin-bottom:14px;}
+.cta-btn{display:inline-block;background:linear-gradient(135deg,${t.accent},#f0d080);color:#1a1a2e;font-family:'Cinzel',serif;font-weight:700;padding:14px 32px;border-radius:10px;font-size:14px;letter-spacing:2px;box-shadow:0 6px 18px ${t.accent}50;text-decoration:none;}
+.cta-sub{margin-top:10px;font-family:'Libre Baskerville',serif;font-size:11px;color:#ffffff;opacity:.65;font-style:italic;}
 
 /* ── PIED ── */
 .pied{display:flex;justify-content:space-between;align-items:center;padding:16px 0 4px;border-top:2px solid ${t.accent}40;margin-top:18px;}
 .pied-l{font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:6px;}
 .pied-code{font-family:'Courier New',monospace;font-size:28px;font-weight:800;color:${t.accent};letter-spacing:8px;border:1px solid ${t.accent}60;padding:10px 16px;background:${t.accent}15;display:inline-block;}
 .pied-famille-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:6px;text-align:right;}
-.pied-famille-val{font-size:15px;font-weight:800;color:${t.accent};letter-spacing:2px;text-transform:uppercase;border:2px solid ${t.accent}60;padding:8px 16px;background:${t.accent}15;display:inline-block;}
+.pied-famille-val{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:${t.accent};letter-spacing:2px;text-transform:uppercase;border:2px solid ${t.accent}60;padding:8px 16px;background:${t.accent}15;display:inline-block;}
 </style></head><body>
 ${TOOLBAR(code, info.nomMariee, info.nomMarie)}
 <div id="billet">
@@ -976,12 +990,11 @@ ${info.events?.length?`
     </div>`;
   }).join('')}
 </div>
-
 <div class="lieux-bloc">
-  ${info.events.filter(ev => ev.location).map(ev => `
+  ${groupedLieux.map(g => `
     <div class="lieu-item">
-      <div class="lieu-nom">${ev.title||ev.type||''}</div>
-      <div class="lieu-adresse">${[ev.location, ev.address].filter(Boolean).join(', ')}</div>
+      <div class="lieu-nom">${g.titres.join(' &amp; ')}</div>
+      <div class="lieu-adresse">${g.key}</div>
     </div>`).join('')}
 </div>`:''}
 
@@ -1002,8 +1015,8 @@ ${methods.length?`
 
 <div class="cta-bloc">
   <div class="cta-msg-gold">💛 Votre présence est notre plus beau cadeau</div>
-  <div class="cta-msg-white">Merci de confirmer votre présence en utilisant votre code d'invitation .</div>
-  <a href="https://wedding-platform-1.onrender.com/w/josia-ulrich" target="_blank" class="cta-btn">📲 Cliquez-ici pour confirmer votre présence</a>
+  <div class="cta-msg-white">Merci de confirmer votre présence en utilisant votre code d'invitation.</div>
+  <a href="https://wedding-platform-1.onrender.com/w/josia-ulrich" target="_blank" class="cta-btn">📲 Cliquez pour CONFIRMER VOTRE PRÉSENCE</a>
   <div class="cta-sub">🎟️ Votre code d'invitation sera requis à l'entrée</div>
 </div>
 
@@ -1012,13 +1025,12 @@ ${methods.length?`
     <div class="pied-l">Code d'entrée</div>
     <div class="pied-code">${code}</div>
   </div>
-  ${cat?`<div style="text-align:right;"><div class="pied-famille-lbl">Invitation de :</div><div class="pied-famille-val"> ${cat.label.toUpperCase()}</div></div>`:''}
+  ${cat?`<div style="text-align:right;"><div class="pied-famille-lbl">Invitation de :</div><div class="pied-famille-val">${cat.label.toUpperCase()}</div></div>`:''}
 </div>
 
 </div></div></div></div></div>
 </div></body></html>`;
 };
-
 // ── CLASSIQUE ──
 const buildClassique = (t, info, cat, nom1, nom2, code) => {
   const pay=info.pay||{}, methods=buildPayMethods(pay);
