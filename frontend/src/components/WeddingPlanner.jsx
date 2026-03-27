@@ -810,7 +810,38 @@ ${TOOLBAR(code, info.nomMariee, info.nomMarie)}
 ${(info.dressCode||info.dressHomme||info.dressFemme)?`<div class="filet" style="margin:14px 0;font-size:10px;letter-spacing:5px;">— Dress Code —</div><div class="g">${info.dressCode?`<div class="b full"><div class="b-l">Thème</div><div class="b-v">${info.dressCode}</div></div>`:''} ${info.dressHomme?`<div class="b"><div class="b-l">👔 Messieurs</div><div class="b-v">${info.dressHomme}</div></div>`:''} ${info.dressFemme?`<div class="b"><div class="b-l">👗 Mesdames</div><div class="b-v">${info.dressFemme}</div></div>`:''}</div>`:''}
 ${info.events?.length?`<div class="prog-t">— Programme —</div><div class="prog-g">${info.events.map(ev=>`<div class="prog-i"><div class="prog-h">${ev.time||'—'}</div><div class="prog-n">${ev.title||ev.type||''}</div>${ev.location?`<div class="prog-l">📍 ${ev.location}${ev.address?', '+ev.address:''}</div>`:''} ${ev.dressCode?`<div class="prog-d">${ev.dressCode}</div>`:''}</div>`).join('')}</div>`:''}
 ${methods.length?`<div class="cad-t">— Cadeaux & Contributions —</div>${pay.message?`<div class="cad-msg">${pay.message}</div>`:''}<div class="cad-g">${methods.map(m=>`<div class="cad-i"><div class="cad-ico">${m.ico}</div><div><div class="cad-l">${m.lbl}</div><div class="cad-v">${m.val}</div>${m.nm?`<div class="cad-n">${m.nm}</div>`:''}</div></div>`).join('')}</div>`:''}
-<div class="pied"><div><div class="pied-l">Code d'entrée</div><div class="pied-code">${code}</div></div>${cat?`<div class="pied-cat">🎊 ${cat.label}</div>`:''}</div>
+<div style="margin-top:22px;padding-top:16px;border-top:1px solid rgba(201,168,76,0.3);text-align:center;">
+
+  <p style="font-size:13px;color:#c9a84c;font-weight:700;margin-bottom:8px;">
+    💛 Votre présence est notre plus beau cadeau
+  </p>
+
+  <p style="font-size:12px;color:white;opacity:0.75;margin-bottom:14px;">
+    Merci de confirmer votre présence en utilisant votre invitation personnelle.
+  </p>
+
+  <a href="https://wedding-platform-1.onrender.com/w/josia-ulrich" target="_blank" style="text-decoration:none;">
+    <div style="
+      display:inline-block;
+      background:linear-gradient(135deg,#c9a84c,#f0d080);
+      color:#1a1a2e;
+      font-weight:800;
+      padding:12px 26px;
+      border-radius:10px;
+      font-size:14px;
+      letter-spacing:1px;
+      box-shadow:0 6px 18px rgba(201,168,76,0.45);
+      transition:all 0.2s ease;
+    ">
+      📲 Confirmer votre présence
+    </div>
+  </a>
+
+  <p style="margin-top:10px;font-size:11px;color:#ffffff70;">
+    🎟️ Votre code d’invitation sera requis à l’entrée
+  </p>
+
+</div>
 </div></div></div></div></div>
 </div></body></html>`;
 };
