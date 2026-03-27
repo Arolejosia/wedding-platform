@@ -526,6 +526,7 @@ const DESIGNS = {
   luxe:      { label:'👑 Grand Luxe',         desc:'Noms en grand, ornements dorés, très élégant' },
   editorial: { label:'🎨 Magazine Éditorial', desc:'Layout moderne, blocs colorés, très contrasté' },
   parchemin: { label:'📜 Parchemin Classique',desc:'Style carton physique, bordures ornées, classique' },
+  classique: { label:'🕊️ Classique Élégant', desc:'Icônes par cérémonie, typographie manuscrite, style carton' },
 };
 
 const buildPayMethods = (pay) => [
@@ -994,6 +995,224 @@ ${methods.length?`
 </div></div></div></div></div>
 </div></body></html>`;
 };
+
+// ── CLASSIQUE ──
+const buildClassique = (t, info, cat, nom1, nom2, code) => {
+  const pay=info.pay||{}, methods=buildPayMethods(pay);
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Billet ${code}</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+${makePdfScript(code,600)}
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+html,body{background:#111;font-family:'Lato',sans-serif;}
+@media print{.no-print{display:none!important;}body{background:transparent;padding:0;}@page{margin:0;size:620px auto;}}
+.no-print{position:fixed;top:0;left:0;right:0;background:rgba(0,0,0,0.88);padding:10px 24px;display:flex;justify-content:space-between;align-items:center;z-index:9999;font-family:sans-serif;}
+.spacer-top{height:56px;}
+
+#billet{
+  width:600px;
+  background:${t.bg};
+  margin:0 auto;
+  position:relative;
+  box-shadow:0 40px 100px rgba(0,0,0,.7);
+  overflow:hidden;
+}
+
+/* ── COINS FLORAUX ── */
+.floral-tl{position:absolute;top:0;left:0;width:120px;height:120px;opacity:.15;background:radial-gradient(ellipse at top left, ${t.accent} 0%, transparent 70%);}
+.floral-tr{position:absolute;top:0;right:0;width:120px;height:120px;opacity:.15;background:radial-gradient(ellipse at top right, ${t.accent} 0%, transparent 70%);}
+.floral-bl{position:absolute;bottom:0;left:0;width:120px;height:120px;opacity:.15;background:radial-gradient(ellipse at bottom left, ${t.accent} 0%, transparent 70%);}
+.floral-br{position:absolute;bottom:0;right:0;width:120px;height:120px;opacity:.15;background:radial-gradient(ellipse at bottom right, ${t.accent} 0%, transparent 70%);}
+
+/* ── BORDURE ── */
+.bordure{position:absolute;inset:12px;border:1px solid ${t.accent}40;pointer-events:none;z-index:1;}
+.bordure2{position:absolute;inset:16px;border:1px solid ${t.accent}20;pointer-events:none;z-index:1;}
+
+.inner{padding:40px 52px;position:relative;z-index:2;}
+
+/* ── ACTION REQUISE ── */
+.action-band{display:flex;justify-content:space-between;align-items:center;background:${t.accent}20;border:1px solid ${t.accent}50;padding:12px 18px;margin-bottom:28px;}
+.action-left{}
+.action-tag{font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;}
+.action-txt{font-size:13px;color:#ffffff;font-weight:700;}
+.action-date{color:${t.accent};}
+.action-sub{font-size:11px;color:#ffffff;opacity:.7;margin-top:3px;}
+.action-code-lbl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;text-align:center;}
+.action-code{font-family:'Courier New',monospace;font-size:18px;font-weight:800;color:${t.accent};letter-spacing:5px;background:${t.accent}15;padding:7px 12px;border:1px solid ${t.accent}50;}
+
+/* ── NOMS ── */
+.noms-bloc{text-align:center;margin-bottom:6px;}
+.noms-script{font-family:'Great Vibes',cursive;font-size:62px;color:#ffffff;line-height:1.1;}
+.noms-et{color:${t.accent};}
+.invite-vous{font-family:'Lato',sans-serif;font-size:13px;color:#ffffff;opacity:.7;text-align:center;letter-spacing:2px;margin-bottom:4px;}
+
+/* ── DATE ── */
+.date-bloc{text-align:center;margin:16px 0;}
+.date-le{font-family:'Lato',sans-serif;font-size:11px;color:#ffffff;opacity:.6;letter-spacing:3px;text-transform:uppercase;margin-bottom:4px;}
+.date-val{font-family:'Cinzel',serif;font-size:22px;color:#ffffff;letter-spacing:3px;}
+
+/* ── SÉPARATEUR ── */
+.sep{display:flex;align-items:center;gap:10px;margin:18px 0;}
+.sep::before,.sep::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,${t.accent}50);}
+.sep-ico{color:${t.accent};font-size:12px;letter-spacing:6px;}
+
+/* ── INVITÉ ── */
+.inv-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};text-align:center;margin-bottom:8px;}
+.inv-nom{font-family:'Great Vibes',cursive;font-size:44px;color:#ffffff;text-align:center;padding-bottom:12px;border-bottom:1px solid ${t.accent}30;}
+
+/* ── PROGRAMME ICÔNES ── */
+.prog-titre{font-family:'Cinzel',serif;font-size:12px;letter-spacing:5px;text-transform:uppercase;color:#ffffff;background:${t.accent}30;border:1px solid ${t.accent}50;text-align:center;padding:10px 0;margin:20px 0 16px;}
+.prog-icones{display:flex;justify-content:center;gap:0;margin-bottom:16px;flex-wrap:wrap;}
+.prog-item{flex:1;min-width:120px;text-align:center;padding:16px 10px;position:relative;}
+.prog-item:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;height:60%;width:1px;background:${t.accent}30;}
+.prog-ico{font-size:32px;margin-bottom:8px;}
+.prog-nom{font-family:'Lato',sans-serif;font-size:13px;font-weight:700;color:#ffffff;margin-bottom:4px;line-height:1.3;}
+.prog-heure{font-family:'Cinzel',serif;font-size:13px;color:${t.accent};letter-spacing:2px;}
+.prog-heure::before{content:'• ';}
+.prog-heure::after{content:' •';}
+.prog-lieu{font-size:11px;color:#ffffff;opacity:.7;margin-top:4px;}
+
+/* ── LIEU GÉNÉRAL ── */
+.lieu-bloc{text-align:center;margin:14px 0;padding:12px;background:${t.accent}08;border:1px solid ${t.accent}20;}
+.lieu-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;}
+.lieu-val{font-size:13px;color:#ffffff;opacity:.85;}
+
+/* ── THÈME ── */
+.theme-bloc{display:flex;align-items:center;justify-content:center;gap:12px;background:${t.accent}15;border:1px solid ${t.accent}40;padding:12px 20px;margin:14px 0;}
+.theme-ico{font-size:24px;}
+.theme-titre{font-family:'Cinzel',serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:3px;}
+.theme-sub{font-size:12px;color:#ffffff;font-style:italic;opacity:.85;}
+
+/* ── CADEAUX ── */
+.cad-titre{font-family:'Cinzel',serif;font-size:12px;letter-spacing:5px;text-transform:uppercase;color:#ffffff;background:${t.accent}30;border:1px solid ${t.accent}50;text-align:center;padding:10px 0;margin:20px 0 12px;}
+.cad-msg{font-size:13px;color:#ffffff;opacity:.8;text-align:center;font-style:italic;margin-bottom:12px;}
+.cad-g{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.cad-i{border:1px solid ${t.accent}30;padding:12px 14px;display:flex;gap:10px;background:${t.accent}10;align-items:flex-start;}
+.cad-ico{font-size:20px;flex-shrink:0;}
+.cad-l{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;}
+.cad-v{font-size:14px;font-weight:800;color:#ffffff;word-break:break-all;}
+.cad-n{font-size:12px;color:#ffffff;opacity:.8;margin-top:2px;}
+
+/* ── CTA ── */
+.cta-bloc{text-align:center;margin-top:22px;padding-top:16px;border-top:1px solid ${t.accent}30;}
+.cta-msg{font-size:14px;color:#ffffff;opacity:.8;margin-bottom:14px;font-style:italic;}
+.cta-btn{display:inline-block;background:linear-gradient(135deg,${t.accent},#f0d080);color:#1a1a2e;font-weight:800;padding:14px 32px;border-radius:8px;font-size:15px;letter-spacing:1px;box-shadow:0 6px 18px ${t.accent}50;text-decoration:none;}
+.cta-sub{margin-top:10px;font-size:12px;color:#ffffff;opacity:.6;}
+
+/* ── PIED ── */
+.pied{display:flex;justify-content:space-between;align-items:center;padding:16px 0 4px;border-top:2px solid ${t.accent}40;margin-top:18px;}
+.pied-l{font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:5px;}
+.pied-code{font-family:'Courier New',monospace;font-size:26px;font-weight:800;color:${t.accent};letter-spacing:6px;border:1px solid ${t.accent}50;padding:8px 16px;background:${t.accent}15;display:inline-block;}
+.pied-famille-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:5px;text-align:right;}
+.pied-famille-val{font-size:15px;font-weight:800;color:${t.accent};letter-spacing:2px;text-transform:uppercase;border:2px solid ${t.accent}50;padding:8px 16px;background:${t.accent}15;display:inline-block;}
+</style></head><body>
+${TOOLBAR(code, info.nomMariee, info.nomMarie)}
+<div id="billet">
+  <div class="floral-tl"></div>
+  <div class="floral-tr"></div>
+  <div class="floral-bl"></div>
+  <div class="floral-br"></div>
+  <div class="bordure"></div>
+  <div class="bordure2"></div>
+  <div class="inner">
+
+    <!-- ACTION REQUISE + CODE -->
+    <div class="action-band">
+      <div class="action-left">
+        <div class="action-tag">⚠️ Action requise</div>
+        <div class="action-txt">Confirmez votre présence avant le <span class="action-date">30 avril 2026</span></div>
+        <div class="action-sub">Utilisez le bouton en bas de ce billet</div>
+      </div>
+      <div style="flex-shrink:0;margin-left:20px;text-align:center;">
+        <div class="action-code-lbl">Votre code</div>
+        <div class="action-code">${code}</div>
+      </div>
+    </div>
+
+    <!-- NOMS -->
+    <div class="noms-bloc">
+      <div class="noms-script">${info.nomMariee} <span class="noms-et">&amp;</span> ${info.nomMarie}</div>
+    </div>
+    <div class="invite-vous">vous invitent à célébrer leur union</div>
+
+    <!-- DATE -->
+    <div class="date-bloc">
+      <div class="date-le">le</div>
+      <div class="date-val">${info.dateStr||'—'}</div>
+    </div>
+
+    <div class="sep"><span class="sep-ico">✦ ✦ ✦</span></div>
+
+    <!-- INVITÉ -->
+    <div class="inv-lbl">Invitation spécialement remise à</div>
+    <div class="inv-nom">${nom1||'—'}${nom2?` &amp; ${nom2}`:''}</div>
+
+    <!-- PROGRAMME AVEC ICÔNES -->
+    ${info.events?.length?`
+    <div class="prog-titre">✦ &nbsp; Programme &nbsp; ✦</div>
+    <div class="prog-icones">
+      ${info.events.map(ev => {
+        const ico = ev.title?.toLowerCase().includes('civil') ? '💍'
+          : ev.title?.toLowerCase().includes('b\u00e9n\u00e9diction') || ev.title?.toLowerCase().includes('\u00e9glise') || ev.title?.toLowerCase().includes('religieux') ? '⛪'
+          : ev.title?.toLowerCase().includes('soir\u00e9e') || ev.title?.toLowerCase().includes('dîner') || ev.title?.toLowerCase().includes('cocktail') || ev.title?.toLowerCase().includes('dansante') ? '🥂'
+          : '🎊';
+        return `<div class="prog-item">
+          <div class="prog-ico">${ico}</div>
+          <div class="prog-nom">${ev.title||ev.type||''}</div>
+          <div class="prog-heure">${ev.time||'—'}</div>
+          ${ev.location?`<div class="prog-lieu">📍 ${ev.location}</div>`:''}
+        </div>`;
+      }).join('')}
+      <div class="prog-item">
+        <div class="prog-ico">👑</div>
+        <div class="prog-nom" style="color:${t.accent};">Thème vestimentaire</div>
+        <div style="font-size:13px;color:#ffffff;font-style:italic;margin-top:4px;">Élégance Royale</div>
+        <div class="prog-lieu" style="font-style:italic;">Revêtez-vous de gloire</div>
+      </div>
+    </div>`:''}
+
+    ${info.lieu?`
+    <div class="lieu-bloc">
+      <div class="lieu-lbl">📍 Lieu</div>
+      <div class="lieu-val">${info.lieu}</div>
+    </div>`:''}
+
+    <!-- CADEAUX -->
+    ${methods.length?`
+    <div class="cad-titre">✦ &nbsp; Cadeaux &amp; Contributions &nbsp; ✦</div>
+    <div class="cad-msg">💛 ${pay.message||'Votre présence est notre plus beau cadeau. Si vous souhaitez contribuer :'}</div>
+    <div class="cad-g">
+      ${methods.map(m=>`
+        <div class="cad-i">
+          <div class="cad-ico">${m.ico}</div>
+          <div>
+            <div class="cad-l">${m.lbl}</div>
+            <div class="cad-v">${m.val}</div>
+            ${m.nm?`<div class="cad-n">${m.nm}</div>`:''}
+          </div>
+        </div>`).join('')}
+    </div>`:''}
+
+    <!-- CTA -->
+    <div class="cta-bloc">
+      <div class="cta-msg">Nous avons hâte de célébrer ce moment avec vous ✨</div>
+      <a href="https://wedding-platform-1.onrender.com/w/josia-ulrich" target="_blank" class="cta-btn">📲 Confirmer votre présence</a>
+      <div class="cta-sub">🎟️ Votre code d'invitation sera requis à l'entrée</div>
+    </div>
+
+    <!-- PIED -->
+    <div class="pied">
+      <div>
+        <div class="pied-l">Code d'entrée</div>
+        <div class="pied-code">${code}</div>
+      </div>
+      ${cat?`<div style="text-align:right;"><div class="pied-famille-lbl">Invitation de :</div><div class="pied-famille-val">🎊 FAMILLE ${cat.label.toUpperCase()}</div></div>`:''}
+    </div>
+
+  </div>
+</div>
+</body></html>`;
+};
 // ── BilletsTab ──
 function BilletsTab({ side, info, t }) {
   const [selectedCat,  setSelectedCat]  = useState('');
@@ -1007,6 +1226,7 @@ function BilletsTab({ side, info, t }) {
   const imprimerBillet = () => {
     if (!selectedCode) { alert('Sélectionnez un code'); return; }
     let html = '';
+    if (design === 'classique') html = buildClassique(t, info, cat, nom1, nom2, selectedCode);
     if (design === 'magazine')  html = buildMagazine(t, info, cat, nom1, nom2, selectedCode);
     if (design === 'luxe')      html = buildLuxe(t, info, cat, nom1, nom2, selectedCode);
     if (design === 'editorial') html = buildEditorial(t, info, cat, nom1, nom2, selectedCode);
