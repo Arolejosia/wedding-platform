@@ -833,6 +833,7 @@ ${methods.length?`
 // ── PARCHEMIN ──
 // ── PARCHEMIN ──
 // ── PARCHEMIN ──
+// ── PARCHEMIN ──
 const buildParchemin = (t, info, cat, nom1, nom2, code) => {
   const pay=info.pay||{}, methods=buildPayMethods(pay);
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Billet ${code}</title>
@@ -857,85 +858,76 @@ html,body{background:#1a140a;font-family:'Lato',sans-serif;}
 .inner{padding:34px 52px;position:relative;}
 
 /* ── HEADER ── */
-.tag{font-family:'Cinzel',serif;font-size:9px;letter-spacing:6px;text-transform:uppercase;color:${t.accent};display:flex;align-items:center;gap:10px;margin-bottom:22px;}
+.tag{font-family:'Cinzel',serif;font-size:11px;letter-spacing:6px;text-transform:uppercase;color:${t.accent};display:flex;align-items:center;gap:10px;margin-bottom:22px;}
 .tag::before,.tag::after{content:'';flex:1;height:1px;background:${t.accent}50;}
-.nom-c{font-family:'Cinzel',serif;font-size:44px;font-weight:700;color:#ffffff;text-align:center;line-height:1.1;}
-.et-c{font-family:'IM Fell English',serif;font-size:28px;font-style:italic;color:${t.accent};margin:0 10px;}
+.nom-c{font-family:'Cinzel',serif;font-size:52px;font-weight:700;color:#ffffff;text-align:center;line-height:1.1;}
+.et-c{font-family:'IM Fell English',serif;font-size:32px;font-style:italic;color:${t.accent};margin:0 10px;}
 .noms-row-p{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;margin-bottom:4px;}
-.date-f{text-align:center;margin:18px auto;max-width:400px;padding:14px 24px;border-top:2px solid ${t.accent};border-bottom:2px solid ${t.accent};}
-.date-txt{font-family:'Cinzel',serif;font-size:18px;color:#ffffff;letter-spacing:3px;text-transform:uppercase;}
-.lieu-txt{font-family:'IM Fell English',serif;font-size:13px;color:#ffffff;opacity:.8;font-style:italic;margin-top:4px;}
+.date-f{text-align:center;margin:18px auto;max-width:400px;padding:16px 24px;border-top:2px solid ${t.accent};border-bottom:2px solid ${t.accent};}
+.date-txt{font-family:'Cinzel',serif;font-size:22px;color:#ffffff;letter-spacing:3px;text-transform:uppercase;}
+.lieu-txt{font-family:'IM Fell English',serif;font-size:15px;color:#ffffff;opacity:.85;font-style:italic;margin-top:6px;}
 
 /* ── FILET SÉPARATEUR ── */
-.filet{display:flex;align-items:center;gap:8px;margin:18px 0;color:${t.accent};font-size:13px;letter-spacing:8px;justify-content:center;}
+.filet{display:flex;align-items:center;gap:8px;margin:18px 0;color:${t.accent};font-size:14px;letter-spacing:8px;justify-content:center;}
 .filet::before{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,${t.accent}60);}
 .filet::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,${t.accent}60,transparent);}
 
 /* ── INVITÉ ── */
-.inv-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};text-align:center;margin-bottom:8px;}
-.inv-nom{font-family:'IM Fell English',serif;font-size:34px;font-weight:700;color:#ffffff;font-style:italic;text-align:center;padding-bottom:12px;border-bottom:1px solid ${t.accent}40;}
-
-/* ── CODE INVITÉ ── */
-.code-bloc{text-align:center;margin:16px 0;padding:14px 24px;background:${t.accent}18;border:1px solid ${t.accent}50;}
-.code-lbl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};margin-bottom:8px;}
-.code-val{font-family:'Courier New',monospace;font-size:20px;font-weight:700;color:${t.accent};letter-spacing:6px;}
-
-/* ── DRESS CODE UNIQUE ── */
-.dress-unique{text-align:center;background:${t.accent}15;border:1px solid ${t.accent}40;padding:14px 24px;margin:14px 0;}
-.dress-icon{font-size:20px;margin-bottom:6px;}
-.dress-titre{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:${t.accent};letter-spacing:3px;text-transform:uppercase;}
-.dress-sub{font-family:'IM Fell English',serif;font-size:13px;color:#ffffff;font-style:italic;margin-top:4px;opacity:.9;}
+.inv-lbl{font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};text-align:center;margin-bottom:10px;}
+.inv-nom{font-family:'IM Fell English',serif;font-size:40px;font-weight:700;color:#ffffff;font-style:italic;text-align:center;padding-bottom:14px;border-bottom:1px solid ${t.accent}40;}
 
 /* ── TITRES SECTIONS ── */
-.section-titre{font-family:'Cinzel',serif;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:#ffffff;background:${t.accent}35;border:1px solid ${t.accent}60;text-align:center;margin:18px 0 12px;padding:10px 0;}
+.section-titre{font-family:'Cinzel',serif;font-size:14px;letter-spacing:5px;text-transform:uppercase;color:#ffffff;background:${t.accent}35;border:1px solid ${t.accent}60;text-align:center;margin:20px 0 14px;padding:12px 0;}
 
 /* ── PROGRAMME ── */
-.prog-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-bottom:16px;}
-.prog-i{border:1px solid ${t.accent}40;padding:12px 14px;background:${t.accent}10;}
-.prog-h{font-family:'Cinzel',serif;font-size:22px;color:${t.accent};font-weight:700;}
-.prog-n{font-family:'IM Fell English',serif;font-size:15px;color:#ffffff;font-style:italic;margin:4px 0;}
-.prog-l{font-size:12px;color:#ffffff;opacity:.85;}
+.prog-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:16px;}
+.prog-i{border:1px solid ${t.accent}40;padding:14px 16px;background:${t.accent}10;}
+.prog-h{font-family:'Cinzel',serif;font-size:26px;color:${t.accent};font-weight:700;}
+.prog-n{font-family:'IM Fell English',serif;font-size:17px;color:#ffffff;font-style:italic;margin:6px 0 4px;}
+.prog-l{font-size:14px;color:#ffffff;opacity:.85;}
 
 /* ── CADEAUX ── */
-.cad-msg{font-family:'IM Fell English',serif;font-size:13px;color:#ffffff;opacity:.85;text-align:center;font-style:italic;margin-bottom:12px;}
+.cad-msg{font-family:'IM Fell English',serif;font-size:15px;color:#ffffff;opacity:.85;text-align:center;font-style:italic;margin-bottom:14px;}
 .cad-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px;margin-bottom:14px;}
-.cad-i{border:1px solid ${t.accent}35;padding:12px 14px;display:flex;gap:10px;background:${t.accent}12;align-items:flex-start;}
-.cad-ico{font-size:18px;flex-shrink:0;}
-.cad-l{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;}
-.cad-v{font-size:13px;font-weight:800;color:#ffffff;word-break:break-all;}
-.cad-n{font-size:11px;color:#ffffff;opacity:.85;margin-top:2px;}
+.cad-i{border:1px solid ${t.accent}35;padding:14px;display:flex;gap:10px;background:${t.accent}12;align-items:flex-start;}
+.cad-ico{font-size:22px;flex-shrink:0;}
+.cad-l{font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${t.accent};margin-bottom:5px;}
+.cad-v{font-size:15px;font-weight:800;color:#ffffff;word-break:break-all;}
+.cad-n{font-size:13px;color:#ffffff;opacity:.85;margin-top:3px;}
 
 /* ── CTA ── */
-.cta-bloc{text-align:center;margin-top:22px;padding-top:16px;border-top:1px solid ${t.accent}30;}
-.cta-msg-gold{font-size:13px;color:${t.accent};font-weight:700;margin-bottom:8px;}
-.cta-msg-white{font-size:12px;color:#ffffff;opacity:.8;margin-bottom:14px;}
-.cta-btn{display:inline-block;background:linear-gradient(135deg,${t.accent},#f0d080);color:#1a1a2e;font-weight:800;padding:13px 28px;border-radius:10px;font-size:14px;letter-spacing:1px;box-shadow:0 6px 18px ${t.accent}50;text-decoration:none;}
-.cta-sub{margin-top:10px;font-size:11px;color:#ffffff;opacity:.65;}
+.cta-bloc{text-align:center;margin-top:22px;padding-top:18px;border-top:1px solid ${t.accent}30;}
+.cta-msg-gold{font-size:15px;color:${t.accent};font-weight:700;margin-bottom:8px;}
+.cta-msg-white{font-size:14px;color:#ffffff;opacity:.8;margin-bottom:16px;}
+.cta-btn{display:inline-block;background:linear-gradient(135deg,${t.accent},#f0d080);color:#1a1a2e;font-weight:800;padding:14px 32px;border-radius:10px;font-size:16px;letter-spacing:1px;box-shadow:0 6px 18px ${t.accent}50;text-decoration:none;}
+.cta-sub{margin-top:10px;font-size:13px;color:#ffffff;opacity:.65;}
 
 /* ── PIED ── */
-.pied{display:flex;justify-content:space-between;align-items:center;padding:16px 0 4px;border-top:2px solid ${t.accent}40;margin-top:16px;}
-.pied-l{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:6px;}
-.pied-code{font-family:'Courier New',monospace;font-size:26px;font-weight:800;color:${t.accent};letter-spacing:8px;border:1px solid ${t.accent}60;padding:8px 16px;background:${t.accent}15;display:inline-block;}
-.pied-famille-lbl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:6px;text-align:right;}
-.pied-famille-val{font-size:14px;font-weight:800;color:${t.accent};letter-spacing:2px;text-transform:uppercase;border:2px solid ${t.accent}60;padding:8px 16px;background:${t.accent}15;display:inline-block;}
+.pied{display:flex;justify-content:space-between;align-items:center;padding:18px 0 6px;border-top:2px solid ${t.accent}40;margin-top:18px;}
+.pied-l{font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:6px;}
+.pied-code{font-family:'Courier New',monospace;font-size:30px;font-weight:800;color:${t.accent};letter-spacing:8px;border:1px solid ${t.accent}60;padding:10px 18px;background:${t.accent}15;display:inline-block;}
+.pied-famille-lbl{font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:6px;text-align:right;}
+.pied-famille-val{font-size:16px;font-weight:800;color:${t.accent};letter-spacing:2px;text-transform:uppercase;border:2px solid ${t.accent}60;padding:10px 18px;background:${t.accent}15;display:inline-block;}
 </style></head><body>
 ${TOOLBAR(code, info.nomMariee, info.nomMarie)}
 <div id="billet">
 <div class="corner c-tl"></div><div class="corner c-tr"></div><div class="corner c-bl"></div><div class="corner c-br"></div>
 <div class="cadre1"><div class="cadre2"><div class="cadre3"><div class="cadre4"><div class="inner">
 
-<div class="tag"> &nbsp; Mariage &nbsp; </div>
-<div style="text-align:center;background:linear-gradient(135deg,${t.accent}25,${t.accent}10);border:2px solid ${t.accent}60;padding:12px 24px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;">
+<div class="tag">💍 &nbsp; Mariage &nbsp; 💍</div>
+
+<div style="display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,${t.accent}25,${t.accent}10);border:2px solid ${t.accent}60;padding:14px 20px;margin-bottom:22px;">
   <div style="text-align:left;">
-    <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;">⚠️ Action requise</div>
-    <div style="font-size:13px;color:#ffffff;font-weight:700;">Confirmez votre présence avant le <span style="color:${t.accent};">30 avril 2026</span></div>
-    <div style="font-size:11px;color:#ffffff;opacity:.75;margin-top:4px;">Utilisez le bouton en bas de ce billet</div>
+    <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};margin-bottom:5px;">⚠️ Action requise</div>
+    <div style="font-size:14px;color:#ffffff;font-weight:700;">Confirmez votre présence avant le <span style="color:${t.accent};">30 avril 2026</span></div>
+    <div style="font-size:12px;color:#ffffff;opacity:.75;margin-top:4px;">Utilisez le bouton en bas de ce billet</div>
   </div>
-  <div style="flex-shrink:0;margin-left:16px;text-align:center;">
-    <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;">Votre code</div>
-    <div style="font-family:'Courier New',monospace;font-size:18px;font-weight:800;color:${t.accent};letter-spacing:5px;background:${t.accent}20;padding:6px 12px;border:1px solid ${t.accent}50;">${code}</div>
+  <div style="flex-shrink:0;margin-left:20px;text-align:center;">
+    <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:5px;">Votre code</div>
+    <div style="font-family:'Courier New',monospace;font-size:20px;font-weight:800;color:${t.accent};letter-spacing:5px;background:${t.accent}20;padding:8px 14px;border:1px solid ${t.accent}50;">${code}</div>
   </div>
 </div>
+
 <div class="noms-row-p">
   <span class="nom-c">${info.nomMariee}</span>
   <span class="et-c">&amp;</span>
@@ -952,8 +944,6 @@ ${TOOLBAR(code, info.nomMariee, info.nomMarie)}
 <div class="inv-lbl">Invitation spécialement remise à</div>
 <div class="inv-nom">${nom1||'—'}${nom2?` &amp; ${nom2}`:''}</div>
 
-
-
 ${info.events?.length?`
 <div class="section-titre">✦ &nbsp; Programme &nbsp; ✦</div>
 <div class="prog-g">
@@ -963,11 +953,11 @@ ${info.events?.length?`
       <div class="prog-n">${ev.title||ev.type||''}</div>
       ${ev.location?`<div class="prog-l">📍 ${[ev.location,ev.address].filter(Boolean).join(', ')}</div>`:''}
     </div>`).join('')}
-    <div class="prog-i" style="border-color:${t.accent}70;background:${t.accent}20;">
+  <div class="prog-i" style="border-color:${t.accent}70;background:${t.accent}20;">
     <div class="prog-h">👑</div>
-    <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${t.accent};margin:4px 0 2px;">Thème vestimentaire</div>
+    <div style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:${t.accent};margin:6px 0 4px;">Thème vestimentaire</div>
     <div class="prog-n">Élégance Royale</div>
-    <div class="prog-l" style="opacity:.9;font-style:italic;">Revêtez-vous de gloire</div>
+    <div class="prog-l" style="font-style:italic;">Revêtez-vous de gloire</div>
   </div>
 </div>`:''}
 
@@ -988,8 +978,8 @@ ${methods.length?`
 
 <div class="cta-bloc">
   <div class="cta-msg-gold">💛 Votre présence est notre plus beau cadeau</div>
-  <div class="cta-msg-white">Merci de confirmer votre présence en utilisant votre code d'invitation .</div>
-  <a href="https://wedding-platform-1.onrender.com/w/josia-ulrich" target="_blank" class="cta-btn">📲Cliquez-ici pour Confirmer votre présence</a>
+  <div class="cta-msg-white">Merci de confirmer votre présence en utilisant votre invitation personnelle.</div>
+  <a href="https://wedding-platform-1.onrender.com/w/josia-ulrich" target="_blank" class="cta-btn">📲 Confirmer votre présence</a>
   <div class="cta-sub">🎟️ Votre code d'invitation sera requis à l'entrée</div>
 </div>
 
@@ -998,7 +988,7 @@ ${methods.length?`
     <div class="pied-l">Code d'entrée</div>
     <div class="pied-code">${code}</div>
   </div>
-  ${cat?`<div style="text-align:right;"><div class="pied-famille-lbl">Invitation de :</div><div class="pied-famille-val">${cat.label.toUpperCase()}</div></div>`:''}
+  ${cat?`<div style="text-align:right;"><div class="pied-famille-lbl">Invitation de :</div><div class="pied-famille-val">🎊 FAMILLE ${cat.label.toUpperCase()}</div></div>`:''}
 </div>
 
 </div></div></div></div></div>
