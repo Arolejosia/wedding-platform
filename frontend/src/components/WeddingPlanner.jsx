@@ -832,6 +832,7 @@ ${methods.length?`
 
 // ── PARCHEMIN ──
 // ── PARCHEMIN ──
+// ── PARCHEMIN ──
 const buildParchemin = (t, info, cat, nom1, nom2, code) => {
   const pay=info.pay||{}, methods=buildPayMethods(pay);
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Billet ${code}</title>
@@ -874,24 +875,28 @@ html,body{background:#1a140a;font-family:'Lato',sans-serif;}
 .inv-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};text-align:center;margin-bottom:8px;}
 .inv-nom{font-family:'IM Fell English',serif;font-size:34px;font-weight:700;color:#ffffff;font-style:italic;text-align:center;padding-bottom:12px;border-bottom:1px solid ${t.accent}40;}
 
-/* ── DRESS CODE BADGES ── */
-.dress-badges{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
-.dress-badge{display:flex;align-items:center;gap:8px;background:${t.accent}15;border:1px solid ${t.accent}40;border-radius:6px;padding:10px 14px;flex:1;min-width:150px;}
-.dress-badge-icon{font-size:20px;}
-.dress-badge-lbl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:${t.accent};margin-bottom:3px;}
-.dress-badge-val{font-size:12px;font-weight:700;color:#ffffff;}
+/* ── CODE INVITÉ ── */
+.code-bloc{text-align:center;margin:16px 0;padding:14px 24px;background:${t.accent}18;border:1px solid ${t.accent}50;}
+.code-lbl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};margin-bottom:8px;}
+.code-val{font-family:'Courier New',monospace;font-size:32px;font-weight:800;color:${t.accent};letter-spacing:10px;}
+
+/* ── DRESS CODE UNIQUE ── */
+.dress-unique{text-align:center;background:${t.accent}15;border:1px solid ${t.accent}40;padding:14px 24px;margin:14px 0;}
+.dress-icon{font-size:20px;margin-bottom:6px;}
+.dress-titre{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:${t.accent};letter-spacing:3px;text-transform:uppercase;}
+.dress-sub{font-family:'IM Fell English',serif;font-size:13px;color:#ffffff;font-style:italic;margin-top:4px;opacity:.9;}
+
+/* ── TITRES SECTIONS ── */
+.section-titre{font-family:'Cinzel',serif;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:#ffffff;background:${t.accent}35;border:1px solid ${t.accent}60;text-align:center;margin:18px 0 12px;padding:10px 0;}
 
 /* ── PROGRAMME ── */
-.prog-t{font-family:'Cinzel',serif;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:${t.accent};text-align:center;margin:18px 0 12px;}
 .prog-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-bottom:16px;}
 .prog-i{border:1px solid ${t.accent}40;padding:12px 14px;background:${t.accent}10;}
 .prog-h{font-family:'Cinzel',serif;font-size:22px;color:${t.accent};font-weight:700;}
 .prog-n{font-family:'IM Fell English',serif;font-size:15px;color:#ffffff;font-style:italic;margin:4px 0;}
 .prog-l{font-size:12px;color:#ffffff;opacity:.85;}
-.prog-d{font-family:'Cinzel',serif;font-size:10px;color:#ffffff;opacity:.75;margin-top:4px;letter-spacing:1px;}
 
 /* ── CADEAUX ── */
-.cad-t{font-family:'Cinzel',serif;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:${t.accent};text-align:center;margin:14px 0 10px;}
 .cad-msg{font-family:'IM Fell English',serif;font-size:13px;color:#ffffff;opacity:.85;text-align:center;font-style:italic;margin-bottom:12px;}
 .cad-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px;margin-bottom:14px;}
 .cad-i{border:1px solid ${t.accent}35;padding:12px 14px;display:flex;gap:10px;background:${t.accent}12;align-items:flex-start;}
@@ -937,28 +942,31 @@ ${TOOLBAR(code, info.nomMariee, info.nomMarie)}
 <div class="inv-lbl">Invitation spécialement remise à</div>
 <div class="inv-nom">${nom1||'—'}${nom2?` &amp; ${nom2}`:''}</div>
 
+<div class="code-bloc">
+  <div class="code-lbl">Votre code d'invitation</div>
+  <div class="code-val">${code}</div>
+</div>
+
 ${(info.dressCode||info.dressHomme||info.dressFemme)?`
-<div class="filet" style="margin:16px 0;font-size:10px;letter-spacing:5px;">— Dress Code —</div>
-<div class="dress-badges">
-  ${info.dressCode?`<div class="dress-badge"><span class="dress-badge-icon">👗</span><div><div class="dress-badge-lbl">Tenue soirée</div><div class="dress-badge-val">${info.dressCode}</div></div></div>`:''}
-  ${info.dressHomme?`<div class="dress-badge"><span class="dress-badge-icon">👔</span><div><div class="dress-badge-lbl">Messieurs</div><div class="dress-badge-val">${info.dressHomme}</div></div></div>`:''}
-  ${info.dressFemme?`<div class="dress-badge"><span class="dress-badge-icon">💃</span><div><div class="dress-badge-lbl">Mesdames</div><div class="dress-badge-val">${info.dressFemme}</div></div></div>`:''}
+<div class="dress-unique">
+  <div class="dress-icon">👑</div>
+  <div class="dress-titre">Élégance Royale</div>
+  <div class="dress-sub">Revêtez-vous de gloire</div>
 </div>`:''}
 
 ${info.events?.length?`
-<div class="prog-t">— Programme —</div>
+<div class="section-titre">✦ &nbsp; Programme &nbsp; ✦</div>
 <div class="prog-g">
   ${info.events.map(ev=>`
     <div class="prog-i">
       <div class="prog-h">${ev.time||'—'}</div>
       <div class="prog-n">${ev.title||ev.type||''}</div>
-      ${ev.location?`<div class="prog-l">📍 ${ev.location}${ev.address?', '+ev.address:''}</div>`:''}
-      ${ev.dressCode?`<div class="prog-d">${ev.dressCode}</div>`:''}
+      ${ev.location?`<div class="prog-l">📍 ${[ev.location,ev.address].filter(Boolean).join(', ')}</div>`:''}
     </div>`).join('')}
 </div>`:''}
 
 ${methods.length?`
-<div class="cad-t">— Cadeaux &amp; Contributions —</div>
+<div class="section-titre">✦ &nbsp; Cadeaux &amp; Contributions &nbsp; ✦</div>
 <div class="cad-msg">💛 ${pay.message||'Votre présence est notre plus beau cadeau. Si vous souhaitez contribuer :'}</div>
 <div class="cad-g">
   ${methods.map(m=>`
