@@ -831,14 +831,12 @@ ${methods.length?`
 </div></body></html>`;
 };
 
-// ── PARCHEMIN ──
-// ── PARCHEMIN ──
-// ── PARCHEMIN ──
+
 // ── PARCHEMIN ──
 const buildParchemin = (t, info, cat, nom1, nom2, code) => {
   const pay=info.pay||{}, methods=buildPayMethods(pay);
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Billet ${code}</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 ${makePdfScript(code,700)}
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
@@ -858,57 +856,79 @@ html,body{background:#1a140a;font-family:'Lato',sans-serif;}
 .c-br{bottom:24px;right:24px;border-width:0 2px 2px 0;}
 .inner{padding:34px 52px;position:relative;}
 
-/* ── HEADER ── */
+/* ── TAG ── */
 .tag{font-family:'Cinzel',serif;font-size:11px;letter-spacing:6px;text-transform:uppercase;color:${t.accent};display:flex;align-items:center;gap:10px;margin-bottom:22px;}
 .tag::before,.tag::after{content:'';flex:1;height:1px;background:${t.accent}50;}
-.nom-c{font-family:'Cinzel',serif;font-size:52px;font-weight:700;color:#ffffff;text-align:center;line-height:1.1;}
-.et-c{font-family:'IM Fell English',serif;font-size:32px;font-style:italic;color:${t.accent};margin:0 10px;}
-.noms-row-p{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;margin-bottom:4px;}
-.date-f{text-align:center;margin:18px auto;max-width:400px;padding:16px 24px;border-top:2px solid ${t.accent};border-bottom:2px solid ${t.accent};}
-.date-txt{font-family:'Cinzel',serif;font-size:22px;color:#ffffff;letter-spacing:3px;text-transform:uppercase;}
-.lieu-txt{font-family:'IM Fell English',serif;font-size:15px;color:#ffffff;opacity:.85;font-style:italic;margin-top:6px;}
 
-/* ── FILET SÉPARATEUR ── */
-.filet{display:flex;align-items:center;gap:8px;margin:18px 0;color:${t.accent};font-size:14px;letter-spacing:8px;justify-content:center;}
+/* ── ACTION REQUISE + CODE ── */
+.action-band{display:flex;justify-content:space-between;align-items:center;background:${t.accent}20;border:1px solid ${t.accent}50;padding:14px 20px;margin-bottom:24px;}
+.action-tag{font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};margin-bottom:5px;}
+.action-txt{font-size:14px;color:#ffffff;font-weight:700;}
+.action-date{color:${t.accent};}
+.action-sub{font-size:11px;color:#ffffff;opacity:.7;margin-top:3px;}
+.action-code-lbl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:5px;text-align:center;}
+.action-code{font-family:'Courier New',monospace;font-size:20px;font-weight:800;color:${t.accent};letter-spacing:5px;background:${t.accent}20;padding:8px 14px;border:1px solid ${t.accent}50;}
+
+/* ── NOMS ── */
+.noms-script{font-family:'Great Vibes',cursive;font-size:72px;color:#ffffff;text-align:center;line-height:1.1;margin-bottom:4px;}
+.noms-et{color:${t.accent};}
+
+/* ── DATE ── */
+.date-f{text-align:center;margin:16px auto;max-width:400px;padding:14px 24px;border-top:2px solid ${t.accent};border-bottom:2px solid ${t.accent};}
+.date-txt{font-family:'Cinzel',serif;font-size:20px;color:#ffffff;letter-spacing:3px;text-transform:uppercase;}
+.lieu-txt{font-family:'IM Fell English',serif;font-size:14px;color:#ffffff;opacity:.8;font-style:italic;margin-top:5px;}
+
+/* ── FILET ── */
+.filet{display:flex;align-items:center;gap:8px;margin:16px 0;color:${t.accent};font-size:14px;letter-spacing:8px;justify-content:center;}
 .filet::before{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,${t.accent}60);}
 .filet::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,${t.accent}60,transparent);}
 
 /* ── INVITÉ ── */
-.inv-lbl{font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};text-align:center;margin-bottom:10px;}
-.inv-nom{font-family:'IM Fell English',serif;font-size:40px;font-weight:700;color:#ffffff;font-style:italic;text-align:center;padding-bottom:14px;border-bottom:1px solid ${t.accent}40;}
+.inv-lbl{font-family:'Cinzel',serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};text-align:center;margin-bottom:8px;}
+.inv-nom{font-family:'Great Vibes',cursive;font-size:48px;color:#ffffff;text-align:center;padding-bottom:14px;border-bottom:1px solid ${t.accent}40;}
 
-/* ── TITRES SECTIONS ── */
-.section-titre{font-family:'Cinzel',serif;font-size:14px;letter-spacing:5px;text-transform:uppercase;color:#ffffff;background:${t.accent}35;border:1px solid ${t.accent}60;text-align:center;margin:20px 0 14px;padding:12px 0;}
+/* ── TITRE SECTION ── */
+.section-titre{font-family:'Cinzel',serif;font-size:13px;letter-spacing:5px;text-transform:uppercase;color:#ffffff;background:${t.accent}35;border:1px solid ${t.accent}60;text-align:center;margin:20px 0 16px;padding:11px 0;}
 
-/* ── PROGRAMME ── */
-.prog-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:16px;}
-.prog-i{border:1px solid ${t.accent}40;padding:14px 16px;background:${t.accent}10;}
-.prog-h{font-family:'Cinzel',serif;font-size:26px;color:${t.accent};font-weight:700;}
-.prog-n{font-family:'IM Fell English',serif;font-size:17px;color:#ffffff;font-style:italic;margin:6px 0 4px;}
-.prog-l{font-size:14px;color:#ffffff;opacity:.85;}
+/* ── PROGRAMME ICÔNES ── */
+.prog-icones{display:flex;justify-content:center;gap:0;margin-bottom:16px;border:1px solid ${t.accent}30;}
+.prog-item{flex:1;text-align:center;padding:18px 12px;position:relative;border-right:1px solid ${t.accent}25;}
+.prog-item:last-child{border-right:none;}
+.prog-ico{font-size:34px;margin-bottom:10px;}
+.prog-nom{font-family:'Lato',sans-serif;font-size:14px;font-weight:700;color:#ffffff;margin-bottom:8px;line-height:1.4;}
+.prog-heure{font-family:'Cinzel',serif;font-size:14px;color:${t.accent};letter-spacing:2px;}
+.prog-heure::before{content:'• ';}
+.prog-heure::after{content:' •';}
+
+/* ── LIEUX ── */
+.lieux-bloc{margin:16px 0;}
+.lieu-item{text-align:center;padding:12px 0;border-bottom:1px solid ${t.accent}20;}
+.lieu-item:last-child{border-bottom:none;}
+.lieu-nom{font-family:'Cinzel',serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;}
+.lieu-adresse{font-size:13px;color:#ffffff;opacity:.85;}
 
 /* ── CADEAUX ── */
-.cad-msg{font-family:'IM Fell English',serif;font-size:15px;color:#ffffff;opacity:.85;text-align:center;font-style:italic;margin-bottom:14px;}
-.cad-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px;margin-bottom:14px;}
-.cad-i{border:1px solid ${t.accent}35;padding:14px;display:flex;gap:10px;background:${t.accent}12;align-items:flex-start;}
-.cad-ico{font-size:22px;flex-shrink:0;}
-.cad-l{font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${t.accent};margin-bottom:5px;}
-.cad-v{font-size:15px;font-weight:800;color:#ffffff;word-break:break-all;}
-.cad-n{font-size:13px;color:#ffffff;opacity:.85;margin-top:3px;}
+.cad-msg{font-size:14px;color:#ffffff;opacity:.85;text-align:center;font-style:italic;margin-bottom:14px;}
+.cad-g{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.cad-i{border:1px solid ${t.accent}35;padding:13px 14px;display:flex;gap:10px;background:${t.accent}12;align-items:flex-start;}
+.cad-ico{font-size:20px;flex-shrink:0;}
+.cad-l{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;}
+.cad-v{font-size:14px;font-weight:800;color:#ffffff;word-break:break-all;}
+.cad-n{font-size:12px;color:#ffffff;opacity:.85;margin-top:2px;}
 
 /* ── CTA ── */
-.cta-bloc{text-align:center;margin-top:22px;padding-top:18px;border-top:1px solid ${t.accent}30;}
+.cta-bloc{text-align:center;margin-top:22px;padding-top:16px;border-top:1px solid ${t.accent}30;}
 .cta-msg-gold{font-size:15px;color:${t.accent};font-weight:700;margin-bottom:8px;}
-.cta-msg-white{font-size:14px;color:#ffffff;opacity:.8;margin-bottom:16px;}
-.cta-btn{display:inline-block;background:linear-gradient(135deg,${t.accent},#f0d080);color:#1a1a2e;font-weight:800;padding:14px 32px;border-radius:10px;font-size:16px;letter-spacing:1px;box-shadow:0 6px 18px ${t.accent}50;text-decoration:none;}
-.cta-sub{margin-top:10px;font-size:13px;color:#ffffff;opacity:.65;}
+.cta-msg-white{font-size:13px;color:#ffffff;opacity:.8;margin-bottom:14px;}
+.cta-btn{display:inline-block;background:linear-gradient(135deg,${t.accent},#f0d080);color:#1a1a2e;font-weight:800;padding:14px 32px;border-radius:10px;font-size:15px;letter-spacing:1px;box-shadow:0 6px 18px ${t.accent}50;text-decoration:none;}
+.cta-sub{margin-top:10px;font-size:12px;color:#ffffff;opacity:.65;}
 
 /* ── PIED ── */
-.pied{display:flex;justify-content:space-between;align-items:center;padding:18px 0 6px;border-top:2px solid ${t.accent}40;margin-top:18px;}
-.pied-l{font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:6px;}
-.pied-code{font-family:'Courier New',monospace;font-size:30px;font-weight:800;color:${t.accent};letter-spacing:8px;border:1px solid ${t.accent}60;padding:10px 18px;background:${t.accent}15;display:inline-block;}
-.pied-famille-lbl{font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:6px;text-align:right;}
-.pied-famille-val{font-size:16px;font-weight:800;color:${t.accent};letter-spacing:2px;text-transform:uppercase;border:2px solid ${t.accent}60;padding:10px 18px;background:${t.accent}15;display:inline-block;}
+.pied{display:flex;justify-content:space-between;align-items:center;padding:16px 0 4px;border-top:2px solid ${t.accent}40;margin-top:18px;}
+.pied-l{font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:6px;}
+.pied-code{font-family:'Courier New',monospace;font-size:28px;font-weight:800;color:${t.accent};letter-spacing:8px;border:1px solid ${t.accent}60;padding:10px 16px;background:${t.accent}15;display:inline-block;}
+.pied-famille-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:6px;text-align:right;}
+.pied-famille-val{font-size:15px;font-weight:800;color:${t.accent};letter-spacing:2px;text-transform:uppercase;border:2px solid ${t.accent}60;padding:8px 16px;background:${t.accent}15;display:inline-block;}
 </style></head><body>
 ${TOOLBAR(code, info.nomMariee, info.nomMarie)}
 <div id="billet">
@@ -917,23 +937,19 @@ ${TOOLBAR(code, info.nomMariee, info.nomMarie)}
 
 <div class="tag">💍 &nbsp; Mariage &nbsp; 💍</div>
 
-<div style="display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,${t.accent}25,${t.accent}10);border:2px solid ${t.accent}60;padding:14px 20px;margin-bottom:22px;">
-  <div style="text-align:left;">
-    <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};margin-bottom:5px;">⚠️ Action requise</div>
-    <div style="font-size:14px;color:#ffffff;font-weight:700;">Confirmez votre présence avant le <span style="color:${t.accent};">30 avril 2026</span></div>
-    <div style="font-size:12px;color:#ffffff;opacity:.75;margin-top:4px;">Utilisez le bouton en bas de ce billet</div>
+<div class="action-band">
+  <div>
+    <div class="action-tag">⚠️ Action requise</div>
+    <div class="action-txt">Confirmez votre présence avant le <span class="action-date">30 avril 2026</span></div>
+    <div class="action-sub">Utilisez le bouton en bas de ce billet</div>
   </div>
   <div style="flex-shrink:0;margin-left:20px;text-align:center;">
-    <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:5px;">Votre code</div>
-    <div style="font-family:'Courier New',monospace;font-size:20px;font-weight:800;color:${t.accent};letter-spacing:5px;background:${t.accent}20;padding:8px 14px;border:1px solid ${t.accent}50;">${code}</div>
+    <div class="action-code-lbl">Votre code</div>
+    <div class="action-code">${code}</div>
   </div>
 </div>
 
-<div class="noms-row-p">
-  <span class="nom-c">${info.nomMariee}</span>
-  <span class="et-c">&amp;</span>
-  <span class="nom-c">${info.nomMarie}</span>
-</div>
+<div class="noms-script">${info.nomMariee} <span class="noms-et">&amp;</span> ${info.nomMarie}</div>
 
 <div class="date-f">
   <div class="date-txt">${info.dateStr||'—'}</div>
@@ -947,19 +963,26 @@ ${TOOLBAR(code, info.nomMariee, info.nomMarie)}
 
 ${info.events?.length?`
 <div class="section-titre">✦ &nbsp; Programme &nbsp; ✦</div>
-<div class="prog-g">
-  ${info.events.map(ev=>`
-    <div class="prog-i">
-      <div class="prog-h">${ev.time||'—'}</div>
-      <div class="prog-n">${ev.title||ev.type||''}</div>
-      ${ev.location?`<div class="prog-l">📍 ${[ev.location,ev.address].filter(Boolean).join(', ')}</div>`:''}
+<div class="prog-icones">
+  ${info.events.map(ev => {
+    const ico = ev.title?.toLowerCase().includes('civil') ? '💍'
+      : ev.title?.toLowerCase().includes('bénédiction') || ev.title?.toLowerCase().includes('église') || ev.title?.toLowerCase().includes('religieux') || ev.title?.toLowerCase().includes('nuptiale') ? '⛪'
+      : ev.title?.toLowerCase().includes('soirée') || ev.title?.toLowerCase().includes('dîner') || ev.title?.toLowerCase().includes('cocktail') || ev.title?.toLowerCase().includes('dansante') ? '🥂'
+      : '🎊';
+    return `<div class="prog-item">
+      <div class="prog-ico">${ico}</div>
+      <div class="prog-nom">${ev.title||ev.type||''}</div>
+      <div class="prog-heure">${ev.time||'—'}</div>
+    </div>`;
+  }).join('')}
+</div>
+
+<div class="lieux-bloc">
+  ${info.events.filter(ev => ev.location).map(ev => `
+    <div class="lieu-item">
+      <div class="lieu-nom">${ev.title||ev.type||''}</div>
+      <div class="lieu-adresse">${[ev.location, ev.address].filter(Boolean).join(', ')}</div>
     </div>`).join('')}
-  <div class="prog-i" style="border-color:${t.accent}70;background:${t.accent}20;">
-    <div class="prog-h">👑</div>
-    <div style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:${t.accent};margin:6px 0 4px;">Thème vestimentaire</div>
-    <div class="prog-n">Élégance Royale</div>
-    <div class="prog-l" style="font-style:italic;">Revêtez-vous de gloire</div>
-  </div>
 </div>`:''}
 
 ${methods.length?`
@@ -979,8 +1002,8 @@ ${methods.length?`
 
 <div class="cta-bloc">
   <div class="cta-msg-gold">💛 Votre présence est notre plus beau cadeau</div>
-  <div class="cta-msg-white">Merci de confirmer votre présence en utilisant votre invitation personnelle.</div>
-  <a href="https://wedding-platform-1.onrender.com/w/josia-ulrich" target="_blank" class="cta-btn">📲 Confirmer votre présence</a>
+  <div class="cta-msg-white">Merci de confirmer votre présence en utilisant votre code d'invitation .</div>
+  <a href="https://wedding-platform-1.onrender.com/w/josia-ulrich" target="_blank" class="cta-btn">📲 Cliquez-ici pour confirmer votre présence</a>
   <div class="cta-sub">🎟️ Votre code d'invitation sera requis à l'entrée</div>
 </div>
 
@@ -989,7 +1012,7 @@ ${methods.length?`
     <div class="pied-l">Code d'entrée</div>
     <div class="pied-code">${code}</div>
   </div>
-  ${cat?`<div style="text-align:right;"><div class="pied-famille-lbl">Invitation de :</div><div class="pied-famille-val">🎊 FAMILLE ${cat.label.toUpperCase()}</div></div>`:''}
+  ${cat?`<div style="text-align:right;"><div class="pied-famille-lbl">Invitation de :</div><div class="pied-famille-val"> ${cat.label.toUpperCase()}</div></div>`:''}
 </div>
 
 </div></div></div></div></div>
