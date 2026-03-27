@@ -878,7 +878,7 @@ html,body{background:#1a140a;font-family:'Lato',sans-serif;}
 /* ── CODE INVITÉ ── */
 .code-bloc{text-align:center;margin:16px 0;padding:14px 24px;background:${t.accent}18;border:1px solid ${t.accent}50;}
 .code-lbl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};margin-bottom:8px;}
-.code-val{font-family:'Courier New',monospace;font-size:32px;font-weight:800;color:${t.accent};letter-spacing:10px;}
+.code-val{font-family:'Courier New',monospace;font-size:20px;font-weight:700;color:${t.accent};letter-spacing:6px;}
 
 /* ── DRESS CODE UNIQUE ── */
 .dress-unique{text-align:center;background:${t.accent}15;border:1px solid ${t.accent}40;padding:14px 24px;margin:14px 0;}
@@ -924,8 +924,12 @@ ${TOOLBAR(code, info.nomMariee, info.nomMarie)}
 <div class="corner c-tl"></div><div class="corner c-tr"></div><div class="corner c-bl"></div><div class="corner c-br"></div>
 <div class="cadre1"><div class="cadre2"><div class="cadre3"><div class="cadre4"><div class="inner">
 
-<div class="tag">💍 &nbsp; Mariage &nbsp; 💍</div>
-
+<div class="tag"> &nbsp; Mariage &nbsp; </div>
+<div style="text-align:center;background:linear-gradient(135deg,${t.accent}25,${t.accent}10);border:2px solid ${t.accent}60;padding:12px 24px;margin-bottom:20px;">
+  <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;">⚠️ Action requise</div>
+  <div style="font-size:13px;color:#ffffff;font-weight:700;">Confirmez votre présence avant le <span style="color:${t.accent};">30 avril 2026</span></div>
+  <div style="font-size:11px;color:#ffffff;opacity:.75;margin-top:4px;">Rendez-vous sur le site ou utilisez le bouton en bas de ce billet</div>
+</div>
 <div class="noms-row-p">
   <span class="nom-c">${info.nomMariee}</span>
   <span class="et-c">&amp;</span>
@@ -947,12 +951,11 @@ ${TOOLBAR(code, info.nomMariee, info.nomMarie)}
   <div class="code-val">${code}</div>
 </div>
 
-${(info.dressCode||info.dressHomme||info.dressFemme)?`
 <div class="dress-unique">
   <div class="dress-icon">👑</div>
   <div class="dress-titre">Élégance Royale</div>
   <div class="dress-sub">Revêtez-vous de gloire</div>
-</div>`:''}
+</div>
 
 ${info.events?.length?`
 <div class="section-titre">✦ &nbsp; Programme &nbsp; ✦</div>
@@ -982,8 +985,8 @@ ${methods.length?`
 
 <div class="cta-bloc">
   <div class="cta-msg-gold">💛 Votre présence est notre plus beau cadeau</div>
-  <div class="cta-msg-white">Merci de confirmer votre présence en utilisant votre invitation personnelle.</div>
-  <a href="https://wedding-platform-1.onrender.com/w/josia-ulrich" target="_blank" class="cta-btn">📲 Confirmer votre présence</a>
+  <div class="cta-msg-white">Merci de confirmer votre présence en utilisant votre code d'invitation .</div>
+  <a href="https://wedding-platform-1.onrender.com/w/josia-ulrich" target="_blank" class="cta-btn">📲Cliquez-ici pour Confirmer votre présence</a>
   <div class="cta-sub">🎟️ Votre code d'invitation sera requis à l'entrée</div>
 </div>
 
@@ -992,7 +995,7 @@ ${methods.length?`
     <div class="pied-l">Code d'entrée</div>
     <div class="pied-code">${code}</div>
   </div>
-  ${cat?`<div style="text-align:right;"><div class="pied-famille-lbl">Invitation de :</div><div class="pied-famille-val">🎊 FAMILLE ${cat.label.toUpperCase()}</div></div>`:''}
+  ${cat?`<div style="text-align:right;"><div class="pied-famille-lbl">Invitation de :</div><div class="pied-famille-val">${cat.label.toUpperCase()}</div></div>`:''}
 </div>
 
 </div></div></div></div></div>
