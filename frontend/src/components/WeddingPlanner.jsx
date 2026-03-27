@@ -925,10 +925,16 @@ ${TOOLBAR(code, info.nomMariee, info.nomMarie)}
 <div class="cadre1"><div class="cadre2"><div class="cadre3"><div class="cadre4"><div class="inner">
 
 <div class="tag"> &nbsp; Mariage &nbsp; </div>
-<div style="text-align:center;background:linear-gradient(135deg,${t.accent}25,${t.accent}10);border:2px solid ${t.accent}60;padding:12px 24px;margin-bottom:20px;">
-  <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;">⚠️ Action requise</div>
-  <div style="font-size:13px;color:#ffffff;font-weight:700;">Confirmez votre présence avant le <span style="color:${t.accent};">30 avril 2026</span></div>
-  <div style="font-size:11px;color:#ffffff;opacity:.75;margin-top:4px;">Rendez-vous sur le site ou utilisez le bouton en bas de ce billet</div>
+<div style="text-align:center;background:linear-gradient(135deg,${t.accent}25,${t.accent}10);border:2px solid ${t.accent}60;padding:12px 24px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;">
+  <div style="text-align:left;">
+    <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;">⚠️ Action requise</div>
+    <div style="font-size:13px;color:#ffffff;font-weight:700;">Confirmez votre présence avant le <span style="color:${t.accent};">30 avril 2026</span></div>
+    <div style="font-size:11px;color:#ffffff;opacity:.75;margin-top:4px;">Utilisez le bouton en bas de ce billet</div>
+  </div>
+  <div style="flex-shrink:0;margin-left:16px;text-align:center;">
+    <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;">Votre code</div>
+    <div style="font-family:'Courier New',monospace;font-size:18px;font-weight:800;color:${t.accent};letter-spacing:5px;background:${t.accent}20;padding:6px 12px;border:1px solid ${t.accent}50;">${code}</div>
+  </div>
 </div>
 <div class="noms-row-p">
   <span class="nom-c">${info.nomMariee}</span>
@@ -946,16 +952,7 @@ ${TOOLBAR(code, info.nomMariee, info.nomMarie)}
 <div class="inv-lbl">Invitation spécialement remise à</div>
 <div class="inv-nom">${nom1||'—'}${nom2?` &amp; ${nom2}`:''}</div>
 
-<div class="code-bloc">
-  <div class="code-lbl">Votre code d'invitation</div>
-  <div class="code-val">${code}</div>
-</div>
 
-<div class="dress-unique">
-  <div class="dress-icon">👑</div>
-  <div class="dress-titre">Élégance Royale</div>
-  <div class="dress-sub">Revêtez-vous de gloire</div>
-</div>
 
 ${info.events?.length?`
 <div class="section-titre">✦ &nbsp; Programme &nbsp; ✦</div>
@@ -966,6 +963,12 @@ ${info.events?.length?`
       <div class="prog-n">${ev.title||ev.type||''}</div>
       ${ev.location?`<div class="prog-l">📍 ${[ev.location,ev.address].filter(Boolean).join(', ')}</div>`:''}
     </div>`).join('')}
+    <div class="prog-i" style="border-color:${t.accent}70;background:${t.accent}20;">
+    <div class="prog-h">👑</div>
+    <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${t.accent};margin:4px 0 2px;">Thème vestimentaire</div>
+    <div class="prog-n">Élégance Royale</div>
+    <div class="prog-l" style="opacity:.9;font-style:italic;">Revêtez-vous de gloire</div>
+  </div>
 </div>`:''}
 
 ${methods.length?`
