@@ -815,7 +815,7 @@ ${methods.length?`
 
 <div class="cta-bloc">
   <div class="cta-msg">Nous avons hâte de célébrer ce moment avec vous ✨</div>
-  <a href="https://wedding-platform-1.onrender.com/w/josia-ulrich" target="_blank" class="cta-btn">📲 Confirmer votre présence</a>
+  <a href="https://wedding-platform-1.onrender.com/w/josia-ulrich" target="_blank" class="cta-btn">📲 Cliquez ici  pour confirmer votre présence</a>
   <div class="cta-sub">🎟️ Votre Code sera requis à l'entrée</div>
 </div>
 
@@ -824,96 +824,172 @@ ${methods.length?`
     <div class="ft-lbl">Code d'entrée :</div>
     <div class="ft-code">${code}</div>
   </div>
-  ${cat?`<div class="ft-famille"><div class="ft-famille-lbl">Invitation de :</div><div class="ft-famille-val">🎊 FAMILLE ${cat.label.toUpperCase()}</div></div>`:''}
+  ${cat?`<div class="ft-famille"><div class="ft-famille-lbl">Invitation de :</div><div class="ft-famille-val"> ${cat.label.toUpperCase()}</div></div>`:''}
 </div>
 
 </div></body></html>`;
 };
 
 // ── PARCHEMIN ──
+// ── PARCHEMIN ──
 const buildParchemin = (t, info, cat, nom1, nom2, code) => {
   const pay=info.pay||{}, methods=buildPayMethods(pay);
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Billet ${code}</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 ${makePdfScript(code,700)}
-<style>*{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}html,body{background:#1a140a;font-family:'Lato',sans-serif;}@media print{.no-print{display:none!important;}body{background:transparent;padding:0;}@page{margin:0;size:720px auto;}}
-.no-print{position:fixed;top:0;left:0;right:0;background:rgba(0,0,0,0.88);padding:10px 24px;display:flex;justify-content:space-between;align-items:center;z-index:9999;font-family:sans-serif;}.spacer-top{height:56px;}
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+html,body{background:#1a140a;font-family:'Lato',sans-serif;}
+@media print{.no-print{display:none!important;}body{background:transparent;padding:0;}@page{margin:0;size:720px auto;}}
+.no-print{position:fixed;top:0;left:0;right:0;background:rgba(0,0,0,0.88);padding:10px 24px;display:flex;justify-content:space-between;align-items:center;z-index:9999;font-family:sans-serif;}
+.spacer-top{height:56px;}
 #billet{width:700px;background:${t.bg};box-shadow:0 40px 100px rgba(0,0,0,.7);margin:0 auto;position:relative;}
-.cadre1{padding:12px;background:linear-gradient(135deg,${t.accent}50,${t.accent}15,${t.accent}50);}.cadre2{padding:10px;background:${t.bg};}.cadre3{border:1px solid ${t.accent}40;padding:3px;}.cadre4{border:2px solid ${t.accent}60;}
-.corner{position:absolute;width:36px;height:36px;border-color:${t.accent};border-style:solid;}.c-tl{top:24px;left:24px;border-width:2px 0 0 2px;}.c-tr{top:24px;right:24px;border-width:2px 2px 0 0;}.c-bl{bottom:24px;left:24px;border-width:0 0 2px 2px;}.c-br{bottom:24px;right:24px;border-width:0 2px 2px 0;}
-.inner{padding:34px 52px;position:relative;}.tag{font-family:'Cinzel',serif;font-size:9px;letter-spacing:6px;text-transform:uppercase;color:${t.accent};display:flex;align-items:center;gap:10px;text-align:center;margin-bottom:22px;}
+.cadre1{padding:12px;background:linear-gradient(135deg,${t.accent}50,${t.accent}15,${t.accent}50);}
+.cadre2{padding:10px;background:${t.bg};}
+.cadre3{border:1px solid ${t.accent}40;padding:3px;}
+.cadre4{border:2px solid ${t.accent}60;}
+.corner{position:absolute;width:36px;height:36px;border-color:${t.accent};border-style:solid;}
+.c-tl{top:24px;left:24px;border-width:2px 0 0 2px;}
+.c-tr{top:24px;right:24px;border-width:2px 2px 0 0;}
+.c-bl{bottom:24px;left:24px;border-width:0 0 2px 2px;}
+.c-br{bottom:24px;right:24px;border-width:0 2px 2px 0;}
+.inner{padding:34px 52px;position:relative;}
+
+/* ── HEADER ── */
+.tag{font-family:'Cinzel',serif;font-size:9px;letter-spacing:6px;text-transform:uppercase;color:${t.accent};display:flex;align-items:center;gap:10px;margin-bottom:22px;}
 .tag::before,.tag::after{content:'';flex:1;height:1px;background:${t.accent}50;}
-.nom-c{font-family:'Cinzel',serif;font-size:44px;font-weight:700;color:${t.text};text-align:center;line-height:1.1;}.et-c{font-family:'IM Fell English',serif;font-size:28px;font-style:italic;color:${t.accent};margin:0 10px;}
+.nom-c{font-family:'Cinzel',serif;font-size:44px;font-weight:700;color:#ffffff;text-align:center;line-height:1.1;}
+.et-c{font-family:'IM Fell English',serif;font-size:28px;font-style:italic;color:${t.accent};margin:0 10px;}
 .noms-row-p{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;margin-bottom:4px;}
 .date-f{text-align:center;margin:18px auto;max-width:400px;padding:14px 24px;border-top:2px solid ${t.accent};border-bottom:2px solid ${t.accent};}
-.date-txt{font-family:'Cinzel',serif;font-size:18px;color:${t.text};letter-spacing:3px;text-transform:uppercase;}.lieu-txt{font-family:'IM Fell English',serif;font-size:13px;color:${t.text};opacity:.65;font-style:italic;margin-top:4px;}
+.date-txt{font-family:'Cinzel',serif;font-size:18px;color:#ffffff;letter-spacing:3px;text-transform:uppercase;}
+.lieu-txt{font-family:'IM Fell English',serif;font-size:13px;color:#ffffff;opacity:.8;font-style:italic;margin-top:4px;}
+
+/* ── FILET SÉPARATEUR ── */
 .filet{display:flex;align-items:center;gap:8px;margin:18px 0;color:${t.accent};font-size:13px;letter-spacing:8px;justify-content:center;}
-.filet::before{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,${t.accent}60);}.filet::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,${t.accent}60,transparent);}
-.inv-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:${t.accent}70;text-align:center;margin-bottom:8px;}
-.inv-nom{font-family:'IM Fell English',serif;font-size:30px;color:${t.text};font-style:italic;text-align:center;padding-bottom:12px;border-bottom:1px solid ${t.accent}40;}
-.g{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;}.b{background:${t.accent}07;border:1px solid ${t.accent}22;padding:12px 14px;}.b.full{grid-column:span 2;}
-.b-l{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:5px;}.b-v{font-family:'Lato',sans-serif;font-size:12px;color:${t.text};line-height:1.5;}
+.filet::before{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,${t.accent}60);}
+.filet::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,${t.accent}60,transparent);}
+
+/* ── INVITÉ ── */
+.inv-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};text-align:center;margin-bottom:8px;}
+.inv-nom{font-family:'IM Fell English',serif;font-size:34px;font-weight:700;color:#ffffff;font-style:italic;text-align:center;padding-bottom:12px;border-bottom:1px solid ${t.accent}40;}
+
+/* ── DRESS CODE BADGES ── */
+.dress-badges{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;}
+.dress-badge{display:flex;align-items:center;gap:8px;background:${t.accent}15;border:1px solid ${t.accent}40;border-radius:6px;padding:10px 14px;flex:1;min-width:150px;}
+.dress-badge-icon{font-size:20px;}
+.dress-badge-lbl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:${t.accent};margin-bottom:3px;}
+.dress-badge-val{font-size:12px;font-weight:700;color:#ffffff;}
+
+/* ── PROGRAMME ── */
 .prog-t{font-family:'Cinzel',serif;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:${t.accent};text-align:center;margin:18px 0 12px;}
-.prog-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-bottom:16px;}.prog-i{border:1px solid ${t.accent}28;padding:12px 14px;background:${t.accent}05;}
-.prog-h{font-family:'Cinzel',serif;font-size:20px;color:${t.accent};font-weight:600;}.prog-n{font-family:'IM Fell English',serif;font-size:14px;color:${t.text};font-style:italic;margin:3px 0;}.prog-l{font-size:11px;color:${t.text};opacity:.5;}.prog-d{font-family:'Cinzel',serif;font-size:9px;color:${t.accent}60;margin-top:3px;letter-spacing:1px;}
+.prog-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-bottom:16px;}
+.prog-i{border:1px solid ${t.accent}40;padding:12px 14px;background:${t.accent}10;}
+.prog-h{font-family:'Cinzel',serif;font-size:22px;color:${t.accent};font-weight:700;}
+.prog-n{font-family:'IM Fell English',serif;font-size:15px;color:#ffffff;font-style:italic;margin:4px 0;}
+.prog-l{font-size:12px;color:#ffffff;opacity:.85;}
+.prog-d{font-family:'Cinzel',serif;font-size:10px;color:#ffffff;opacity:.75;margin-top:4px;letter-spacing:1px;}
+
+/* ── CADEAUX ── */
 .cad-t{font-family:'Cinzel',serif;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:${t.accent};text-align:center;margin:14px 0 10px;}
-.cad-msg{font-family:'IM Fell English',serif;font-size:12px;color:${t.text};opacity:.55;text-align:center;font-style:italic;margin-bottom:10px;}
-.cad-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px;margin-bottom:14px;}.cad-i{border:1px solid ${t.accent}22;padding:10px 12px;display:flex;gap:8px;background:${t.accent}04;}
-.cad-ico{font-size:15px;}.cad-l{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:${t.accent}60;}.cad-v{font-size:11px;font-weight:700;color:${t.text};word-break:break-all;}.cad-n{font-size:10px;color:${t.text};opacity:.4;}
-.pied{display:flex;justify-content:space-between;align-items:center;padding:14px 0 4px;border-top:1px solid ${t.accent}30;margin-top:10px;}
-.pied-l{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:${t.accent}70;margin-bottom:5px;}
-.pied-code{font-family:'Courier New',monospace;font-size:26px;font-weight:800;color:${t.accent};letter-spacing:8px;border:1px solid ${t.accent}45;padding:8px 16px;background:${t.accent}10;display:inline-block;}
-.pied-cat{font-family:'Cinzel',serif;font-size:9px;color:${t.accent};letter-spacing:2px;border:1px solid ${t.accent}40;padding:7px 14px;}
+.cad-msg{font-family:'IM Fell English',serif;font-size:13px;color:#ffffff;opacity:.85;text-align:center;font-style:italic;margin-bottom:12px;}
+.cad-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px;margin-bottom:14px;}
+.cad-i{border:1px solid ${t.accent}35;padding:12px 14px;display:flex;gap:10px;background:${t.accent}12;align-items:flex-start;}
+.cad-ico{font-size:18px;flex-shrink:0;}
+.cad-l{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;}
+.cad-v{font-size:13px;font-weight:800;color:#ffffff;word-break:break-all;}
+.cad-n{font-size:11px;color:#ffffff;opacity:.85;margin-top:2px;}
+
+/* ── CTA ── */
+.cta-bloc{text-align:center;margin-top:22px;padding-top:16px;border-top:1px solid ${t.accent}30;}
+.cta-msg-gold{font-size:13px;color:${t.accent};font-weight:700;margin-bottom:8px;}
+.cta-msg-white{font-size:12px;color:#ffffff;opacity:.8;margin-bottom:14px;}
+.cta-btn{display:inline-block;background:linear-gradient(135deg,${t.accent},#f0d080);color:#1a1a2e;font-weight:800;padding:13px 28px;border-radius:10px;font-size:14px;letter-spacing:1px;box-shadow:0 6px 18px ${t.accent}50;text-decoration:none;}
+.cta-sub{margin-top:10px;font-size:11px;color:#ffffff;opacity:.65;}
+
+/* ── PIED ── */
+.pied{display:flex;justify-content:space-between;align-items:center;padding:16px 0 4px;border-top:2px solid ${t.accent}40;margin-top:16px;}
+.pied-l{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:6px;}
+.pied-code{font-family:'Courier New',monospace;font-size:26px;font-weight:800;color:${t.accent};letter-spacing:8px;border:1px solid ${t.accent}60;padding:8px 16px;background:${t.accent}15;display:inline-block;}
+.pied-famille-lbl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:6px;text-align:right;}
+.pied-famille-val{font-size:14px;font-weight:800;color:${t.accent};letter-spacing:2px;text-transform:uppercase;border:2px solid ${t.accent}60;padding:8px 16px;background:${t.accent}15;display:inline-block;}
 </style></head><body>
 ${TOOLBAR(code, info.nomMariee, info.nomMarie)}
 <div id="billet">
 <div class="corner c-tl"></div><div class="corner c-tr"></div><div class="corner c-bl"></div><div class="corner c-br"></div>
 <div class="cadre1"><div class="cadre2"><div class="cadre3"><div class="cadre4"><div class="inner">
+
 <div class="tag">💍 &nbsp; Mariage &nbsp; 💍</div>
-<div class="noms-row-p"><span class="nom-c">${info.nomMariee}</span><span class="et-c">&amp;</span><span class="nom-c">${info.nomMarie}</span></div>
-<div class="date-f"><div class="date-txt">${info.dateStr||'—'}</div>${info.lieu?`<div class="lieu-txt">${info.lieu}</div>`:''}</div>
+
+<div class="noms-row-p">
+  <span class="nom-c">${info.nomMariee}</span>
+  <span class="et-c">&amp;</span>
+  <span class="nom-c">${info.nomMarie}</span>
+</div>
+
+<div class="date-f">
+  <div class="date-txt">${info.dateStr||'—'}</div>
+  ${info.lieu?`<div class="lieu-txt">${info.lieu}</div>`:''}
+</div>
+
 <div class="filet">✦ ✦ ✦</div>
+
 <div class="inv-lbl">Invitation spécialement remise à</div>
 <div class="inv-nom">${nom1||'—'}${nom2?` &amp; ${nom2}`:''}</div>
-${(info.dressCode||info.dressHomme||info.dressFemme)?`<div class="filet" style="margin:14px 0;font-size:10px;letter-spacing:5px;">— Dress Code —</div><div class="g">${info.dressCode?`<div class="b full"><div class="b-l">Thème</div><div class="b-v">${info.dressCode}</div></div>`:''} ${info.dressHomme?`<div class="b"><div class="b-l">👔 Messieurs</div><div class="b-v">${info.dressHomme}</div></div>`:''} ${info.dressFemme?`<div class="b"><div class="b-l">👗 Mesdames</div><div class="b-v">${info.dressFemme}</div></div>`:''}</div>`:''}
-${info.events?.length?`<div class="prog-t">— Programme —</div><div class="prog-g">${info.events.map(ev=>`<div class="prog-i"><div class="prog-h">${ev.time||'—'}</div><div class="prog-n">${ev.title||ev.type||''}</div>${ev.location?`<div class="prog-l">📍 ${ev.location}${ev.address?', '+ev.address:''}</div>`:''} ${ev.dressCode?`<div class="prog-d">${ev.dressCode}</div>`:''}</div>`).join('')}</div>`:''}
-${methods.length?`<div class="cad-t">— Cadeaux & Contributions —</div>${pay.message?`<div class="cad-msg">${pay.message}</div>`:''}<div class="cad-g">${methods.map(m=>`<div class="cad-i"><div class="cad-ico">${m.ico}</div><div><div class="cad-l">${m.lbl}</div><div class="cad-v">${m.val}</div>${m.nm?`<div class="cad-n">${m.nm}</div>`:''}</div></div>`).join('')}</div>`:''}
-<div style="margin-top:22px;padding-top:16px;border-top:1px solid rgba(201,168,76,0.3);text-align:center;">
 
-  <p style="font-size:13px;color:#c9a84c;font-weight:700;margin-bottom:8px;">
-    💛 Votre présence est notre plus beau cadeau
-  </p>
+${(info.dressCode||info.dressHomme||info.dressFemme)?`
+<div class="filet" style="margin:16px 0;font-size:10px;letter-spacing:5px;">— Dress Code —</div>
+<div class="dress-badges">
+  ${info.dressCode?`<div class="dress-badge"><span class="dress-badge-icon">👗</span><div><div class="dress-badge-lbl">Tenue soirée</div><div class="dress-badge-val">${info.dressCode}</div></div></div>`:''}
+  ${info.dressHomme?`<div class="dress-badge"><span class="dress-badge-icon">👔</span><div><div class="dress-badge-lbl">Messieurs</div><div class="dress-badge-val">${info.dressHomme}</div></div></div>`:''}
+  ${info.dressFemme?`<div class="dress-badge"><span class="dress-badge-icon">💃</span><div><div class="dress-badge-lbl">Mesdames</div><div class="dress-badge-val">${info.dressFemme}</div></div></div>`:''}
+</div>`:''}
 
-  <p style="font-size:12px;color:white;opacity:0.75;margin-bottom:14px;">
-    Merci de confirmer votre présence en utilisant votre invitation personnelle.
-  </p>
+${info.events?.length?`
+<div class="prog-t">— Programme —</div>
+<div class="prog-g">
+  ${info.events.map(ev=>`
+    <div class="prog-i">
+      <div class="prog-h">${ev.time||'—'}</div>
+      <div class="prog-n">${ev.title||ev.type||''}</div>
+      ${ev.location?`<div class="prog-l">📍 ${ev.location}${ev.address?', '+ev.address:''}</div>`:''}
+      ${ev.dressCode?`<div class="prog-d">${ev.dressCode}</div>`:''}
+    </div>`).join('')}
+</div>`:''}
 
-  <a href="https://wedding-platform-1.onrender.com/w/josia-ulrich" target="_blank" style="text-decoration:none;">
-    <div style="
-      display:inline-block;
-      background:linear-gradient(135deg,#c9a84c,#f0d080);
-      color:#1a1a2e;
-      font-weight:800;
-      padding:12px 26px;
-      border-radius:10px;
-      font-size:14px;
-      letter-spacing:1px;
-      box-shadow:0 6px 18px rgba(201,168,76,0.45);
-      transition:all 0.2s ease;
-    ">
-      📲 Confirmer votre présence
-    </div>
-  </a>
+${methods.length?`
+<div class="cad-t">— Cadeaux &amp; Contributions —</div>
+<div class="cad-msg">💛 ${pay.message||'Votre présence est notre plus beau cadeau. Si vous souhaitez contribuer :'}</div>
+<div class="cad-g">
+  ${methods.map(m=>`
+    <div class="cad-i">
+      <div class="cad-ico">${m.ico}</div>
+      <div>
+        <div class="cad-l">${m.lbl}</div>
+        <div class="cad-v">${m.val}</div>
+        ${m.nm?`<div class="cad-n">${m.nm}</div>`:''}
+      </div>
+    </div>`).join('')}
+</div>`:''}
 
-  <p style="margin-top:10px;font-size:11px;color:#ffffff70;">
-    🎟️ Votre code d’invitation sera requis à l’entrée
-  </p>
-
+<div class="cta-bloc">
+  <div class="cta-msg-gold">💛 Votre présence est notre plus beau cadeau</div>
+  <div class="cta-msg-white">Merci de confirmer votre présence en utilisant votre invitation personnelle.</div>
+  <a href="https://wedding-platform-1.onrender.com/w/josia-ulrich" target="_blank" class="cta-btn">📲 Confirmer votre présence</a>
+  <div class="cta-sub">🎟️ Votre code d'invitation sera requis à l'entrée</div>
 </div>
+
+<div class="pied">
+  <div>
+    <div class="pied-l">Code d'entrée</div>
+    <div class="pied-code">${code}</div>
+  </div>
+  ${cat?`<div style="text-align:right;"><div class="pied-famille-lbl">Invitation de :</div><div class="pied-famille-val">🎊 FAMILLE ${cat.label.toUpperCase()}</div></div>`:''}
+</div>
+
 </div></div></div></div></div>
 </div></body></html>`;
 };
-
 // ── BilletsTab ──
 function BilletsTab({ side, info, t }) {
   const [selectedCat,  setSelectedCat]  = useState('');
