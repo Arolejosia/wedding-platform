@@ -549,6 +549,65 @@ const TOOLBAR = (code, nomMariee, nomMarie) => `
 </div>
 <div class="spacer-top"></div>`;
 
+// ── HELPERS BILLETS — coller juste avant buildMagazine ──────────────────────
+
+// Badge dress code visuel
+const buildDressCodeBadges = (info, t) => {
+  if (!info.dressCode && !info.dressHomme && !info.dressFemme) return '';
+  return `
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin:14px 0;">
+      ${info.dressCode ? `
+        <div style="display:flex;align-items:center;gap:8px;background:${t.accent}15;border:1px solid ${t.accent}40;border-radius:8px;padding:10px 14px;flex:1;min-width:160px;">
+          <span style="font-size:22px;">👗</span>
+          <div>
+            <div style="font-size:8px;text-transform:uppercase;letter-spacing:2px;color:${t.accent};margin-bottom:2px;">Tenue soirée</div>
+            <div style="font-size:12px;font-weight:700;color:${t.text};">${info.dressCode}</div>
+          </div>
+        </div>` : ''}
+      ${info.dressHomme ? `
+        <div style="display:flex;align-items:center;gap:8px;background:${t.accent}10;border:1px solid ${t.accent}30;border-radius:8px;padding:10px 14px;flex:1;min-width:140px;">
+          <span style="font-size:22px;">👔</span>
+          <div>
+            <div style="font-size:8px;text-transform:uppercase;letter-spacing:2px;color:${t.accent};margin-bottom:2px;">Messieurs</div>
+            <div style="font-size:12px;font-weight:700;color:${t.text};">${info.dressHomme}</div>
+          </div>
+        </div>` : ''}
+      ${info.dressFemme ? `
+        <div style="display:flex;align-items:center;gap:8px;background:${t.accent}10;border:1px solid ${t.accent}30;border-radius:8px;padding:10px 14px;flex:1;min-width:140px;">
+          <span style="font-size:22px;">💃</span>
+          <div>
+            <div style="font-size:8px;text-transform:uppercase;letter-spacing:2px;color:${t.accent};margin-bottom:2px;">Mesdames</div>
+            <div style="font-size:12px;font-weight:700;color:${t.text};">${info.dressFemme}</div>
+          </div>
+        </div>` : ''}
+    </div>`;
+};
+
+// Séparateur élégant entre sections
+const buildSeparateur = (t, label = '') => `
+  <div style="display:flex;align-items:center;gap:12px;margin:18px 0 14px;">
+    <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,${t.accent}50);"></div>
+    ${label ? `<span style="font-size:8px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};font-weight:700;white-space:nowrap;">${label}</span>` : `<span style="color:${t.accent};font-size:12px;letter-spacing:6px;">✦ ✦ ✦</span>`}
+    <div style="flex:1;height:1px;background:linear-gradient(90deg,${t.accent}50,transparent);"></div>
+  </div>`;
+
+// Footer famille en évidence
+const buildFamilleFooter = (cat, code, t, nomMariee, nomMarie) => {
+  const familleLabel = cat?.label ? `FAMILLE ${cat.label.toUpperCase()}` : '';
+  return `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0 4px;border-top:2px solid ${t.accent}40;margin-top:14px;">
+      <div>
+        <div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:${t.accent}70;margin-bottom:6px;">CODE D'ENTRÉE :</div>
+        <div style="font-family:'Courier New',monospace;font-size:22px;font-weight:800;color:${t.accent};letter-spacing:6px;background:${t.accent}15;padding:8px 14px;border:1px solid ${t.accent}40;display:inline-block;">${code}</div>
+      </div>
+      ${familleLabel ? `
+        <div style="text-align:right;">
+          <div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:${t.accent}70;margin-bottom:6px;">Invitation de :</div>
+          <div style="font-size:14px;font-weight:800;color:${t.accent};letter-spacing:2px;text-transform:uppercase;border:2px solid ${t.accent}50;padding:8px 16px;background:${t.accent}10;">🎊 ${familleLabel}</div>
+        </div>` : ''}
+    </div>`;
+};
+
 // ── MAGAZINE ──
 const buildMagazine = (t, info, cat, nom1, nom2, code) => {
   const pay=info.pay||{}, methods=buildPayMethods(pay), hasBg=!!info.heroImage;
