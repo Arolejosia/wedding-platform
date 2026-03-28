@@ -889,8 +889,8 @@ html,body{background:#1a140a;font-family:'Libre Baskerville',serif;}
 
 /* ── DATE ── */
 .date-f{text-align:center;margin:16px auto;max-width:400px;padding:14px 24px;border-top:2px solid ${t.accent};border-bottom:2px solid ${t.accent};}
-.date-txt{font-family:'Cinzel',serif;font-size:20px;color:#ffffff;letter-spacing:3px;text-transform:uppercase;}
-.lieu-txt{font-family:'Libre Baskerville',serif;font-size:13px;color:#ffffff;opacity:.8;font-style:italic;margin-top:5px;}
+.date-txt{font-family:'Cinzel',serif;font-size:24px;color:#ffffff;letter-spacing:3px;text-transform:uppercase;}
+.lieu-txt{font-family:'Libre Baskerville',serif;font-size:15px;color:#ffffff;opacity:.8;font-style:italic;margin-top:5px;}
 
 /* ── FILET ── */
 .filet{display:flex;align-items:center;gap:8px;margin:16px 0;color:${t.accent};font-size:14px;letter-spacing:8px;justify-content:center;}
@@ -902,15 +902,15 @@ html,body{background:#1a140a;font-family:'Libre Baskerville',serif;}
 .inv-nom{font-family:'Great Vibes',cursive;font-size:48px;color:#ffffff;text-align:center;padding-bottom:14px;border-bottom:1px solid ${t.accent}40;}
 
 /* ── TITRE SECTION ── */
-.section-titre{font-family:'Cinzel',serif;font-size:12px;letter-spacing:5px;text-transform:uppercase;color:#ffffff;background:${t.accent}35;border:1px solid ${t.accent}60;text-align:center;margin:20px 0 16px;padding:11px 0;}
+.section-titre{font-family:'Cinzel',serif;font-size:16px;letter-spacing:5px;text-transform:uppercase;color:#ffffff;background:${t.accent}35;border:1px solid ${t.accent}60;text-align:center;margin:20px 0 16px;padding:11px 0;}
 
 /* ── PROGRAMME ICÔNES ── */
 .prog-icones{display:flex;justify-content:center;gap:0;margin-bottom:0;border:1px solid ${t.accent}30;}
 .prog-item{flex:1;text-align:center;padding:18px 12px;position:relative;border-right:1px solid ${t.accent}25;}
 .prog-item:last-child{border-right:none;}
-.prog-ico{font-size:32px;margin-bottom:10px;}
-.prog-nom{font-family:'Libre Baskerville',serif;font-size:14px;font-weight:700;color:#ffffff;margin-bottom:8px;line-height:1.4;}
-.prog-heure{font-family:'Cinzel',serif;font-size:13px;color:${t.accent};letter-spacing:2px;}
+.prog-ico{font-size:38px;margin-bottom:10px;}
+.prog-nom{font-family:'Libre Baskerville',serif;font-size:16px;font-weight:700;color:#ffffff;margin-bottom:8px;line-height:1.4;}
+.prog-heure{font-family:'Cinzel',serif;font-size:15px;color:${t.accent};letter-spacing:2px;}
 .prog-heure::before{content:'• ';}
 .prog-heure::after{content:' •';}
 
@@ -918,24 +918,24 @@ html,body{background:#1a140a;font-family:'Libre Baskerville',serif;}
 .lieux-bloc{margin:0 0 16px;border:1px solid ${t.accent}25;border-top:none;}
 .lieu-item{text-align:center;padding:12px 16px;border-bottom:1px solid ${t.accent}15;}
 .lieu-item:last-child{border-bottom:none;}
-.lieu-nom{font-family:'Cinzel',serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;}
-.lieu-adresse{font-family:'Libre Baskerville',serif;font-size:13px;color:#ffffff;opacity:.85;}
+.lieu-nom{font-family:'Cinzel',serif;font-size:14px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;}
+.lieu-adresse{font-family:'Libre Baskerville',serif;font-size:15px;color:#ffffff;opacity:.85;}
 
 /* ── CADEAUX ── */
-.cad-msg{font-family:'Libre Baskerville',serif;font-size:13px;color:#ffffff;opacity:.85;text-align:center;font-style:italic;margin-bottom:14px;}
+.cad-msg{font-family:'Libre Baskerville',serif;font-size:15px;color:#ffffff;opacity:.85;text-align:center;font-style:italic;margin-bottom:14px;}
 .cad-g{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
 .cad-i{border:1px solid ${t.accent}35;padding:13px 14px;display:flex;gap:10px;background:${t.accent}12;align-items:flex-start;}
 .cad-ico{font-size:20px;flex-shrink:0;}
-.cad-l{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;}
-.cad-v{font-family:'Libre Baskerville',serif;font-size:13px;font-weight:700;color:#ffffff;word-break:break-all;}
-.cad-n{font-family:'Libre Baskerville',serif;font-size:11px;color:#ffffff;opacity:.85;margin-top:2px;font-style:italic;}
+.cad-l{font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${t.accent};margin-bottom:4px;}
+.cad-v{font-family:'Libre Baskerville',serif;font-size:15px;font-weight:700;color:#ffffff;word-break:break-all;}
+.cad-n{font-family:'Libre Baskerville',serif;font-size:13px;color:#ffffff;opacity:.85;margin-top:2px;font-style:italic;}
 
 /* ── CTA ── */
 .cta-bloc{text-align:center;margin-top:22px;padding-top:16px;border-top:1px solid ${t.accent}30;}
-.cta-msg-gold{font-family:'Libre Baskerville',serif;font-size:14px;color:${t.accent};font-style:italic;margin-bottom:8px;}
-.cta-msg-white{font-family:'Libre Baskerville',serif;font-size:13px;color:#ffffff;opacity:.8;margin-bottom:14px;}
-.cta-btn{display:inline-block;background:linear-gradient(135deg,${t.accent},#f0d080);color:#1a1a2e;font-family:'Cinzel',serif;font-weight:700;padding:14px 32px;border-radius:10px;font-size:14px;letter-spacing:2px;box-shadow:0 6px 18px ${t.accent}50;text-decoration:none;}
-.cta-sub{margin-top:10px;font-family:'Libre Baskerville',serif;font-size:11px;color:#ffffff;opacity:.65;font-style:italic;}
+.cta-msg-gold{font-family:'Libre Baskerville',serif;font-size:16px;color:${t.accent};font-style:italic;margin-bottom:8px;}
+.cta-msg-white{font-family:'Libre Baskerville',serif;font-size:14px;color:#ffffff;opacity:.8;margin-bottom:14px;}
+.cta-btn{display:inline-block;background:linear-gradient(135deg,${t.accent},#f0d080);color:#1a1a2e;font-family:'Cinzel',serif;font-weight:700;padding:14px 32px;border-radius:10px;font-size:15px;letter-spacing:2px;box-shadow:0 6px 18px ${t.accent}50;text-decoration:none;}
+.cta-sub{margin-top:10px;font-family:'Libre Baskerville',serif;font-size:12px;color:#ffffff;opacity:.65;font-style:italic;}
 
 /* ── PIED ── */
 .pied{display:flex;justify-content:space-between;align-items:center;padding:16px 0 4px;border-top:2px solid ${t.accent}40;margin-top:18px;}
