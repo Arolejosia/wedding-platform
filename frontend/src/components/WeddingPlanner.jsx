@@ -507,33 +507,34 @@ window.addEventListener('load', function() {
     document.body.style.padding='0';document.body.style.margin='0';document.body.style.background='transparent';document.body.style.minWidth='${billetWidth}px';
     requestAnimationFrame(function(){
       document.documentElement.style.width='${billetWidth}px';document.body.style.width='${billetWidth}px';document.body.style.overflow='hidden';
-    // Dans makePdfScript, remplace le setTimeout 150ms par :
-setTimeout(function(){
-  // Force le re-rendu des polices avant capture
-  document.fonts.ready.then(function() {
-    var w=${billetWidth},h=el.offsetHeight;
-    html2pdf().set({
-      margin:0,
-      filename:'invitation-...',
-      image:{type:'jpeg',quality:0.98},
-      html2canvas:{
-        scale:2,
-        useCORS:true,
-        allowTaint:true,
-        logging:false,
-        backgroundColor:null,
-        width:w,height:h,
-        windowWidth:w,windowHeight:h,
-        scrollX:0,scrollY:0,
-        onclone: function(clonedDoc) {
-          return clonedDoc.fonts.ready;  // ← LE FIX CLEF
-        }
-      },
-      jsPDF:{unit:'px',format:[w,h],orientation:'portrait',hotfixes:['px_scaling']}
-    }).from(el).save()
-    // ...
-  });
-},300);  // ← augmente aussi à 300ms
+      setTimeout(function(){
+        document.fonts.ready.then(function() {
+          var w=${billetWidth},h=el.offsetHeight;
+          var nom1=(window.nom1||'').replace(/\\s+/g,'');
+          var nom2=(window.nom2||'').replace(/\\s+/g,'');
+          var filename='invitation-'+nom1+(nom2?'-'+nom2:'')+'-${code}.pdf';
+          html2pdf().set({
+            margin:0,
+            filename:filename,
+            image:{type:'jpeg',quality:0.98},
+            html2canvas:{
+              scale:2,useCORS:true,allowTaint:true,logging:false,backgroundColor:null,
+              width:w,height:h,windowWidth:w,windowHeight:h,scrollX:0,scrollY:0,
+              onclone:function(clonedDoc){ return clonedDoc.fonts.ready; }
+            },
+            jsPDF:{unit:'px',format:[w,h],orientation:'portrait',hotfixes:['px_scaling']}
+          }).from(el).save().then(function(){
+            document.documentElement.style.width='';document.body.style.width='';document.body.style.overflow='';
+            if(toolbar)toolbar.style.display='';if(spacer)spacer.style.display='';
+            document.body.style.padding=document.body.style.margin=document.body.style.background=document.body.style.minWidth='';
+            self.textContent='⬇️ Exporter en PDF';self.disabled=false;
+          }).catch(function(e){
+            console.error(e);
+            if(toolbar)toolbar.style.display='';if(spacer)spacer.style.display='';
+            document.body.style.minWidth='';self.textContent='⬇️ Exporter en PDF';self.disabled=false;
+          });
+        });
+      },300);
     });
   });
 });
