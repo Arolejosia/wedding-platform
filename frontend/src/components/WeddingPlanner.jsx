@@ -509,7 +509,7 @@ window.addEventListener('load', function() {
       document.documentElement.style.width='${billetWidth}px';document.body.style.width='${billetWidth}px';document.body.style.overflow='hidden';
       setTimeout(function(){
         var w=${billetWidth},h=el.offsetHeight;
-        html2pdf().set({margin:0,filename:'invitation-${code}.pdf',image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true,allowTaint:true,logging:false,backgroundColor:null,width:w,height:h,windowWidth:w,windowHeight:h,scrollX:0,scrollY:0},jsPDF:{unit:'px',format:[w,h],orientation:'portrait',hotfixes:['px_scaling']}}).from(el).save().then(function(){
+        html2pdf().set({margin:0,filename:'invitation-${(window.nom1 || '').replace(/\s+/g,'')}${(window.nom2 || '').replace(/\s+/g,'')}-${code}.pdf',image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true,allowTaint:true,logging:false,backgroundColor:null,width:w,height:h,windowWidth:w,windowHeight:h,scrollX:0,scrollY:0},jsPDF:{unit:'px',format:[w,h],orientation:'portrait',hotfixes:['px_scaling']}}).from(el).save().then(function(){
           document.documentElement.style.width='';document.body.style.width='';document.body.style.overflow='';
           if(toolbar)toolbar.style.display='';if(spacer)spacer.style.display='';
           document.body.style.padding=document.body.style.margin=document.body.style.background=document.body.style.minWidth='';
@@ -943,7 +943,10 @@ html,body{background:#1a140a;font-family:'Libre Baskerville',serif;}
 .pied-code{font-family:'Courier New',monospace;font-size:28px;font-weight:800;color:${t.accent};letter-spacing:8px;border:1px solid ${t.accent}60;padding:10px 16px;background:${t.accent}15;display:inline-block;}
 .pied-famille-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:${t.accent};margin-bottom:6px;text-align:right;}
 .pied-famille-val{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:${t.accent};letter-spacing:2px;text-transform:uppercase;border:2px solid ${t.accent}60;padding:8px 16px;background:${t.accent}15;display:inline-block;}
-</style></head><body>
+</style><script>
+window.nom1 = "${nom1 || ''}";
+window.nom2 = "${nom2 || ''}";
+</script></head><body>
 ${TOOLBAR(code, info.nomMariee, info.nomMarie)}
 <div id="billet">
 <div class="corner c-tl"></div><div class="corner c-tr"></div><div class="corner c-bl"></div><div class="corner c-br"></div>
@@ -1025,7 +1028,8 @@ ${methods.length?`
     <div class="pied-l">Code d'entrée</div>
     <div class="pied-code">${code}</div>
   </div>
-  ${cat?`<div style="text-align:right;"><div class="pied-famille-lbl">Invitation de :</div><div class="pied-famille-val">${cat.label.toUpperCase()}</div></div>`:''}
+  ${cat?`<div style="text-align:right;"><div class="pied-famille-lbl">Invitation de :</div><div
+     class="pied-famille-val">${cat.label.toUpperCase()}</div></div>`:''}
 </div>
 
 </div></div></div></div></div>
