@@ -507,15 +507,33 @@ window.addEventListener('load', function() {
     document.body.style.padding='0';document.body.style.margin='0';document.body.style.background='transparent';document.body.style.minWidth='${billetWidth}px';
     requestAnimationFrame(function(){
       document.documentElement.style.width='${billetWidth}px';document.body.style.width='${billetWidth}px';document.body.style.overflow='hidden';
-      setTimeout(function(){
-        var w=${billetWidth},h=el.offsetHeight;
-        html2pdf().set({margin:0,filename:'invitation-${(window.nom1 || '').replace(/\s+/g,'')}${(window.nom2 || '').replace(/\s+/g,'')}-${code}.pdf',image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true,allowTaint:true,logging:false,backgroundColor:null,width:w,height:h,windowWidth:w,windowHeight:h,scrollX:0,scrollY:0},jsPDF:{unit:'px',format:[w,h],orientation:'portrait',hotfixes:['px_scaling']}}).from(el).save().then(function(){
-          document.documentElement.style.width='';document.body.style.width='';document.body.style.overflow='';
-          if(toolbar)toolbar.style.display='';if(spacer)spacer.style.display='';
-          document.body.style.padding=document.body.style.margin=document.body.style.background=document.body.style.minWidth='';
-          self.textContent='⬇️ Exporter en PDF';self.disabled=false;
-        }).catch(function(e){console.error(e);if(toolbar)toolbar.style.display='';if(spacer)spacer.style.display='';document.body.style.minWidth='';self.textContent='⬇️ Exporter en PDF';self.disabled=false;});
-      },150);
+    // Dans makePdfScript, remplace le setTimeout 150ms par :
+setTimeout(function(){
+  // Force le re-rendu des polices avant capture
+  document.fonts.ready.then(function() {
+    var w=${billetWidth},h=el.offsetHeight;
+    html2pdf().set({
+      margin:0,
+      filename:'invitation-...',
+      image:{type:'jpeg',quality:0.98},
+      html2canvas:{
+        scale:2,
+        useCORS:true,
+        allowTaint:true,
+        logging:false,
+        backgroundColor:null,
+        width:w,height:h,
+        windowWidth:w,windowHeight:h,
+        scrollX:0,scrollY:0,
+        onclone: function(clonedDoc) {
+          return clonedDoc.fonts.ready;  // ← LE FIX CLEF
+        }
+      },
+      jsPDF:{unit:'px',format:[w,h],orientation:'portrait',hotfixes:['px_scaling']}
+    }).from(el).save()
+    // ...
+  });
+},300);  // ← augmente aussi à 300ms
     });
   });
 });
@@ -854,7 +872,7 @@ const buildParchemin = (t, info, cat, nom1, nom2, code) => {
 ${makePdfScript(code,700)}
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
-html,body{background:#1a140a;font-family:'Libre Baskerville',serif;}
+html,body{background:#1a140a;font-family:'Libre Baskerville',serif;visibility:hidden;}
 @media print{.no-print{display:none!important;}body{background:transparent;padding:0;}@page{margin:0;size:720px auto;}}
 .no-print{position:fixed;top:0;left:0;right:0;background:rgba(0,0,0,0.88);padding:10px 24px;display:flex;justify-content:space-between;align-items:center;z-index:9999;font-family:sans-serif;}
 .spacer-top{height:56px;}
@@ -884,7 +902,7 @@ html,body{background:#1a140a;font-family:'Libre Baskerville',serif;}
 .action-code{font-family:'Courier New',monospace;font-size:20px;font-weight:800;color:${t.accent};letter-spacing:5px;background:${t.accent}20;padding:8px 14px;border:1px solid ${t.accent}50;}
 
 /* ── NOMS ── */
-.noms-script{font-family:'Great Vibes',cursive;font-size:72px;color:#ffffff;text-align:center;line-height:1.1;margin-bottom:4px;}
+.noms-script{font-family:'Great Vibes',Georgia,'Times New Roman',serif;font-size:72px;color:#ffffff;text-align:center;line-height:1.1;margin-bottom:4px;}
 .noms-et{color:${t.accent};}
 
 /* ── DATE ── */
@@ -899,7 +917,7 @@ html,body{background:#1a140a;font-family:'Libre Baskerville',serif;}
 
 /* ── INVITÉ ── */
 .inv-lbl{font-family:'Cinzel',serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:${t.accent};text-align:center;margin-bottom:8px;}
-.inv-nom{font-family:'Great Vibes',cursive;font-size:48px;color:#ffffff;text-align:center;padding-bottom:14px;border-bottom:1px solid ${t.accent}40;}
+.inv-nom{font-family:'Great Vibes',Georgia,'Times New Roman',serif;font-size:48px;color:#ffffff;text-align:center;padding-bottom:14px;border-bottom:1px solid ${t.accent}40;}
 
 /* ── TITRE SECTION ── */
 .section-titre{font-family:'Cinzel',serif;font-size:16px;letter-spacing:5px;text-transform:uppercase;color:#ffffff;background:${t.accent}35;border:1px solid ${t.accent}60;text-align:center;margin:20px 0 16px;padding:11px 0;}
@@ -946,7 +964,14 @@ html,body{background:#1a140a;font-family:'Libre Baskerville',serif;}
 </style><script>
 window.nom1 = "${nom1 || ''}";
 window.nom2 = "${nom2 || ''}";
-</script></head><body>
+</script><script>
+document.fonts.ready.then(function() {
+  document.body.style.visibility = 'visible';
+});
+setTimeout(function() {
+  document.body.style.visibility = 'visible';
+}, 2500);
+</script><body>
 ${TOOLBAR(code, info.nomMariee, info.nomMarie)}
 <div id="billet">
 <div class="corner c-tl"></div><div class="corner c-tr"></div><div class="corner c-bl"></div><div class="corner c-br"></div>
