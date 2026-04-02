@@ -501,40 +501,85 @@ window.addEventListener('load', function() {
   var btn = document.getElementById('btnPDF');
   if (!btn) return;
   btn.addEventListener('click', function() {
-    var el=document.getElementById('billet'),toolbar=document.querySelector('.no-print'),spacer=document.querySelector('.spacer-top'),self=this;
-    self.textContent='⏳ Génération...';self.disabled=true;
-    if(toolbar)toolbar.style.display='none';if(spacer)spacer.style.display='none';
-    document.body.style.padding='0';document.body.style.margin='0';document.body.style.background='transparent';document.body.style.minWidth='${billetWidth}px';
-    requestAnimationFrame(function(){
-      document.documentElement.style.width='${billetWidth}px';document.body.style.width='${billetWidth}px';document.body.style.overflow='hidden';
-      setTimeout(function(){
-        document.fonts.ready.then(function() {
-          var w=${billetWidth},h=el.offsetHeight;
-          var nom1=(window.nom1||'').replace(/\\s+/g,'');
-          var nom2=(window.nom2||'').replace(/\\s+/g,'');
-          var filename='invitation-'+nom1+(nom2?'-'+nom2:'')+'-${code}.pdf';
-          html2pdf().set({
-            margin:0,
-            filename:filename,
-            image:{type:'jpeg',quality:0.98},
-            html2canvas:{
-              scale:2,useCORS:true,allowTaint:true,logging:false,backgroundColor:null,
-              width:w,height:h,windowWidth:w,windowHeight:h,scrollX:0,scrollY:0,
-              onclone:function(clonedDoc){ return clonedDoc.fonts.ready; }
-            },
-            jsPDF:{unit:'px',format:[w,h],orientation:'portrait',hotfixes:['px_scaling']}
-          }).from(el).save().then(function(){
-            document.documentElement.style.width='';document.body.style.width='';document.body.style.overflow='';
-            if(toolbar)toolbar.style.display='';if(spacer)spacer.style.display='';
-            document.body.style.padding=document.body.style.margin=document.body.style.background=document.body.style.minWidth='';
-            self.textContent='⬇️ Exporter en PDF';self.disabled=false;
-          }).catch(function(e){
-            console.error(e);
-            if(toolbar)toolbar.style.display='';if(spacer)spacer.style.display='';
-            document.body.style.minWidth='';self.textContent='⬇️ Exporter en PDF';self.disabled=false;
-          });
-        });
-      },300);
+    var el = document.getElementById('billet');
+    var toolbar = document.querySelector('.no-print');
+    var spacer = document.querySelector('.spacer-top');
+    var self = this;
+    self.textContent = '⏳ Génération...';
+    self.disabled = true;
+    if (toolbar) toolbar.style.display = 'none';
+    if (spacer) spacer.style.display = 'none';
+    document.body.style.padding = '0';
+    document.body.style.margin = '0';
+    document.body.style.background = 'transparent';
+
+    // Force la largeur
+    document.documentElement.style.width = '${billetWidth}px';
+    document.body.style.width = '${billetWidth}px';
+    document.body.style.minWidth = '${billetWidth}px';
+    document.body.style.overflow = 'hidden';
+
+    // Attendre que TOUT soit prêt : fonts + layout stable
+    Promise.all([
+      document.fonts.ready,
+      new Promise(function(resolve) { setTimeout(resolve, 800); })
+    ]).then(function() {
+      // Recalculer la hauteur APRÈS fonts chargées
+      var w = ${billetWidth};
+      var h = el.getBoundingClientRect().height || el.offsetHeight;
+
+      var nom1 = (window.nom1 || '').replace(/\\s+/g, '');
+      var nom2 = (window.nom2 || '').replace(/\\s+/g, '');
+      var filename = 'invitation-' + nom1 + (nom2 ? '-' + nom2 : '') + '-${code}.pdf';
+
+      html2pdf().set({
+        margin: 0,
+        filename: filename,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          logging: false,
+          backgroundColor: null,
+          width: w,
+          height: h,
+          windowWidth: w,
+          windowHeight: h,
+          scrollX: 0,
+          scrollY: 0,
+          onclone: function(clonedDoc) {
+            // Forcer les fonts dans le clone aussi
+            return clonedDoc.fonts.ready;
+          }
+        },
+        jsPDF: {
+          unit: 'px',
+          format: [w, h],
+          orientation: 'portrait',
+          hotfixes: ['px_scaling']
+        }
+      }).from(el).save().then(function() {
+        // Restore
+        document.documentElement.style.width = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        document.body.style.minWidth = '';
+        if (toolbar) toolbar.style.display = '';
+        if (spacer) spacer.style.display = '';
+        document.body.style.padding = '';
+        document.body.style.margin = '';
+        document.body.style.background = '';
+        self.textContent = '⬇️ Exporter en PDF';
+        self.disabled = false;
+      }).catch(function(e) {
+        console.error(e);
+        if (toolbar) toolbar.style.display = '';
+        if (spacer) spacer.style.display = '';
+        document.body.style.minWidth = '';
+        self.textContent = '⬇️ Exporter en PDF';
+        self.disabled = false;
+      });
     });
   });
 });
