@@ -9,6 +9,7 @@ import DressCode from '../components/DressCode';
 import PhotoChallenge from '../components/PhotoChallenge';
 import GuestBook from '../components/GuestBook';
 import Footer from '../components/Footer';
+import API_URL from '../config/api';
 
 function InvitePage() {
   const { code } = useParams();
@@ -17,7 +18,7 @@ function InvitePage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5001/api/guests/invite/${code}`)
+    fetch(`${API_URL}/guests/invite/${code}`)
       .then(res => {
         if (!res.ok) throw new Error('Code invalide');
         return res.json();
