@@ -282,4 +282,47 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// ── Remplace l'ancienne route PUT /:id/guests/by-code/:code ──
+
+router.put('/:id/guests/by-code/:code', async (req, res) => {
+  try {
+    const { person1Name, person2Name, ticketType, categoryLabel } = req.body;
+
+    // Vérifier si le code existe
+    const existing = await Guest.findOne({
+      weddingId: req.params.id,
+      code:      req.params.code,
+    });
+
+    if (!existing) {
+      return res.status(404).json({ error: 'Code introuvable' });
+    }
+
+    // ❌ BLOQUER si un nom est déjà enregistré
+    if (existing.person1Name && existing.person1Name.trim() !== '') {
+      return res.status(409).json({
+        error:    'Ce code a déjà un billet généré',
+        existing: {
+          person1Name: existing.person1Name,
+          person2Name: existing.person2Name,
+        },
+      });
+    }
+
+    // ✅ Pas encore de nom — on sauvegarde
+    existing.person1Name = person1Name || '';
+    existing.person2Name = person2Name || '';
+    if (ticketType)    existing.ticketType    = ticketType;
+    if (categoryLabel) existing.categoryLabel = categoryLabel;
+
+    await existing.save();
+
+    res.json({ success: true, guest: existing });
+
+  } catch (error) {
+    console.error('Erreur PUT by-code:', error);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
 module.exports = router;

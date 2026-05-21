@@ -1287,22 +1287,67 @@ function BilletsTab({ side, info, t }) {
   const [design, setDesign] = useState('magazine');
 
   const cat = side.categories.find(c => c.id === selectedCat);
+// ── Remplace ta fonction imprimerBillet dans BilletsTab ──
 
-  const imprimerBillet = () => {
-    if (!selectedCode) { alert('Sélectionnez un code'); return; }
-    let html = '';
-    if (design === 'classique') html = buildClassique(t, info, cat, nom1, nom2, selectedCode);
-    if (design === 'magazine')  html = buildMagazine(t, info, cat, nom1, nom2, selectedCode);
-    if (design === 'luxe')      html = buildLuxe(t, info, cat, nom1, nom2, selectedCode);
-    if (design === 'editorial') html = buildEditorial(t, info, cat, nom1, nom2, selectedCode);
-    if (design === 'parchemin') html = buildParchemin(t, info, cat, nom1, nom2, selectedCode);
-    const billetWidth = design === 'magazine' ? 750 : 700;
-    const blob = new Blob([html], { type:'text/html;charset=utf-8' });
-    const url  = URL.createObjectURL(blob);
-    const w = window.open(url, '_blank', `width=${billetWidth},height=900,scrollbars=yes,resizable=yes`);
-    if (w) { w.addEventListener('load', () => URL.revokeObjectURL(url)); }
-    else { URL.revokeObjectURL(url); alert('Autorise les popups pour ce site.'); }
-  };
+const imprimerBillet = async () => {
+  if (!selectedCode) { alert('Sélectionnez un code'); return; }
+
+  // 1. Sauvegarder les noms si remplis
+  if (nom1 || nom2) {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API_URL}/weddings/${weddingId}/guests/by-code/${selectedCode}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          person1Name: nom1 || '',
+          person2Name: nom2 || '',
+        }),
+      });
+
+      const data = await res.json();
+
+      // ❌ Code déjà utilisé — on bloque
+      if (res.status === 409) {
+        alert(
+          `⛔ Ce code a déjà un billet généré !\n\n` +
+          `Nom enregistré : ${data.existing?.person1Name || '—'}` +
+          (data.existing?.person2Name ? ` & ${data.existing.person2Name}` : '') +
+          `\n\nUtilise un autre code ou modifie ce billet via le bouton ✏️ dans "Historique billets".`
+        );
+        return; // On arrête — le PDF ne s'ouvre pas
+      }
+
+      if (!res.ok) {
+        console.error('Erreur sauvegarde:', data.error);
+        // On continue quand même pour les autres erreurs
+      }
+
+    } catch (err) {
+      console.error('Erreur sauvegarde noms:', err);
+      // Erreur réseau — on continue quand même
+    }
+  }
+
+  // 2. Générer le HTML du billet
+  let html = '';
+  if (design === 'classique') html = buildClassique(t, info, cat, nom1, nom2, selectedCode);
+  if (design === 'magazine')  html = buildMagazine(t, info, cat, nom1, nom2, selectedCode);
+  if (design === 'luxe')      html = buildLuxe(t, info, cat, nom1, nom2, selectedCode);
+  if (design === 'editorial') html = buildEditorial(t, info, cat, nom1, nom2, selectedCode);
+  if (design === 'parchemin') html = buildParchemin(t, info, cat, nom1, nom2, selectedCode);
+
+  // 3. Ouvrir dans une nouvelle fenêtre
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const billetWidth = design === 'magazine' ? 750 : 700;
+  const w = window.open(url, '_blank', `width=${billetWidth},height=900,scrollbars=yes,resizable=yes`);
+  if (w) { w.addEventListener('load', () => URL.revokeObjectURL(url)); }
+  else   { URL.revokeObjectURL(url); alert('Autorise les popups pour ce site.'); }
+};
 
   const labelStyle = { fontSize:'11px', fontWeight:'700', color:'#555', display:'block', marginBottom:'6px', textTransform:'uppercase', letterSpacing:'1px' };
   const inputStyle = { width:'100%', border:'2px solid #e0e0e0', borderRadius:'10px', padding:'10px 14px', fontSize:'14px', background:'white', boxSizing:'border-box', outline:'none' };
