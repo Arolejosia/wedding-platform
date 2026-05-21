@@ -524,3 +524,176 @@
 .btn-confirm-no:hover { background: #f5f5f5; }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: none; } }
+
+/* ── À AJOUTER à la fin de Dashboard.css ── */
+
+/* ── Header mobile ── */
+@media (max-width: 768px) {
+  .dashboard-header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .header-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .btn-profile,
+  .btn-logout {
+    flex: 1;
+    min-width: 120px;
+    font-size: 0.8rem;
+    padding: 8px 12px;
+    text-align: center;
+  }
+}
+
+/* ── Sidebar/Nav mobile ── */
+@media (max-width: 768px) {
+  /* Si tu as une sidebar */
+  .admin-sidebar,
+  .dashboard-sidebar {
+    position: fixed;
+    left: -260px;
+    top: 0;
+    height: 100vh;
+    width: 260px;
+    z-index: 1000;
+    transition: left 0.3s ease;
+    background: #1a1a2e;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+  }
+
+  .admin-sidebar.open,
+  .dashboard-sidebar.open {
+    left: 0;
+  }
+
+  /* Overlay quand sidebar ouverte */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+  }
+
+  .sidebar-overlay.open {
+    display: block;
+  }
+
+  /* Bouton hamburger */
+  .btn-hamburger {
+    display: flex !important;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+  }
+
+  .btn-hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: white;
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+
+  /* Layout principal sur mobile */
+  .admin-layout,
+  .dashboard-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .admin-main,
+  .dashboard-main {
+    margin-left: 0 !important;
+    padding: 16px !important;
+  }
+
+  /* Tabs scrollables sur mobile */
+  .admin-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+
+  .admin-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab-btn {
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 12px !important;
+    padding: 8px 12px !important;
+  }
+
+  /* Stats grid sur mobile */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  .stat-card h3 {
+    font-size: 1.4rem !important;
+  }
+
+  /* Table scrollable sur mobile */
+  .guests-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .guests-table {
+    min-width: 600px;
+  }
+
+  /* Wedding cards sur mobile */
+  .weddings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wedding-stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .stat-number {
+    font-size: 1.4rem !important;
+  }
+}
+
+/* ── Très petit écran (320px-480px) ── */
+@media (max-width: 480px) {
+  .dashboard-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .modal-card {
+    padding: 20px 16px;
+    margin: 10px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn-create-wedding {
+    width: 100%;
+    text-align: center;
+  }
+}
