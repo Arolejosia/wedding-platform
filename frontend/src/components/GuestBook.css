@@ -325,3 +325,189 @@
 
 .gb-see-all--luxury  { background: transparent; border: 1px solid #C6A75E; color: #C6A75E; border-radius: 0; letter-spacing: 3px; font-size: 0.75rem; }
 .gb-see-all--luxury:hover { background: #C6A75E; color: #000; }
+
+/* ── À AJOUTER à la fin de GuestBook.css ── */
+
+/* Toggle texte / vocal */
+.gb-type-toggle {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.gb-type-btn {
+  flex: 1;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 2px solid #e0e0e0;
+  background: white;
+  color: #666;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.gb-type-btn--active {
+  border-color: var(--gb-accent, #c9a84c);
+  background: var(--gb-accent-light, #fdf3d7);
+  color: var(--gb-accent-dark, #8a6000);
+}
+
+/* Badge enregistrement en cours */
+.gb-rec-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #fde8e8;
+  color: #ef5350;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-left: 8px;
+  animation: rec-blink 1s ease-in-out infinite;
+}
+
+@keyframes rec-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* Bouton démarrer */
+.gb-rec-btn--start {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #ef5350, #c62828);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(239,83,80,0.3);
+}
+.gb-rec-btn--start:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(239,83,80,0.4);
+}
+
+/* En cours d'enregistrement */
+.gb-recording {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  background: #fff5f5;
+  border: 2px solid #ffcdd2;
+  border-radius: 12px;
+}
+
+/* Ondes animées */
+.gb-rec-wave {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+}
+
+.gb-rec-bar {
+  width: 4px;
+  border-radius: 2px;
+  background: #ef5350;
+  animation: wave-bar 0.8s ease-in-out infinite alternate;
+}
+
+.gb-rec-bar:nth-child(1) { height: 12px; }
+.gb-rec-bar:nth-child(2) { height: 24px; }
+.gb-rec-bar:nth-child(3) { height: 32px; }
+.gb-rec-bar:nth-child(4) { height: 24px; }
+.gb-rec-bar:nth-child(5) { height: 12px; }
+
+@keyframes wave-bar {
+  from { transform: scaleY(0.4); }
+  to   { transform: scaleY(1); }
+}
+
+.gb-rec-timer {
+  font-size: 28px;
+  font-weight: 800;
+  color: #ef5350;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 2px;
+}
+
+.gb-rec-btn--stop {
+  padding: 10px 24px;
+  background: #1a1a2e;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.gb-rec-btn--stop:hover { background: #333; }
+
+.gb-rec-hint {
+  font-size: 11px;
+  color: #aaa;
+  margin: 0;
+}
+
+/* Preview audio */
+.gb-audio-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  background: #f0fff4;
+  border: 2px solid #a5d6a7;
+  border-radius: 12px;
+}
+
+.gb-audio-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #4caf50;
+  font-weight: 600;
+}
+
+.gb-rec-delete {
+  background: none;
+  border: none;
+  color: #ef5350;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Post-it audio */
+.postit-audio {
+  margin: 8px 0;
+}
+
+.postit-audio-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #666;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.postit-audio-duration {
+  color: #999;
+  font-weight: 400;
+}
+
+/* audio player style */
+audio {
+  height: 32px;
+}

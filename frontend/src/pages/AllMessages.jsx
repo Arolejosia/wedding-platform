@@ -35,7 +35,25 @@ const PostIt = ({ message, index }) => {
       </div>
       {message.isFromCouple && <div className="am-couple-badge">💍 Mariés</div>}
       <div className="am-emoji">{message.emoji || '💛'}</div>
-      <p className="am-message">"{message.message}"</p>
+      {message.message && message.message.trim() !== '' && (
+  <p className="am-message">"{message.message}"</p>
+)}
+
+{message.audioUrl && (
+  <div style={{ margin:'8px 0' }}>
+    <div style={{ fontSize:'11px', fontWeight:'700', color:'#555', marginBottom:'6px' }}>
+      🎤 Message vocal
+      {message.audioDuration && (
+        <span style={{ color:'#999', fontWeight:'400' }}>
+          {' · '}{Math.floor(message.audioDuration/60)}:{String(Math.floor(message.audioDuration%60)).padStart(2,'0')}
+        </span>
+      )}
+    </div>
+    <audio controls style={{ width:'100%', borderRadius:'8px', height:'32px' }}>
+      <source src={message.audioUrl} />
+    </audio>
+  </div>
+)}
       <div className="am-author">— {message.name}</div>
       <div className="am-date">
         {new Date(message.createdAt).toLocaleDateString('fr-FR', {

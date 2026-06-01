@@ -15,6 +15,20 @@ router.get('/by-slug/:slug', async (req, res) => {
     res.status(500).json({ success:false, message:'Erreur serveur' });
   }
 });
+router.patch('/activate-pro/:email', async (req, res) => {
+  try {
+    const User = require('../models/User');
+    const user = await User.findOne({ email: req.params.email });
+    if (!user) return res.status(404).json({ error: 'Utilisateur introuvable' });
+    await Wedding.updateMany(
+      { userId: user._id },
+      { $set: { plan: 'pro' } }
+    );
+    res.json({ success: true, message: `Pro activé pour ${req.params.email}` });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // ── Toutes les routes suivantes nécessitent auth ─────────────────
 router.use(authMiddleware);

@@ -3,49 +3,55 @@ const mongoose = require('mongoose');
 
 const GuestbookMessageSchema = new mongoose.Schema({
   weddingId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Wedding',
+    type:     mongoose.Schema.Types.ObjectId,
+    ref:      'Wedding',
     required: true,
-    index: true
+    index:    true,
   },
-  
   name: {
-    type: String,
+    type:     String,
     required: true,
-    trim: true
+    trim:     true,
   },
-  
+  // "text" | "audio" | "both"
+  type: {
+    type:    String,
+    enum:    ['text', 'audio', 'both'],
+    default: 'text',
+  },
   message: {
-    type: String,
-    required: true,
-    maxlength: 500
+    type:      String,
+    maxlength: 500,
+    default:   '',
   },
-  
+  audioUrl: {
+    type:    String,
+    default: null,
+  },
+  audioDuration: {
+    type:    Number, // secondes
+    default: null,
+  },
   emoji: {
-    type: String,
-    default: '💝'
+    type:    String,
+    default: '💝',
   },
-  
   color: {
-    type: String,
-    default: '#FFE4B5'
+    type:    String,
+    default: '#FFE4B5',
   },
-  
   approved: {
-    type: Boolean,
-    default: true  // Auto-approuvé par défaut (peut être changé par wedding)
+    type:    Boolean,
+    default: true,
   },
-  
   guestCode: {
     type: String,
-    trim: true
-  }
-  
+    trim: true,
+  },
 }, {
-  timestamps: true
+  timestamps: true,
 });
 
-// Index pour requêtes rapides
 GuestbookMessageSchema.index({ weddingId: 1, createdAt: -1 });
 GuestbookMessageSchema.index({ weddingId: 1, approved: 1 });
 

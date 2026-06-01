@@ -33,13 +33,19 @@ const plans = [
   },
 ];
 
+
 const ChoosePlan = () => {
   const navigate = useNavigate();
 
-  const handleSelectPlan = (planId) => {
-    sessionStorage.setItem("selectedPlan", planId);
-    navigate(`/choose-theme?plan=${planId}`);
-  };
+// Remplace handleSelectPlan par :
+const handleSelectPlan = (planId) => {
+  sessionStorage.setItem("selectedPlan", planId);
+  if (planId === 'free') {
+    navigate('/choose-theme?plan=free');
+  } else {
+    navigate(`/checkout?plan=${planId}`);
+  }
+};
 
   return (
     <div className="choose-plan-page">

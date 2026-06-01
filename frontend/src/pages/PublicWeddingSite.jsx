@@ -14,7 +14,6 @@ import RSVP           from '../components/RSVP';
 import Footer         from '../components/Footer';
 import Gifts          from '../components/Gifts';
 
-
 import './PublicWeddingSite.css';
 import API_URL from '../config/api';
 
@@ -31,27 +30,19 @@ const PublicWeddingSite = () => {
   }, [slug]); // eslint-disable-line
 
   useEffect(() => {
-  if (!loading && location.hash) {
-
-    const id = location.hash.replace("#", "");
-
-    const scrollToSection = () => {
-      const element = document.getElementById(id);
-
-      if (element) {
-        element.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-      } else {
-        // attendre que React rende la section
-        setTimeout(scrollToSection, 200);
-      }
-    };
-
-    scrollToSection();
-  }
-}, [loading, location]);
+    if (!loading && location.hash) {
+      const id = location.hash.replace("#", "");
+      const scrollToSection = () => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          setTimeout(scrollToSection, 200);
+        }
+      };
+      scrollToSection();
+    }
+  }, [loading, location]);
 
   const fetchWedding = async () => {
     setLoading(true);
@@ -95,6 +86,7 @@ const PublicWeddingSite = () => {
 
   const themeId   = wedding.settings?.theme?.id || wedding.theme || 'royal';
   const themeVars = getThemeVars(themeId);
+  const isPro     = wedding.plan === 'pro';
 
   return (
     <div
@@ -104,15 +96,40 @@ const PublicWeddingSite = () => {
       <Navbar wedding={wedding} />
       <Hero   wedding={wedding} />
 
-      {wedding.story?.enabled        && <Story          wedding={wedding} />}
-      {wedding.eventInfo?.enabled    && <EventInfo      wedding={wedding} />}
+      {wedding.story?.enabled          && <Story          wedding={wedding} />}
+      {wedding.eventInfo?.enabled      && <EventInfo      wedding={wedding} />}
       <RSVP wedding={wedding} />
-      {wedding.dressCode?.enabled    && <DressCode      wedding={wedding} />}
+      {wedding.dressCode?.enabled      && <DressCode      wedding={wedding} />}
       {wedding.photoChallenge?.enabled && <PhotoChallenge wedding={wedding} />}
-      {wedding.guestbook?.enabled    && <GuestBook      wedding={wedding} />}
-      {wedding.gifts?.enabled        && <Gifts          wedding={wedding} />}
+      {wedding.guestbook?.enabled      && <GuestBook      wedding={wedding} />}
+      {wedding.gifts?.enabled          && <Gifts          wedding={wedding} />}
 
       <Footer wedding={wedding} />
+
+      {!isPro && (
+        <>
+         
+
+          <a
+            href="https://weddapp.com"
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              position: 'fixed', bottom: '16px', right: '16px', zIndex: 9999,
+              background: 'rgba(10,9,8,0.88)', backdropFilter: 'blur(12px)',
+              border: '1px solid rgba(201,168,76,0.3)', borderRadius: '50px',
+              padding: '8px 16px', display: 'flex', alignItems: 'center', gap: '8px',
+              textDecoration: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+            }}
+          >
+            <span style={{ fontSize: '14px' }}>💍</span>
+            <span style={{ fontSize: '12px', fontWeight: '700', color: 'white' }}>
+              Créé avec <span style={{ color: '#c9a84c' }}>WeddApp</span>
+            </span>
+          </a>
+        </>
+      )}
+
     </div>
   );
 };

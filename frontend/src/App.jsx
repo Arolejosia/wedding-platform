@@ -1,7 +1,7 @@
 // frontend/src/App.jsx - CORRIGÉ
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-
+import SecretAdmin from './pages/SecretAdmin';
 // Pages publiques
 import LandingPage from './pages/LandingPage';
 import InvitePage from './pages/InvitePage';
@@ -9,6 +9,7 @@ import PublicWeddingSite from './pages/PublicWeddingSite';
 import PreviewWeddingSite from './pages/PreviewWeddingSite';
 import ChooseTheme from './pages/ChooseTheme';
 import FinalizeCreation from './pages/FinalizeCreation';
+import Checkout from './pages/Checkout';
 
 
 // Auth
@@ -37,7 +38,7 @@ import SiteCreated from "./pages/SiteCreated";
 import ShareSite from "./pages/admin/ShareSite";
 import AdminPhotos from './pages/AdminPhotos';
 import PrestatairesPage  from './pages/PrestatairesPage';
-import VendorsAdminPage  from './pages/VendorsAdminPage';
+import VendorsAdminPage  from './pages/SecretAdmin';
 
 // Dans les routes :
 
@@ -62,16 +63,18 @@ function App() {
 
         <Route path="/admin/:weddingId/photos" element={<AdminPhotos />} />
         <Route path="/prestataires"    element={<PrestatairesPage />} />
-<Route path="/admin-vendors"   element={<VendorsAdminPage />} />
+<Route path="/weddapp-admin-secret" element={<SecretAdmin />} />
 
 
         {/* ========== DASHBOARD ========== */}
         <Route path="/start-preview" element={<StartPreview />} />
         <Route path="/preview/:theme" element={<PreviewWeddingSite />} />
         <Route path="/choose-plan" element={<ChoosePlan />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/choose-theme" element={<ChooseTheme />} />
         <Route path="/finalize-creation" element={<FinalizeCreation />} />
         <Route path="/dashboard" element={
+          
           <ProtectedRoute>
             <Dashboard />
           </ProtectedRoute>
@@ -83,6 +86,8 @@ function App() {
             <RegisterWedding />
           </ProtectedRoute>
         } />
+
+   
         
         {/* ========== WORKSPACE ADMIN ========== */}
        <Route
