@@ -1,5 +1,6 @@
 // src/pages/LandingPage.jsx
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import './LandingPage.css';
 import HeroSection from '../components/HeroSection';
 import { useNavigate } from "react-router-dom";
@@ -83,7 +84,7 @@ const T = {
       label: 'How it works', title: 'From zero to live\nin 3 steps',
       steps: [
         { num: '01', title: 'Choose your theme', desc: 'Five elegant designs carefully crafted to reflect your personality.' },
-        { num: '02', title: 'Customize the content', desc: 'Add photos, your story, the program. Everything is intuitive and fast.' },
+        { num: '02', title: 'Customize the content', desc: 'Everything is intuitive and fast.' },
         { num: '03', title: 'Share the link', desc: 'Send the link to all your guests via WhatsApp or email in seconds.' },
       ]
     },
@@ -136,7 +137,7 @@ const T = {
 const TESTIMONIALS = [
   { name: 'Sophie & Marc', country: '🇫🇷', text: "Notre site était prêt en 20 minutes. Tous nos invités ont adoré l'expérience !", theme: 'Royal' },
   { name: 'Amina & Kwame', country: '🇨🇲', text: 'WeddApp a rendu notre mariage inoubliable. Simple, beau, parfait pour nous.', theme: 'Floral' },
-  { name: 'Laura & James', country: '🇨🇦', text: 'Le plan Pro vaut chaque franc. Design magnifique, support très réactif.', theme: 'Luxury' },
+  { name: 'Laura & James', country: '🇨🇦', text: 'Le plan Pro vaut chaque Dollar. Design magnifique, support très réactif.', theme: 'Luxury' },
 ];
 
 function useInView(threshold = 0.15) {
@@ -212,6 +213,12 @@ const LandingPage = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // FIX : bloquer le scroll du body quand le menu est ouvert
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
   useEffect(() => {
     const id = setInterval(() => setActiveTheme(p => (p + 1) % themeList.length), 4000);
     return () => clearInterval(id);
@@ -236,27 +243,112 @@ const LandingPage = () => {
         <span className="float-cta-label">{lang === 'fr' ? 'Créer notre site' : 'Create our site'}</span>
       </a>
 
-      <nav className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
+      <nav className={`nav nav--scrolled`}>
         <div className="nav-inner">
           <a href="/" className="nav-logo">
             <span className="logo-ring">💍</span>
             <span>Wedd<strong>App</strong></span>
           </a>
-          <div className={`nav-links ${menuOpen ? 'nav-links--open' : ''}`}>
-            <a href="#themes" onClick={() => setMenuOpen(false)}>{t.nav.preview}</a>
-            <a href="#pricing" onClick={() => setMenuOpen(false)}>{t.nav.pricing}</a>
-            <a href="/prestataires" onClick={() => setMenuOpen(false)}>{t.nav.vendors}</a>
-            <a href="/login" onClick={() => setMenuOpen(false)}>{t.nav.login}</a>
-            <button className="lang-toggle" onClick={() => { setLang(l => l === 'fr' ? 'en' : 'fr'); setMenuOpen(false); }}>
+
+          {/* Liens desktop uniquement — cachés sur mobile via CSS */}
+          <div className="nav-links nav-links--desktop">
+            <a href="#themes">{t.nav.preview}</a>
+            <a href="#pricing">{t.nav.pricing}</a>
+            <a href="/prestataires">{t.nav.vendors}</a>
+            <a href="/login">{t.nav.login}</a>
+            <button className="lang-toggle" onClick={() => setLang(l => l === 'fr' ? 'en' : 'fr')}>
               {lang === 'fr' ? '🇬🇧 EN' : '🇫🇷 FR'}
             </button>
             <a href="/checkout?plan=pro" className="nav-cta">{t.nav.cta}</a>
           </div>
-          <button className={`hamburger ${menuOpen ? 'hamburger--open' : ''}`} onClick={() => setMenuOpen(m => !m)}>
-            <span /><span /><span />
-          </button>
+
+       <button
+  onClick={() => setMenuOpen(m => !m)}
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '5px',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    padding: '8px',
+    width: '40px',
+    height: '40px',
+  }}
+>
+  <span style={{ display:'block', width:'22px', height:'2px', background:'#0A0908', borderRadius:'2px' }} />
+  <span style={{ display:'block', width:'22px', height:'2px', background:'#0A0908', borderRadius:'2px' }} />
+  <span style={{ display:'block', width:'22px', height:'2px', background:'#0A0908', borderRadius:'2px' }} />
+</button>
         </div>
       </nav>
+
+      {/* Menu mobile via portail — rendu directement dans <body>, aucun héritage CSS */}
+      {createPortal(
+        <>
+          {/* Overlay */}
+          <div
+            onClick={() => setMenuOpen(false)}
+            style={{
+              position: 'fixed', inset: 0, zIndex: 99990,
+              background: 'rgba(0,0,0,0.4)',
+              opacity: menuOpen ? 1 : 0,
+              pointerEvents: menuOpen ? 'all' : 'none',
+              transition: 'opacity 0.25s ease',
+            }}
+          />
+          {/* Panneau menu */}
+          <div style={{
+            position: 'fixed', inset: 0, zIndex: 99991,
+            background: '#ffffff',
+            display: 'flex', flexDirection: 'column',
+            alignItems: 'center', justifyContent: 'center',
+            gap: '8px',
+            padding: '80px 32px 40px',
+            opacity: menuOpen ? 1 : 0,
+            pointerEvents: menuOpen ? 'all' : 'none',
+            transform: menuOpen ? 'none' : 'translateY(-12px)',
+            transition: 'opacity 0.25s ease, transform 0.25s ease',
+          }}>
+            {/* Logo en haut du menu */}
+            <div style={{ position: 'absolute', top: '18px', left: '24px', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '800', fontSize: '1.1rem', color: '#0A0908' }}>
+              💍 Wedd<strong>App</strong>
+            </div>
+            {/* Bouton fermer */}
+            <button
+              onClick={() => setMenuOpen(false)}
+              style={{ position: 'absolute', top: '16px', right: '16px', background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#888', zIndex: 1 }}
+            >✕</button>
+
+            {[
+              { href: '#themes',        label: t.nav.preview },
+              { href: '#pricing',       label: t.nav.pricing },
+              { href: '/prestataires',  label: t.nav.vendors },
+              { href: '/login',         label: t.nav.login },
+            ].map(({ href, label }) => (
+              <a key={href} href={href} onClick={() => setMenuOpen(false)}
+                style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontSize: '1.4rem', fontWeight: '700', color: '#0A0908', padding: '12px 24px', borderRadius: '12px', width: '100%', textAlign: 'center', textDecoration: 'none', transition: 'background 0.15s' }}
+                onMouseEnter={e => e.currentTarget.style.background = '#fdf8f2'}
+                onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+              >{label}</a>
+            ))}
+
+            <button
+              onClick={() => { setLang(l => l === 'fr' ? 'en' : 'fr'); setMenuOpen(false); }}
+              style={{ fontSize: '0.95rem', padding: '10px 24px', borderRadius: '12px', width: '100%', textAlign: 'center', background: 'transparent', border: '1.5px solid #E2DDD6', cursor: 'pointer', marginTop: '8px', color: '#6B6560' }}
+            >
+              {lang === 'fr' ? '🇬🇧 Switch to English' : '🇫🇷 Passer en français'}
+            </button>
+
+            <a href="/checkout?plan=pro" onClick={() => setMenuOpen(false)}
+              style={{ display: 'block', width: '100%', textAlign: 'center', padding: '14px 32px', background: 'linear-gradient(135deg, #C9A84C, #E8C96A)', color: '#0A0908', borderRadius: '12px', fontWeight: '800', fontSize: '1rem', textDecoration: 'none', marginTop: '8px' }}
+            >{t.nav.cta}</a>
+          </div>
+        </>,
+        document.body
+      )}
 
       <HeroSection lang={lang} />
 
@@ -283,20 +375,36 @@ const LandingPage = () => {
           <div className="section-label">{t.themes.label}</div>
           <h2 className="section-title">{t.themes.title}</h2>
           <p className="section-sub">{t.themes.sub}</p>
-          <div className="themes-row-wrap">
-            <button className="themes-arrow" onClick={() => scrollThemes(-1)}>‹</button>
-            <div className="themes-row" ref={themeScrollRef}>
-              {themeList.map((theme, i) => (
-                <ThemeCard key={theme.id} theme={theme} lang={lang} active={activeTheme === i} onClick={() => setActiveTheme(i)} />
-              ))}
-            </div>
-            <button className="themes-arrow" onClick={() => scrollThemes(1)}>›</button>
-          </div>
-          <div className="themes-dots">
-            {themeList.map((_, i) => (
-              <button key={i} className={`themes-dot ${activeTheme === i ? 'themes-dot--active' : ''}`} onClick={() => setActiveTheme(i)} />
+        </div>
+        {/* Carousel en dehors du section-inner pour éviter overflow:hidden */}
+        <div style={{ width: '100%', overflow: 'hidden' }}>
+          <div
+            ref={themeScrollRef}
+            style={{
+              display: 'flex',
+              gap: '16px',
+              overflowX: 'auto',
+              WebkitOverflowScrolling: 'touch',
+              scrollSnapType: 'x mandatory',
+              scrollBehavior: 'smooth',
+              padding: '12px 24px 24px',
+              msOverflowStyle: 'none',
+              scrollbarWidth: 'none',
+            }}
+          >
+            {themeList.map((theme, i) => (
+              <div key={theme.id} style={{ flex: '0 0 75vw', maxWidth: '300px', scrollSnapAlign: 'start' }}>
+                <ThemeCard theme={theme} lang={lang} active={activeTheme === i} onClick={() => setActiveTheme(i)} />
+              </div>
             ))}
+            {/* Spacer pour que la dernière carte soit fully visible */}
+            <div style={{ flex: '0 0 24px', minWidth: '24px' }} />
           </div>
+        </div>
+        <div className="themes-dots" style={{ marginTop: '8px' }}>
+          {themeList.map((_, i) => (
+            <button key={i} className={`themes-dot ${activeTheme === i ? 'themes-dot--active' : ''}`} onClick={() => setActiveTheme(i)} />
+          ))}
         </div>
       </section>
 
